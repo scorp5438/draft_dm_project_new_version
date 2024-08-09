@@ -56,7 +56,7 @@ ROOT_URLCONF = 'DM_draft.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'mainapp-ui/build'],
         # BASE_DIR / 'mainapp-ui/build' - Название папки в реакт приложении для совместного использования с джанго
         'APP_DIRS': True,
         'OPTIONS': {
