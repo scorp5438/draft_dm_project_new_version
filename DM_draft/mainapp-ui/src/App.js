@@ -1,9 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Image from './components/image';
+import image from './img/image.png';
+import background from './img/background.png';
+import './css/style_app.css';
+
 
 function App() {
   return (
+<div className="container_img">
+  <div className="background">
+  <Image background={background} alt="background" className="background"/>
+  </div>
     <div className="start-glass-bg">
+    <Image image={image} alt="Logo" className="logo"/>
         <form className="registration-form">
           <h2>Вход в личный кабинет</h2>
           <label htmlFor="username"></label>
@@ -13,6 +22,8 @@ function App() {
           <button type="submit">Войти</button>
           <p>Если забыли логин и пароль, напишите менеджеру</p>
         </form>
+      </div>
+
       </div>
   );
 }
