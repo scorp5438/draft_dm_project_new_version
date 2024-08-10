@@ -1,0 +1,103 @@
+@font-face {
+  font-family: "fontawesome2";
+  src: url('../../fonts/CRO55DM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "fontawesome2", sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.container_img {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  filter: blur(5px);
+  opacity: 1.3;
+  z-index: -1;
+}
+
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.header-logo {
+  flex: 1;
+}
+
+.header-navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo img {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.header-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-nav-item img {
+  max-width: 100%;
+  height: auto;
+  padding: 10px;
+}
+
+.header-nav-item h2 {
+  font-size: 24px;
+  font-weight: 900;
+  text-align: center;
+  margin: 0;
+}
+
+.header-nav-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent;
+  border-bottom: 3px solid rgba(0, 104, 226, 1);
+  color: rgba(0, 104, 226, 1);
+  cursor: pointer;
+  border-radius: 30px 30px 0 0;
+}
+
+.header-nav-button:hover {
+  background-color: rgb(136, 175, 187);
+  color: rgb(249, 250, 252);
+}

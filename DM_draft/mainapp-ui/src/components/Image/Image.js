@@ -1,0 +1,15 @@
+import React from 'react';
+
+function Image({ image, background, background_main, test, checklist }) {
+  return (
+    <>
+      {image && <img src={image} alt="Logo" className="logo" />}
+      {background && <img src={background} alt="background" className="background" />}
+      {background_main && <img src={background_main} alt="background_main" className="background_main" />}
+      {test && <img src={test} alt="test" className="test" />}
+      {checklist && <img src={checklist} alt="checklist" className="checklist" />}
+    </>
+  );
+}
+
+export default Image;
