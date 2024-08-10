@@ -12,7 +12,7 @@ function Header() {
       <div className="header-container">
         <div className="header-logo">
          <a>
-          <Image image={image} alt="Logo" className="logo" /></button>
+          <Image image={image} alt="Logo" className="logo" />
         </a>
         <div className="header-navigation">
           <div className="header-nav-item">
