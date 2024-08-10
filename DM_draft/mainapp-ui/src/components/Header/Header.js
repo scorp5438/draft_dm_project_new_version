@@ -14,25 +14,23 @@ function Header() {
          <a>
           <Image image={image} alt="Logo" className="logo" />
         </a>
+         </div>
         <div className="header-navigation">
           <div className="header-nav-item">
             <button className="header-nav-button" title="Раздел по тестированию">
-              <Image image={test} alt="test" />
-            </button>
+              <Image image={test} alt="test" /></button>
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button" title="Раздел по чек-листам">
-              <Image image={checklist} alt="checklist" />
-            </button>
+              <Image image={checklist} alt="checklist" /> </button>
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button" title="Ваш личный кабинет">
-              <h2>Дмитрий Иванов</h2>
-            </button>
+              <h2>Дмитрий Иванов</h2> </button>
           </div>
         </div>
       </div>
-    </div>
+</div>
   );
 }
 

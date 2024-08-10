@@ -44,11 +44,18 @@ html, body {
   margin: 0 auto;
   padding: 20px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
+  background-color: rgb(170, 233, 238);
   justify-content: space-between;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   z-index: 1;
+  background-color: #ecfcd491;
+  box-shadow: 0 4px 8px #ecfcd491;
+  display: flex;
+  flex-wrap: nowrap;
+  position: fixed;
+  flex-direction: row;
+  align-content: space-around;
 }
 
 .header-logo {
