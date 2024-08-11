@@ -1,40 +1,42 @@
 import React from "react";
-import { getCSRFToken } from '../../utils/csrf';
 import Image from '../Image/Image';
 import image from '../../img/image.png';
 import background from '../../img/background.png';
 import './style_authorization.css';
+import { getCSRFToken } from '../utils/csrf';
+
 
 class Authorization extends React.Component {
-  handleSubmit = (event) => {
+
+
+
+  handleSubmit = async (event) => {
     event.preventDefault();
+    const { username, password } = event.target.elements;
+    const csrfToken = this.getCookie('csrftoken');
 
-    const csrfToken = getCSRFToken();
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value,
+        }),
+        credentials: 'include',
+      });
 
-    // Пример отправки запроса с CSRF-токеном
-    fetch('/your-login-url/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken
-      },
-      body: JSON.stringify({
-        username: event.target.username.value,
-        password: event.target.password.value
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Обработка ответа от сервера
-      if (data.success) {
+      if (response.ok) {
         this.props.onLogin();
       } else {
-        // Обработка ошибки
+        console.error('Login failed');
       }
-    })
-    .catch(error => {
-      console.error('Ошибка:', error);
-    });
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   render() {
@@ -45,9 +47,8 @@ class Authorization extends React.Component {
         </div>
         <div className="start-glass-bg">
           <Image image={image} alt="Logo" className="logo" />
-          <form className="registration-form" onSubmit={this.handleSubmit}>
+          <form className="registration-form" onSubmit={this.handleSubmit} method="POST">
             <h2>Вход в личный кабинет</h2>
-            <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
             <label htmlFor="username"></label>
             <input type="text" id="username" name="username" required placeholder="Логин" autoFocus />
             <label htmlFor="password"></label>

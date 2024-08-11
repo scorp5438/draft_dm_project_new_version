@@ -32,11 +32,12 @@ https://nodejs.org/
 3. **Создание React приложения:**
 
           npx create-react-app mainapp-ui
+          npm install react-scripts
           npm run build
 
 В директории с файлом manage.py выполняется команда в терминале:
 
-         python manage.py collectstatic
+         python manage.py collectstatic --noinput
 
 Данная команда собирает все статические файлы из разных приложений (в нашем случае из приложения `React`) и модулей и помещает в одну общую папку проекта `Django`.
 
