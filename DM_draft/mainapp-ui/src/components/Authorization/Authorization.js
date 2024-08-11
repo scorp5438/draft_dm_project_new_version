@@ -1,4 +1,5 @@
 import React from "react";
+import { getCSRFToken } from '../../utils/csrf';
 import Image from '../Image/Image';
 import image from '../../img/image.png';
 import background from '../../img/background.png';
@@ -7,9 +8,33 @@ import './style_authorization.css';
 class Authorization extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
-    // Здесь можно добавить логику авторизации, например, валидацию или запрос к серверу
-    // Если авторизация успешна, вызываем onLogin из props
-    this.props.onLogin();
+
+    const csrfToken = getCSRFToken();
+
+    // Пример отправки запроса с CSRF-токеном
+    fetch('/your-login-url/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
+      },
+      body: JSON.stringify({
+        username: event.target.username.value,
+        password: event.target.password.value
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Обработка ответа от сервера
+      if (data.success) {
+        this.props.onLogin();
+      } else {
+        // Обработка ошибки
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+    });
   };
 
   render() {
@@ -22,6 +47,7 @@ class Authorization extends React.Component {
           <Image image={image} alt="Logo" className="logo" />
           <form className="registration-form" onSubmit={this.handleSubmit}>
             <h2>Вход в личный кабинет</h2>
+            <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
             <label htmlFor="username"></label>
             <input type="text" id="username" name="username" required placeholder="Логин" autoFocus />
             <label htmlFor="password"></label>
