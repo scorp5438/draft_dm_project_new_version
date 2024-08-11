@@ -31,7 +31,7 @@ https://nodejs.org/
 
 3. **Создание React приложения:**
 
-          npx create-react-app mainapp-ui
+          npx create-react-app mainapp-ui !!!(ДЕЛАТЬ НЕ НАДО, ДЕЛАЕТСЯ ОДИН РАЗ ПРИ СОЗДАНИИ ПРИЛОЖЕНИЯ)
           npm install react-scripts
           npm run build
 
