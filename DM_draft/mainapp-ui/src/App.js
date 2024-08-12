@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import Authorization from './components/Authorization/Authorization';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Authorization from './components/Authorization/Authorization';  // Убедитесь, что путь правильный
+import Main from './components/Main/Main';  // Убедитесь, что путь правильный
 
-
-function App() {
-
+const App = () => {
   return (
-    <div>
-        <Authorization />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Authorization />} />
+        <Route path="/main" element={<Main />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
-export default App;
+export default App;  // Убедитесь, что App экспортируется как default
