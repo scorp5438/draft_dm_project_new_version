@@ -1,5 +1,5 @@
 import React from "react";
-import { getCSRFToken } from '../../utils/csrf';
+import { getCSRFToken } from '../utils/csrf';
 import Image from '../Image/Image';
 import image from '../../img/image.png';
 import background from '../../img/background.png';
@@ -11,7 +11,6 @@ class Authorization extends React.Component {
 
     const csrfToken = getCSRFToken();
 
-    // Пример отправки запроса с CSRF-токеном
     fetch('/your-login-url/', {
       method: 'POST',
       headers: {
@@ -29,7 +28,7 @@ class Authorization extends React.Component {
       if (data.success) {
         this.props.onLogin();
       } else {
-        // Обработка ошибки
+
       }
     })
     .catch(error => {
