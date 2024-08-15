@@ -4,11 +4,13 @@ import './index.css';  // Убедитесь, что путь к CSS прави�
 import App from './App';  // Убедитесь, что App импортируется правильно
 import reportWebVitals from './reportWebVitals';  // Убедитесь, что этот файл существует и экспортируется правильно
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));  // Убедитесь, что элемент с id 'root' существует в вашем HTML
 
 root.render(
   <React.StrictMode>
     <App />
+
   </React.StrictMode>
 );
 

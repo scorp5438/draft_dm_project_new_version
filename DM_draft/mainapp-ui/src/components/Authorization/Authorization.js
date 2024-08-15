@@ -1,36 +1,55 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';  // Импортируйте useNavigate из react-router-dom
-import { getCSRFToken } from '../utils/csrf';  // Убедитесь, что этот файл существует и возвращает CSRF токен
-import Image from '../Image/Image';  // Убедитесь, что компонент Image существует и работает
-import image from '../../img/image.png';  // Убедитесь, что пути к изображениям правильные
-import background from '../../img/background.png';  // Убедитесь, что пути к изображениям правильные
-import './style_authorization.css';  // Убедитесь, что путь к CSS правильный
+import { useNavigate } from 'react-router-dom';
+import { getCSRFToken } from '../utils/csrf';
+import Image from '../Image/Image';
+import image from '../../img/image.png';
+import background from '../../img/background.png';
+import './style_authorization.css';
+import Main from '../Main/Main'
+import { login } from '../../api';
 
 const Authorization = () => {
-  const navigate = useNavigate();  // Инициализация useNavigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const csrfToken = getCSRFToken();  // Получение CSRF токена
+    const username = event.target.username.value.trim();
+    const password = event.target.password.value.trim();
+
+    // Проверка, что поля не пустые
+    if (!username || !password) {
+      console.error('Логин и пароль не могут быть пустыми');
+      return;
+    }
+
+    const csrfToken = getCSRFToken();
 
     try {
-      const response = await fetch('/auth/', {  // Убедитесь, что URL правильный
+      const response = await fetch('http://localhost:8000/auth/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrfToken,
         },
+        credentials: 'include',
         body: JSON.stringify({
-          username: event.target.username.value,
-          password: event.target.password.value,
+          username: username,
+          password: password,
         }),
       });
 
+      if (!response.ok) {
+        const text = await response.text();
+        console.error('Ошибка ответа:', text);
+        throw new Error('Ошибка сети или сервера');
+      }
+
       const data = await response.json();
+      console.log('Response Data:', data);
 
       if (data.success) {
-        navigate('/main');  // Перенаправление на главную страницу
+        navigate('/');
       } else {
         console.error('Ошибка при входе:', data.message);
       }
