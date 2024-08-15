@@ -33,7 +33,6 @@ def index(request):
 #     return JsonResponse({'error': 'Invalid request method'}, status=405)
 @ensure_csrf_cookie
 def login_view(request: HttpRequest):
-    # print("cvjhgdhflkjhnvkdlkfvkljdfvj/////", request.body)
 
     if request.method == 'GET':
         if request.user.is_authenticated:
