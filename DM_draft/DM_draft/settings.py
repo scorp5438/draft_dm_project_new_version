@@ -37,13 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'corsheaders',
 
     'mainapp',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,8 +56,7 @@ ROOT_URLCONF = 'DM_draft.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'mainapp-ui/build'],
-        # BASE_DIR / 'mainapp-ui/build' - Название папки в реакт приложении для совместного использования с джанго
+        'DIRS': [BASE_DIR / 'mainapp-ui/build'], # - Название папки в реакт приложении для совместного использования с джанго
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,15 +130,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-
-]
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-]
-CSRF_COOKIE_HTTPONLY = False  # Убедитесь, что куки CSRF доступны клиенту
-CSRF_COOKIE_SECURE = False    # Для разработки не требуйте HTTPS
 

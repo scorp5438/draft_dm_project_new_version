@@ -4,13 +4,11 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 import json
 
-from django.views.decorators.csrf import ensure_csrf_cookie
-
 
 @login_required
 def index(request):
-
     return render(request, 'index.html', {})
+
 
 # def login_view(request):
 #     if request.method == 'POST':
@@ -31,9 +29,9 @@ def index(request):
 #
 #         return render(request, 'index.html')
 #     return JsonResponse({'error': 'Invalid request method'}, status=405)
-@ensure_csrf_cookie
-def login_view(request: HttpRequest):
 
+
+def login_view(request: HttpRequest):
     if request.method == 'GET':
         if request.user.is_authenticated:
             return redirect("/")
@@ -54,4 +52,3 @@ def login_view(request: HttpRequest):
         return JsonResponse({'success': True})
 
     return render(request, 'index.html', {"error": "Invalid login"})
-
