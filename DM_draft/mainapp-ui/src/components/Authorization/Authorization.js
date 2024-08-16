@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCSRFToken } from '../utils/csrf';
 import Image from '../Image/Image';
@@ -10,6 +10,7 @@ import { login } from '../../api';
 
 const Authorization = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(''); // Состояние для хранения сообщения об ошибке
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,7 +20,8 @@ const Authorization = () => {
 
     // Проверка, что поля не пустые
     if (!username || !password) {
-      console.error('Логин и пароль не могут быть пустыми');
+      setErrorMessage('Логин и пароль не могут быть пустыми'); // 3. Устанавливаем сообщение об ошибке для пустых полей
+      setTimeout(() => setErrorMessage(''), 5000); // Устанавливаем таймер для скрытия сообщения через 5 секунд
       return;
     }
 
@@ -51,10 +53,13 @@ const Authorization = () => {
       if (data.success) {
         navigate('/');
       } else {
-        console.error('Ошибка при входе:', data.message);
+        setErrorMessage('Неверный логин или пароль'); // Устанавливаем сообщение об ошибке
+        setTimeout(() => setErrorMessage(''), 5000); // Устанавливаем таймер для скрытия сообщения через 5 секунд
+
       }
     } catch (error) {
-      console.error('Ошибка:', error);
+      setErrorMessage('Ошибка сети или сервера'); // Устанавливаем сообщение об ошибке
+      setTimeout(() => setErrorMessage(''), 5000); // Устанавливаем таймер для скрытия сообщения через 5 секунд
     }
   };
 
@@ -87,6 +92,7 @@ const Authorization = () => {
           />
           <button type="submit">Войти</button>
           <p>Если забыли логин и пароль, напишите менеджеру</p>
+          {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Отображение ошибки */}
         </form>
       </div>
     </div>
