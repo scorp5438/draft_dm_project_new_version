@@ -72,6 +72,7 @@ const Authorization = () => {
         <Image image={image} alt="Logo" className="logo" />
         <form className="registration-form" onSubmit={handleSubmit}>
           <h2>Вход в личный кабинет</h2>
+          {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Отображение ошибки */}
           <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
           <label htmlFor="username"></label>
           <input
@@ -92,7 +93,7 @@ const Authorization = () => {
           />
           <button type="submit">Войти</button>
           <p>Если забыли логин и пароль, напишите менеджеру</p>
-          {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Отображение ошибки */}
+
         </form>
       </div>
     </div>
