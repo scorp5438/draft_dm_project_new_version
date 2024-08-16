@@ -51,4 +51,6 @@ def login_view(request: HttpRequest):
         login(request, user)
         return JsonResponse({'success': True})
 
-    return render(request, 'index.html', {"error": "Invalid login"})
+    # return render(request, 'index.html', {"error": "Invalid login"})
+    return JsonResponse({'success': False, 'error': "Invalid login"})
+
