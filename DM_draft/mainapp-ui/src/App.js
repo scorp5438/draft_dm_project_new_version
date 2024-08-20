@@ -1,17 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Authorization from './components/Authorization/Authorization';  // Убедитесь, что путь правильный
-import Main from './components/Main/Main';  // Убедитесь, что путь правильный
+import routes from './context/Url';
+import Authorization from './components/Authorization/Authorization';
+import Main from './components/Main/Main';
 
 const App = () => {
   return (
+
     <Router>
       <Routes>
-        <Route path="/auth/" element={<Authorization />} />
-        <Route path="/" element={<Main />} />
+        <Route path={routes.auth} element={<Authorization />} />
+        <Route path={routes.main} element={<Main />} />
       </Routes>
     </Router>
+
   );
 };
 
-export default App;  // Убедитесь, что App экспортируется как default
+export default App;

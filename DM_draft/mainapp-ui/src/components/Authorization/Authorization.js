@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import { getCSRFToken } from '../utils/csrf';
+import routes from '../../context/Url';
 import Image from '../Image/Image';
 import image from '../../img/image.png';
 import background from '../../img/background.png';
 import './style_authorization.css';
-import Main from '../Main/Main'
-import { login } from '../../api';
+
 
 const Authorization = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(''); // Состояние для хранения сообщения об ошибке
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,17 +18,16 @@ const Authorization = () => {
     const username = event.target.username.value.trim();
     const password = event.target.password.value.trim();
 
-    // Проверка, что поля не пустые
     if (!username || !password) {
-      setErrorMessage('Логин и пароль не могут быть пустыми'); // 3. Устанавливаем сообщение об ошибке для пустых полей
-      setTimeout(() => setErrorMessage(''), 5000); // Устанавливаем таймер для скрытия сообщения через 5 секунд
+      setErrorMessage('Логин и пароль не могут быть пустыми');
+      setTimeout(() => setErrorMessage(''), 5000);
       return;
     }
 
     const csrfToken = getCSRFToken();
 
     try {
-      const response = await fetch('/auth/', {
+      const response = await fetch(routes.auth, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,18 +47,16 @@ const Authorization = () => {
       }
 
       const data = await response.json();
-      console.log('Response Data:', data);
 
       if (data.success) {
-        navigate('/');
+        navigate(routes.main);
       } else {
-        setErrorMessage('Неверный логин или пароль'); // Устанавливаем сообщение об ошибке
-        setTimeout(() => setErrorMessage(''), 5000); // Устанавливаем таймер для скрытия сообщения через 5 секунд
-
+        setErrorMessage('Неверный логин или пароль');
+        setTimeout(() => setErrorMessage(''), 5000);
       }
     } catch (error) {
-      setErrorMessage('Ошибка сети или сервера'); // Устанавливаем сообщение об ошибке
-      setTimeout(() => setErrorMessage(''), 5000); // Устанавливаем таймер для скрытия сообщения через 5 секунд
+      setErrorMessage('Ошибка сети или сервера');
+      setTimeout(() => setErrorMessage(''), 5000);
     }
   };
 
@@ -72,7 +69,7 @@ const Authorization = () => {
         <Image image={image} alt="Logo" className="logo" />
         <form className="registration-form" onSubmit={handleSubmit}>
           <h2>Вход в личный кабинет</h2>
-          {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Отображение ошибки */}
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
           <label htmlFor="username"></label>
           <input
@@ -93,7 +90,6 @@ const Authorization = () => {
           />
           <button type="submit">Войти</button>
           <p>Если забыли логин и пароль, напишите менеджеру</p>
-
         </form>
       </div>
     </div>
