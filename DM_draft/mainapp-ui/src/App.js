@@ -9,7 +9,7 @@ const App = () => {
 
     <Router>
       <Routes>
-        <Route path={routes.auth} element={<Authorization />} />
+        <Route path={routes.login} element={<Authorization />} />
         <Route path={routes.main} element={<Main />} />
       </Routes>
     </Router>
