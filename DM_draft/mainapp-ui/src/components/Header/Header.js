@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from '../Image/Image';
 import test from '../../img/test.svg';
 import checklist from '../../img/checklist.svg';
+import person from '../../img/person.svg';
 import image from '../../img/image.png';
 import './style_header.css';
 import Clock from '../Clock/Clock'
@@ -30,6 +31,10 @@ function Header() {
     });
   }, []);
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+  setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <div className="container_img">
       <div className="background" />
@@ -44,19 +49,25 @@ function Header() {
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button" title="Раздел по тестированию">
-              <Image image={test} alt="test" />Тестирование
+              <Image image={test} alt="test" />
             </button>
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button" title="Раздел по чек-листам">
-              <Image image={checklist} alt="checklist" />Чек листы
+              <Image image={checklist} alt="checklist" />
             </button>
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button" title="Ваш личный кабинет">
-              <h2>{user ? user.username : "Личный кабинет"}</h2>
+            <Image image={person} alt="person" className="person" />
+              <p>{user ? user.username : "Личный кабинет"}</p>
+               onClick={toggleMenu}
             </button>
           </div>
+          <div className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
+              <a href="#">Админ панель</a>
+              <button>Выход</button>
+            </div>
         </div>
       </div>
     </div>

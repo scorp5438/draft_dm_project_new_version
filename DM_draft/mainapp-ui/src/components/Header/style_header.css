@@ -80,10 +80,11 @@ a {
   padding: 1px;
 }
 
-.header-nav-item h2 {
+.header-nav-item p {
   font-size: 34px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
+  gap: 10px;
   margin: 0;
 }
 
@@ -99,6 +100,19 @@ a {
   overflow: hidden;
   transition: color 0.3s ease;
 }
+.header-nav-item-person {
+ position: relative;
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent;
+  border-bottom: 3px solid rgba(0, 104, 226, 1);
+  color: rgba(0, 104, 226, 1);
+  cursor: pointer;
+  border-radius: 30px 30px 0 0;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
 
 .header-nav-button::before {
   content: "";
@@ -127,4 +141,23 @@ a {
 
 .header-nav-button:hover svg path {
   fill: rgba(255, 251, 251, 1);
+}
+.menu-active {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  padding: 30px 50px 30px 30px;
+  background-color: #E5E5E5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  top: 0px;
+  right: 0px;
+}
+.menu-active a{
+  font-weight: bold;
+  font-size: 14px;
+  color: rgba(0, 104, 226, 1);
+  margin-bottom: 24px;
+}
+.hidden {
+  display: none;
 }
