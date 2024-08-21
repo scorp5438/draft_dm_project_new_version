@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import { getCSRFToken } from '../utils/csrf';
+import routes from '../../context/Url';
 import Image from '../Image/Image';
 import image from '../../img/image.png';
 import background from '../../img/background.png';
 import './style_authorization.css';
-import Main from '../Main/Main'
-import { login } from '../../api';
+
 
 const Authorization = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,16 +18,16 @@ const Authorization = () => {
     const username = event.target.username.value.trim();
     const password = event.target.password.value.trim();
 
-    // Проверка, что поля не пустые
     if (!username || !password) {
-      console.error('Логин и пароль не могут быть пустыми');
+      setErrorMessage('Логин и пароль не могут быть пустыми');
+      setTimeout(() => setErrorMessage(''), 5000);
       return;
     }
 
     const csrfToken = getCSRFToken();
 
     try {
-      const response = await fetch('/auth/', {
+      const response = await fetch(routes.login, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,15 +47,16 @@ const Authorization = () => {
       }
 
       const data = await response.json();
-      console.log('Response Data:', data);
 
       if (data.success) {
-        navigate('/');
+        navigate(routes.main);
       } else {
-        console.error('Ошибка при входе:', data.message);
+        setErrorMessage('Неверный логин или пароль');
+        setTimeout(() => setErrorMessage(''), 5000);
       }
     } catch (error) {
-      console.error('Ошибка:', error);
+      setErrorMessage('Ошибка сети или сервера');
+      setTimeout(() => setErrorMessage(''), 5000);
     }
   };
 
@@ -67,6 +69,7 @@ const Authorization = () => {
         <Image image={image} alt="Logo" className="logo" />
         <form className="registration-form" onSubmit={handleSubmit}>
           <h2>Вход в личный кабинет</h2>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
           <label htmlFor="username"></label>
           <input

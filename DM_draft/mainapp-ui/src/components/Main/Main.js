@@ -1,15 +1,21 @@
 import React from "react";
 import Image from '../Image/Image';
 import background_main from '../../img/background_main.png';
-import Header from '../Header/Header'
+import Header from '../Header/Header';
+import Statistics from '../Statistics/Statistics';
+
 
 function Main() {
   return (
-    <div className="container_img">
-    <div>
-    <Image background={background_main} alt="background_main" className="background_main" />
-    </div>
+    <div className="main-container">
+      <Image background={background_main} alt="background_main" className="background_main" />
       <Header />
+      <div className="content-container">
+        <div className="statistics-container">
+          <Statistics />
+        </div>
+
+      </div>
     </div>
   );
 }

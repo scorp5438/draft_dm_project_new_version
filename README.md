@@ -34,6 +34,7 @@ https://nodejs.org/
           npx create-react-app mainapp-ui !!!(ДЕЛАТЬ НЕ НАДО, ДЕЛАЕТСЯ ОДИН РАЗ ПРИ СОЗДАНИИ ПРИЛОЖЕНИЯ)
           npm install react-scripts
           npm install react-router-dom
+          npm install web-vitals
           npm run build
 
 В директории с файлом manage.py выполняется команда в терминале:

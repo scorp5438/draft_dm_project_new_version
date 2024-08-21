@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Image({ image, background, background_main, test, checklist }) {
+function Image({ image, background, background_main, test, checklist, person }) {
   return (
     <>
       {image && <img src={image} alt="Logo" className="logo" />}
@@ -8,6 +8,7 @@ function Image({ image, background, background_main, test, checklist }) {
       {background_main && <img src={background_main} alt="background_main" className="background_main" />}
       {test && <img src={test} alt="test" className="test" />}
       {checklist && <img src={checklist} alt="checklist" className="checklist" />}
+      {person && <img src={person} alt="person" className="person" />}
     </>
   );
 }
