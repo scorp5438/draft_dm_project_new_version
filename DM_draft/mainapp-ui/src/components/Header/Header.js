@@ -49,12 +49,12 @@ function Header() {
             <Clock />
           </div>
               <div className="header-nav-item">
-                <a href="#"><button className="header-nav-button" title="Раздел по тестированию">
+                <a href='#'><button className="header-nav-button" title="Раздел по тестированию">
                   <Image image={test} alt="test" />
                 </button></a>
               </div>
                   <div className="header-nav-item">
-                    <a href="#"<button className="header-nav-button" title="Раздел по чек-листам">
+                    <a href='#'><button className="header-nav-button" title="Раздел по чек-листам">
                       <Image image={checklist} alt="checklist" />
                     </button></a>
                   </div>
