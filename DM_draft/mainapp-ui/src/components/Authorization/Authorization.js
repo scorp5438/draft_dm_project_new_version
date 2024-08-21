@@ -27,7 +27,7 @@ const Authorization = () => {
     const csrfToken = getCSRFToken();
 
     try {
-      const response = await fetch(routes.auth, {
+      const response = await fetch(routes.login, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
