@@ -5,8 +5,9 @@ import checklist from '../../img/checklist.svg';
 import person from '../../img/person.svg';
 import image from '../../img/image.png';
 import './style_header.css';
-import Clock from '../Clock/Clock'
+import Clock from '../Clock/Clock';
 import axios from 'axios';
+import routes from '../../context/Url';
 
 function Header() {
  const [user, setUser] = useState(null);
@@ -47,26 +48,27 @@ function Header() {
           <div className="clock-time">
             <Clock />
           </div>
-          <div className="header-nav-item">
-            <button className="header-nav-button" title="Раздел по тестированию">
-              <Image image={test} alt="test" />
-            </button>
-          </div>
-          <div className="header-nav-item">
-            <button className="header-nav-button" title="Раздел по чек-листам">
-              <Image image={checklist} alt="checklist" />
-            </button>
-          </div>
-          <div className="header-nav-item">
-            <button className="header-nav-button" title="Ваш личный кабинет">
-            <Image image={person} alt="person" className="person" />
-              <p>{user ? user.username : "Личный кабинет"}</p>
-               onClick={toggleMenu}
-            </button>
-          </div>
+              <div className="header-nav-item">
+                <a href="#"><button className="header-nav-button" title="Раздел по тестированию">
+                  <Image image={test} alt="test" />
+                </button></a>
+              </div>
+                  <div className="header-nav-item">
+                    <a href="#"<button className="header-nav-button" title="Раздел по чек-листам">
+                      <Image image={checklist} alt="checklist" />
+                    </button></a>
+                  </div>
+                          <div className="header-nav-item ">
+                            <button className="header-nav-button person" title="Ваш личный кабинет"  onClick={toggleMenu}>
+
+                            <div><Image image={person} alt="person" className="person" /></div>
+                              <div><p>{user ? user.username : "Личный кабинет"}</p></div>
+
+                            </button>
+                          </div>
           <div className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
-              <a href="#">Админ панель</a>
-              <button>Выход</button>
+              <div><a href={routes.admin}>Админ панель</a></div>
+              <div><a href={routes.logout}>Выход</a></div>
             </div>
         </div>
       </div>
