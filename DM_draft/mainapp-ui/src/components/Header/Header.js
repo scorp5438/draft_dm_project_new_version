@@ -7,36 +7,24 @@ import person from '../../img/person.svg';
 import image from '../../img/image.png';
 import './style_header.css';
 import Clock from '../Clock/Clock';
-import axios from 'axios';
 import routes from '../../context/Url';
+import { useUser } from '../utils/get_user';
 
 function Header() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Очистка localStorage перед загрузкой данных
-    localStorage.removeItem('user');
-
-    // Выполнение запроса к API при монтировании компонента
-    axios({
-      method: "GET",
-      url: 'http://127.0.0.1:8000/api/user_login/'
-    })
-    .then(response => {
-      const userData = response.data[0]; // Предполагаем, что response.data - это массив, и берем первый элемент
-      setUser(userData);
-      // Сохраняем данные в localStorage
-      localStorage.setItem('user', JSON.stringify(userData));
-    })
-    .catch(error => {
-      console.error("Ошибка при запросе пользователя:", error);
-    });
-  }, []);
+  const user = useUser(); // Получаем все данные пользователя
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  // Проверка на наличие данных пользователя
+  if (!user) {
+    return <div>Загрузка...</div>;
+  }
+
+  // Извлечение конкретных данных, например username
+  const username = user.username;
 
   return (
     <div className="container_img">
@@ -67,7 +55,7 @@ function Header() {
           <div className="header-nav-item">
             <button className="header-nav-button person" title="Ваш личный кабинет" onClick={toggleMenu}>
               <div><Image image={person} alt="person" className="person" /></div>
-              <div><p>{user ? user.username : "Личный кабинет"}</p></div>
+              <div><p>{user ? username : "Личный кабинет"}</p></div>
             </button>
           </div>
           <div className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
