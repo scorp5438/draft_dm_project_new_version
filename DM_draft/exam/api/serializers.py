@@ -17,3 +17,9 @@ class ExamSerializer(serializers.ModelSerializer):
         model = Exam
         fields = ['date_exam', 'name_intern', 'company', 'time_exam', 'name_examiner', 'result_exam', 'comment_exam']
         # fields = '__all__'
+
+
+class AddInternSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ['date_exam', 'name_intern']
