@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import Image from '../Image/Image';
 import test from '../../img/test.svg';
 import checklist from '../../img/checklist.svg';
@@ -10,7 +11,7 @@ import axios from 'axios';
 import routes from '../../context/Url';
 
 function Header() {
- const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Очистка localStorage перед загрузкой данных
@@ -34,8 +35,9 @@ function Header() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
-  setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
+
   return (
     <div className="container_img">
       <div className="background" />
@@ -48,28 +50,30 @@ function Header() {
           <div className="clock-time">
             <Clock />
           </div>
-              <div className="header-nav-item">
-                <a href='#'><button className="header-nav-button" title="Раздел по тестированию">
-                  <Image image={test} alt="test" />
-                </button></a>
-              </div>
-                  <div className="header-nav-item">
-                    <a href='#'><button className="header-nav-button" title="Раздел по чек-листам">
-                      <Image image={checklist} alt="checklist" />
-                    </button></a>
-                  </div>
-                          <div className="header-nav-item ">
-                            <button className="header-nav-button person" title="Ваш личный кабинет"  onClick={toggleMenu}>
-
-                            <div><Image image={person} alt="person" className="person" /></div>
-                              <div><p>{user ? user.username : "Личный кабинет"}</p></div>
-
-                            </button>
-                          </div>
+          <div className="header-nav-item">
+            <Link to={routes.exam}>
+              <button className="header-nav-button" title="Раздел по тестированию">
+                <Image image={test} alt="test" />
+              </button>
+            </Link>
+          </div>
+          <div className="header-nav-item">
+            <a href="#">
+              <button className="header-nav-button" title="Раздел по чек-листам">
+                <Image image={checklist} alt="checklist" />
+              </button>
+            </a>
+          </div>
+          <div className="header-nav-item">
+            <button className="header-nav-button person" title="Ваш личный кабинет" onClick={toggleMenu}>
+              <div><Image image={person} alt="person" className="person" /></div>
+              <div><p>{user ? user.username : "Личный кабинет"}</p></div>
+            </button>
+          </div>
           <div className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
-              <div><a href={routes.admin}>Админ панель</a></div>
-              <div><a href={routes.logout}>Выход</a></div>
-            </div>
+            <div><a href={routes.admin}>Админ панель</a></div>
+            <div><a href={routes.logout}>Выход</a></div>
+          </div>
         </div>
       </div>
     </div>

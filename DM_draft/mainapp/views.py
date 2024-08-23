@@ -28,3 +28,6 @@ def login_view(request: HttpRequest):
         return JsonResponse({'success': True})
 
     return JsonResponse({'success': False, 'error': "Invalid login"})
+
+def exam_view(request):
+    return render(request, 'index.html')  # Шаблон exam.html, который содержит ваш компонент React
