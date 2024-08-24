@@ -1,16 +1,17 @@
+// src/components/Exam/Exam.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './style_exam.css';
 import { useUser } from '../utils/get_user';
 import Header from '../Header/Header';
-import { useLocation } from 'react-router-dom';
 import Image from '../Image/Image';
-import plus from '../../img/plus.svg';
+import cross from '../../img/cross.svg';
+import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import AddInternButton from '../AddInternButton/AddInternButton'; // Импорт нового компонента
 
 function Exam() {
   const [examData, setExamData] = useState([]);
-
   const user = useUser();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -24,6 +25,7 @@ function Exam() {
     setIsModalOpen(prevState => !prevState);
     console.log("Новое состояние:", !isModalOpen);
   };
+
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/exam/')
       .then(response => {
@@ -40,7 +42,6 @@ function Exam() {
 
   const currentCompany = selectedCompany || company;
   const filteredData = examData.filter(exam => exam.company === currentCompany);
-
 
   return (
     <div className="header-content">
@@ -78,24 +79,12 @@ function Exam() {
         </table>
       </div>
 
-      <div className="add_intern">
-  <button title="Добавить стажёра" className="add_intern_button" onClick={() => { console.log("Кнопка нажата"); toggleModal(); }}>
-  <div>
-    <Image image={plus} alt="plus" className="img" />
-  </div>
-</button>
-</div>
+      <AddInternButton onClick={toggleModal} />
 
-      {/* Проверка отображения состояния */}
-      <div>
-        {isModalOpen ? 'Модальное окно открыто' : 'Модальное окно закрыто'}
-      </div>
-
-      {/* Условный рендеринг модального окна */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal">
-            <button className="close-modal" onClick={toggleModal}>Закрыть</button>
+            <button className="close-modal" onClick={toggleModal}><Image image={cross} alt="cross" className="cross" /></button>
             <ModalWindow />
           </div>
         </div>
