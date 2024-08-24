@@ -74,8 +74,9 @@
   border-radius: 50px;
   z-index: 2;
 }
-.logo {
-  padding: 80px 80px 50px;
+.start-glass-bg img{
+  padding: 50px;
+  cursor:pointer;
 }
 .error-message {
   color: #ff4d4f;

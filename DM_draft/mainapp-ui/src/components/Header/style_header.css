@@ -32,7 +32,11 @@ html, body {
   background-size: cover;
   z-index: -1;
 }
-
+a img{
+  padding: 50px 80px 50px 80px;
+  max-width: 100%;
+  height: auto;
+}
 .header-container {
   position: fixed;
   top: 0;
@@ -90,7 +94,7 @@ a {
 
 .header-nav-button {
   position: relative;
-  padding: 20px 20px;
+  padding: 20px;
   border: none;
   background-color: transparent;
   border-radius: 3px solid rgba(0, 104, 226, 1);
@@ -120,28 +124,44 @@ a {
 .header-nav-button:hover::before {
   width: 100%;
 }
-.header-nav-button svg {
-  width: 45px;
-  height: 45px;
-  transition: fill 0.3s ease;
-}
 
-.header-nav-button:hover svg path {
-  fill: rgba(255, 251, 251, 1);
-}
 .header-nav-item {
   position: relative; /* Контейнер с кнопкой будет относительным */
 }
-.person {
+.header-nav-button_person {
+  position: relative;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  color: rgba(0, 104, 226, 1);
+  cursor: pointer;
+  border-radius: 100%;
+  overflow: hidden;
+  transition: color 0.3s ease;
   display:flex;
+  flex-wrap: nowrap;
   flex-direction: row;
-  align-content: space-between;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
-.person p{
-text-size: 14px;
+.header-nav-button_person::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(11, 84, 219, 1);
+  transition: width 0.5s ease;
+  z-index: -1;
 }
+.header-nav-button_person:hover {
+  color: rgba(255, 251, 251, 1);
+}
+.header-nav-button_person:hover::before {
+  width: 100%;
+}
+
 .menu-active {
   position: absolute;
   top: 100%; /* Меню появится прямо под кнопкой */
@@ -162,7 +182,37 @@ text-size: 14px;
   border-radius:10px;
   gap: 10px;
 }
-
+.hamburger-menu {
+  position: absolute;
+  top: 130px;
+  left: 95%; /* Меню будет центрировано по оси X относительно кнопки */
+  transform: translateX(-95%);
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  background-color: #E5E5E5;
+  box-shadow: 0 4px 8px rgba(0, 104, 226, 1);
+  z-index: 1000; /* Повышаем уровень слоя, чтобы меню было выше других элементов */
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-radius:10px;
+  gap: 10px;
+}
+.hamburger-menu a {
+  font-weight: bold;
+  font-size: 20px;
+  color: rgba(0, 104, 226, 1);
+  text-decoration: none;
+  text-align: center;
+  gap: 10px;
+  pointer: cursor;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+}
 .menu-active a {
   font-weight: bold;
   font-size: 20px;
@@ -175,6 +225,10 @@ text-size: 14px;
   display: inline-block;
 }
 .menu-active a:hover{
+   color:rgba(243, 107, 9, 1);
+   transform: scale(1.1);
+}
+.hamburger-menu a:hover{
    color:rgba(243, 107, 9, 1);
    transform: scale(1.1);
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCSRFToken } from '../utils/csrf';
 import routes from '../../context/Url';
 import Image from '../Image/Image';
-import image from '../../img/image.png';
+import image from '../../img/image.svg';
 import background from '../../img/background.png';
 import './style_authorization.css';
 
@@ -66,7 +66,7 @@ const Authorization = () => {
         <Image background={background} alt="background" className="background" />
       </div>
       <div className="start-glass-bg">
-        <Image image={image} alt="Logo" className="logo" />
+        <Image image={image} alt="Logo"/>
         <form className="registration-form" onSubmit={handleSubmit}>
           <h2>Вход в личный кабинет</h2>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
