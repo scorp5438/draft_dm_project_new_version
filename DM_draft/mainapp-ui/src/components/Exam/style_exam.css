@@ -52,12 +52,14 @@
 
 
 .add_intern_button {
+  margin-top: 30px;
   background-color: #e5e5e5;
   border: none;
   border-bottom: 2px solid #699bf7;
   border-radius: 10px;
   cursor: pointer;
   padding: 10px;
+  z-index: 1000;
 }
 .img {
  padding:5px !important;

@@ -19,11 +19,9 @@ function Exam() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
-    console.log("Кнопка нажата, меняем состояние модального окна");
-    console.log("Предыдущее состояние:", isModalOpen);
     setIsModalOpen(prevState => !prevState);
-    console.log("Новое состояние:", !isModalOpen);
   };
+
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/exam/')
       .then(response => {
@@ -79,12 +77,12 @@ function Exam() {
       </div>
 
       <div className="add_intern">
-  <button title="Добавить стажёра" className="add_intern_button" onClick={() => { console.log("Кнопка нажата"); toggleModal(); }}>
-  <div>
-    <Image image={plus} alt="plus" className="img" />
-  </div>
-</button>
-</div>
+      <button title="Добавить стажёра" className="add_intern_button" onClick={toggleModal}>
+      <div>
+        <Image image={plus} alt="plus" className="img" />
+      </div>
+        </button>
+        </div>
 
       {/* Проверка отображения состояния */}
       <div>
