@@ -1,9 +1,11 @@
 .top_table {
   width: 80%;
   max-width: 800px;
-  cursor: pointer;
   margin-top: 200px;
   margin-left: 20px;
+  cursor: pointer;
+  position: absolute;
+  z-index: 5;
 }
 .top_table:hover {
   background-color: rgba(64, 93, 136, 0.3);
@@ -20,7 +22,6 @@ table {
   box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
-
 th, td {
   padding: 15px;
   text-align: center;

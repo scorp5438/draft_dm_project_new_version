@@ -1,0 +1,8 @@
+.plus-circle-icon path {
+  fill: #236cd9;
+  transition: fill 0.3s ease;
+}
+
+.plus-circle-icon:hover path {
+  fill: #ffffff;
+}

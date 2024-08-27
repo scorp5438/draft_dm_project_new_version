@@ -10,7 +10,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "fontawesome2", sans-serif;
-  cursor: pointer;
 }
 
 .exam-container {
@@ -19,7 +18,7 @@
   max-width: 100%;
   background-color: #f9f9f9;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .exam-table {
@@ -50,35 +49,19 @@
   justify-content: center;
 }
 
-
-.add_intern_button {
-  background-color: #e5e5e5;
-  border: none;
-  border-bottom: 2px solid #699bf7;
-  border-radius: 10px;
-  cursor: pointer;
-  padding: 10px;
-}
-.img {
- padding:5px !important;
-}
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
   display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
 .modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1001;
+  filter: blur (5px)
 }

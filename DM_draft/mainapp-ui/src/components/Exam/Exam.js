@@ -1,17 +1,15 @@
-// src/components/Exam/Exam.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './style_exam.css';
 import { useUser } from '../utils/get_user';
 import Header from '../Header/Header';
-import Image from '../Image/Image';
-import cross from '../../img/cross.svg';
 import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
-import AddInternButton from '../AddInternButton/AddInternButton'; // Импорт нового компонента
+import AddInternButton from '../AddInternButton/AddInternButton';
 
 function Exam() {
   const [examData, setExamData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const user = useUser();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -20,28 +18,42 @@ function Exam() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
-    console.log("Кнопка нажата, меняем состояние модального окна");
-    console.log("Предыдущее состояние:", isModalOpen);
     setIsModalOpen(prevState => !prevState);
-    console.log("Новое состояние:", !isModalOpen);
   };
 
-  useEffect(() => {
+  // Фильтрация данных после загрузки с сервера или обновления
+  const filterData = (data) => {
+    const currentCompany = selectedCompany || company;
+    return data.filter(exam => exam.company === currentCompany);
+  };
+
+  // Функция для обновления данных с сервера
+  const fetchExamData = () => {
     axios.get('http://127.0.0.1:8000/api/exam/')
       .then(response => {
         setExamData(response.data);
+        setFilteredData(filterData(response.data));
       })
       .catch(error => {
         console.error("Ошибка при загрузке данных:", error);
       });
-  }, []);
+  };
+
+  // Загружаем данные с сервера при монтировании компонента
+  useEffect(() => {
+    fetchExamData();
+  }, [selectedCompany, company]);
+
+  // Функция для добавления нового стажера в таблицу
+  const handleInternAdded = () => {
+    // После добавления нового стажера, вызываем fetchExamData для обновления данных
+    fetchExamData();
+  };
+
 
   if (!user) {
     return <div>Загрузка...</div>;
   }
-
-  const currentCompany = selectedCompany || company;
-  const filteredData = examData.filter(exam => exam.company === currentCompany);
 
   return (
     <div className="header-content">
@@ -83,10 +95,9 @@ function Exam() {
 
       {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal">
-            <button className="close-modal" onClick={toggleModal}><Image image={cross} alt="cross" className="cross" /></button>
-            <ModalWindow />
-          </div>
+
+           <ModalWindow onClose={toggleModal} onInternAdded={handleInternAdded} />
+
         </div>
       )}
     </div>

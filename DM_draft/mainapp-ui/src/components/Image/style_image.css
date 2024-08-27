@@ -1,0 +1,14 @@
+.test-image {
+  width: 64px;
+  height: 64px;
+  background: url('../../img/test.svg') no-repeat center;
+  background-size: contain;
+  mask: url('../../img/test.svg') no-repeat center;
+  mask-size: contain;
+  background-color: #0068E2; /* Начальный цвет */
+  transition: background-color 0.3s ease;
+}
+
+.test-image:hover {
+  background-color: #FFFFFF; /* Цвет при наведении */
+}

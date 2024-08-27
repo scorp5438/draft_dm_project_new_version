@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import Image from '../Image/Image';
-import test from '../../img/test.svg';
-import checklist from '../../img/checklist.svg';
+import { useNavigate } from 'react-router-dom';
+import Image from '../Image/Image'
+import Test from '../AllIcons/Test/Test';
+import CheckList from '../AllIcons/CheckList/CheckList';
+import Person from '../AllIcons/Person/Person';
 import person from '../../img/person.svg';
 import image from '../../img/image.svg';
 import './style_header.css';
@@ -13,14 +14,13 @@ import axios from 'axios';
 import { createUrlWithParams } from '../utils/urlHelper';
 
 function Header() {
-  const user = useUser(); // Получаем все данные пользователя
+  const user = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
   const [companies, setCompanies] = useState([]);
   const navigate = useNavigate();
   const hamburgerMenuRef = useRef(null);
   const personalMenuRef = useRef(null);
-
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -32,10 +32,11 @@ function Header() {
 
   const handleCompanyChange = (company) => {
     const url = createUrlWithParams(routes.exam, { company });
-    navigate(url); // Переход на страницу с выбранной компанией
+    navigate(url);
     setIsHamburgerMenuOpen(false);
   };
-useEffect(() => {
+
+  useEffect(() => {
     function handleClickOutside(event) {
       if (hamburgerMenuRef.current && !hamburgerMenuRef.current.contains(event.target)) {
         setIsHamburgerMenuOpen(false);
@@ -48,7 +49,6 @@ useEffect(() => {
     };
   }, [hamburgerMenuRef]);
 
-  // Закрытие меню личного кабинета при клике вне его области
   useEffect(() => {
     function handleClickOutside(event) {
       if (personalMenuRef.current && !personalMenuRef.current.contains(event.target)) {
@@ -62,21 +62,15 @@ useEffect(() => {
     };
   }, [personalMenuRef]);
 
-  // Проверка на наличие данных пользователя
   if (!user) {
     return <div>Загрузка...</div>;
   }
 
-  // Извлечение данных пользователя
   const username = user.username;
-  const userCompany = user.company.name; // Имя компании пользователя
-
-  // Функция обработки клика по кнопке
+  const userCompany = user.company.name;
   const handleButtonClick = () => {
     if (userCompany === 'DM') {
-      // Показать гамбургер-меню с выбором компаний
       if (companies.length === 0) {
-        // Загружаем список компаний
         axios.get('http://127.0.0.1:8000/api/companies/')
           .then(response => {
             setCompanies(response.data);
@@ -87,7 +81,6 @@ useEffect(() => {
       }
       toggleHamburgerMenu();
     } else {
-      // Переход по фиксированной ссылке
       navigate(routes.exam);
     }
   };
@@ -97,7 +90,7 @@ useEffect(() => {
       <div className="background" />
       <div className="header-container">
         <div className="header-logo">
-          <a><Image image={image} alt="Logo"/></a>
+          <a><Image image={image} classNames={{ image: 'logo-image' }}/></a>
         </div>
 
         <div className="header-navigation">
@@ -106,8 +99,8 @@ useEffect(() => {
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button" title="Раздел по тестированию" onClick={handleButtonClick}>
-              <Image image={test} alt="test" />
-            </button>
+              <Test width="64px" height="64px" fill="#0068E2" />
+             </button>
             {isHamburgerMenuOpen && (
               <div className="hamburger-menu" ref={hamburgerMenuRef}>
                 {companies.map(company => (
@@ -121,17 +114,17 @@ useEffect(() => {
           <div className="header-nav-item">
             <a href="#">
               <button className="header-nav-button" title="Раздел по чек-листам">
-                <Image image={checklist} alt="checklist" />
+                <CheckList width="64px" height="64px" fill="#0068E2" />
               </button>
             </a>
           </div>
           <div className="header-nav-item">
             <button className="header-nav-button_person" title="Ваш личный кабинет" onClick={toggleMenu}>
-              <div><Image image={person} alt="person" className="person" /></div>
+              <div><Person width="64px" height="64px" fill="none" /></div>
               <div><p>{user ? username : "Личный кабинет"}</p></div>
             </button>
           </div>
-          <div ref={personalMenuRef}  className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
+          <div ref={personalMenuRef} className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
             <div><a href={routes.admin}>Админ панель</a></div>
             <div><a href={routes.logout}>Выход</a></div>
           </div>
