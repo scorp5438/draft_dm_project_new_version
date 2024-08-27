@@ -29,6 +29,7 @@ button {
   transition: background-color 0.3s ease;
   font-weight: bold;
 }
+
 button:hover {
   background-color: rgba(239, 128, 81, 1);
   color: rgb(255, 255, 255);
