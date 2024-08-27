@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getCSRFToken } from '../utils/csrf'; // Предполагаем, что у вас есть этот метод для получения CSRF токена
+import { getCSRFToken } from '../utils/csrf'; // Убедитесь, что этот метод правильно реализован
 import "./style_modal_window.css";
-function ModalWindow() {
+import { useUser } from '../utils/get_user';
+
+
+function ModalWindow({ onClose }) {
+    const user = useUser();
+    const company_id = user ? user.company.id: '';
     const [formData, setFormData] = useState({
         date_exam: '',
-        name_intern: ''
+        name_intern: '',
+        cc: '',
     });
-
-    // Обработка изменения формы
+    useEffect(() => {
+        if (user) {
+            setFormData(prevData => ({
+                ...prevData,
+                cc: user.company.id
+            }));
+        }
+    }, [user]);
+    // Обработка изменений в форме
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -20,26 +33,28 @@ function ModalWindow() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const csrfToken = getCSRFToken(); // Получаем CSRF токен
+            const csrfToken = getCSRFToken(); // Получение CSRF токена
 
-            const response = await axios.post('/api/add_intern/', formData, {
+            const response = await axios.post('http://127.0.0.1:8000/api/add_intern/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken  // Используем CSRF токен в заголовке
+                    'X-CSRFToken': csrfToken // Включение CSRF токена в заголовке
                 }
             });
-            console.log('Data submitted successfully:', response.data);
+            console.log('Данные успешно отправлены:', response.data);
+            onClose(); // Закрытие модального окна после успешной отправки
         } catch (error) {
-            console.error('Error submitting data:', error.response ? error.response.data : error.message);
+            console.error('Ошибка при отправке данных:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
        <div className="modal-content">
         <div className="modal-top">
+        <div>{company_id}</div>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Date Exam:
+                    Дата экзамена:
                     <input
                         type="date"
                         name="date_exam"
@@ -49,7 +64,7 @@ function ModalWindow() {
                 </label>
                 <br />
                 <label>
-                    Name Intern:
+                    Имя стажера:
                     <input
                         type="text"
                         name="name_intern"
@@ -58,9 +73,9 @@ function ModalWindow() {
                     />
                 </label>
                 <br />
-                <button type="submit">Добавить</button>
+                <button onClick={onClose} type="submit">Добавить</button>
             </form>
-        </div>
+      </div>
       </div>
     );
 }

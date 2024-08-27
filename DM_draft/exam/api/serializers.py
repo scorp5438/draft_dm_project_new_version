@@ -20,6 +20,7 @@ class ExamSerializer(serializers.ModelSerializer):
 
 
 class AddInternSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Exam
-        fields = ['date_exam', 'name_intern']
+        fields = ['date_exam', 'name_intern', 'cc']
