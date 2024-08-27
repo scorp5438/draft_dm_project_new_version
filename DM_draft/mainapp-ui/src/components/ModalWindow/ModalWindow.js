@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getCSRFToken } from '../utils/csrf'; // Убедитесь, что этот метод правильно реализован
+import { getCSRFToken } from '../utils/csrf';
 import "./style_modal_window.css";
 import { useUser } from '../utils/get_user';
 import Image from '../Image/Image';
@@ -8,13 +8,13 @@ import cross from '../../img/cross.svg';
 
 function ModalWindow({ onClose, onInternAdded }) {
     const user = useUser();
-    const company_id = user ? user.company.id : '';
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         date_exam: '',
         name_intern: '',
         cc: '',
     });
+
+    const [errors, setErrors] = useState({}); // Для хранения ошибок
 
     useEffect(() => {
         if (user) {
@@ -32,41 +32,65 @@ function ModalWindow({ onClose, onInternAdded }) {
         });
     };
 
-  const toggleModal = () => {
-    setIsModalOpen(prevState => !prevState);
-  };
+const formatErrors = (errors) => {
+    const formattedErrors = {};
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const csrfToken = getCSRFToken(); // Получение CSRF токена
-
-        const response = await axios.post('http://127.0.0.1:8000/api/add_intern/', formData, {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            }
-        });
-
-        console.log('Данные успешно отправлены:', response.data);
-
-        // Вызов функции для обновления данных таблицы
-        onInternAdded(response.data);  // <-- Передаем данные нового стажера
-
-        // Закрытие модального окна
-        onClose();
-    } catch (error) {
-        console.error('Ошибка при отправке данных:', error.response ? error.response.data : error.message);
+    for (const [key, value] of Object.entries(errors)) {
+        if (key === 'date_exam') {
+            // Преобразование сообщений об ошибках для даты
+            formattedErrors[key] = value.map(err => {
+                // Если ошибка связана с неправильным форматом даты, заменяем её на своё сообщение
+                if (err.includes('Неправильный формат date')) {
+                    return 'Поле дата не может быть пустым';
+                }
+                // Если сообщение об ошибке связано с пустым полем, заменяем его на своё
+                if (err.includes('Это поле не может быть пустым')) {
+                    return 'Поле дата не может быть пустым';
+                }
+                return err;
+            });
+        } else {
+            // Оставляем ошибки для других полей без изменений
+            formattedErrors[key] = value;
+        }
     }
+
+    return formattedErrors;
 };
 
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const csrfToken = getCSRFToken(); // Получение CSRF токена
+
+            const response = await axios.post('http://127.0.0.1:8000/api/add_intern/', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            onInternAdded(response.data);
+            onClose();  // Закрываем модальное окно после успешного добавления стажера
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                // Преобразование и установка ошибок в состояние
+                const formattedErrors = formatErrors(error.response.data);
+                setErrors(formattedErrors);
+                console.log('Ошибки с сервера:', formattedErrors);
+            } else {
+                console.error('Ошибка при отправке данных:', error.message);
+            }
+        }
+    };
     return (
         <div className="modal-content">
             <div className="modal-top">
-             <button className="close-modal" onClick={toggleModal}>
-              <Image image={cross} alt="cross" className="cross" />
-            </button>
+                <button className="close-modal" onClick={onClose}>
+                    <Image image={cross} alt="cross" className="cross" />
+                </button>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Дата экзамена:
@@ -76,6 +100,7 @@ function ModalWindow({ onClose, onInternAdded }) {
                             value={formData.date_exam}
                             onChange={handleChange}
                         />
+                        {errors.date_exam && <p className="error">{errors.date_exam[0]}</p>} {/* Отображение ошибки */}
                     </label>
                     <br />
                     <label>
@@ -86,6 +111,7 @@ function ModalWindow({ onClose, onInternAdded }) {
                             value={formData.name_intern}
                             onChange={handleChange}
                         />
+                        {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>} {/* Отображение ошибки */}
                     </label>
                     <br />
                     <button type="submit">Добавить</button>

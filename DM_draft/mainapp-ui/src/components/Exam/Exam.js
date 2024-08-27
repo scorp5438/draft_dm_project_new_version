@@ -18,7 +18,7 @@ function Exam() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
-    setIsModalOpen(prevState => !prevState);
+    setIsModalOpen(prevState => !prevState);  // Тоггл состояния открытия модального окна
   };
 
   // Фильтрация данных после загрузки с сервера или обновления
@@ -46,8 +46,7 @@ function Exam() {
 
   // Функция для добавления нового стажера в таблицу
   const handleInternAdded = () => {
-    // После добавления нового стажера, вызываем fetchExamData для обновления данных
-    fetchExamData();
+    fetchExamData();  // После добавления нового стажера, обновляем данные
   };
 
 
@@ -91,13 +90,11 @@ function Exam() {
         </table>
       </div>
 
-      <AddInternButton onClick={toggleModal} />
+      <AddInternButton onClick={toggleModal} /> {/* Открытие модального окна */}
 
       {isModalOpen && (
         <div className="modal-overlay">
-
-           <ModalWindow onClose={toggleModal} onInternAdded={handleInternAdded} />
-
+          <ModalWindow onClose={toggleModal} onInternAdded={handleInternAdded} />
         </div>
       )}
     </div>

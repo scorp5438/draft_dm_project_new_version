@@ -15,7 +15,6 @@ class AddIntersViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         print("Данные, переданные для создания:", self.request.data)
-        # serializer.save(cc=self.request.user.company)
         serializer.save()
 
 
