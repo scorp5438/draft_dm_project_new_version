@@ -32,14 +32,15 @@
 .content-container {
   display: flex;
   padding: 20px;
-  content: pointer;
   position: relative;
+
 }
 
 .statistics-container {
-  width: 25%;
-  position: absolut;
-  z-index: 5;
-  display: fixed;
-
+    width: 25%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    cursor: pointer;
 }

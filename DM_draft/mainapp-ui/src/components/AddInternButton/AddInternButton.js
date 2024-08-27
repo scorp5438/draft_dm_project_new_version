@@ -1,13 +1,14 @@
 import React from 'react';
 import Image from '../Image/Image';
 import plus from '../../img/plus.svg';
-import './AddInternButton.css'; // Здесь можно добавить специфичные стили для кнопки
+import './AddInternButton.css';
+import PlusCircleIcon from '../AllIcons/PlusCircleIcon/PlusCircleIcon'
 
 const AddInternButton = ({ onClick }) => {
   return (
     <div className="add_intern">
       <button title="Добавить стажёра" className="add_intern_button" onClick={onClick}>
-        <Image image={plus} alt="plus" className="img" />
+        <PlusCircleIcon width="32" height="32" fill="#ffffff" />
       </button>
     </div>
   );
