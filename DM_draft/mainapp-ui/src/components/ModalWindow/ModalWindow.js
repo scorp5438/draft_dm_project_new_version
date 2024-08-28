@@ -6,8 +6,8 @@ import { useUser } from '../utils/get_user';
 import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
 
-function ModalWindow({ onClose, onInternAdded }) {
-    const user = useUser();
+function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
+    console.log(isEditing);
     const [formData, setFormData] = useState({
         date_exam: '',
         name_intern: '',
@@ -16,14 +16,17 @@ function ModalWindow({ onClose, onInternAdded }) {
 
     const [errors, setErrors] = useState({}); // Для хранения ошибок
 
-    useEffect(() => {
-        if (user) {
-            setFormData(prevData => ({
-                ...prevData,
-                cc: user.company.id
-            }));
-        }
-    }, [user]);
+  useEffect(() => {
+    if (user) {
+    console.log(examData ? examData.id : 'hgcfhjfd')
+      setFormData({
+        cc: user.company.id,
+        date_exam: examData ? examData.date_exam : '',
+        name_intern: examData ? examData.name_intern : '',
+
+      });
+    }
+  }, [examData, user]);
 
     const handleChange = (e) => {
         setFormData({
@@ -55,32 +58,41 @@ const formatErrors = (errors) => {
 };
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        try {
-            const csrfToken = getCSRFToken(); // Получение CSRF токена
+  try {
+    console.log(examData ? examData.id : 'dhdjd');
+    const csrfToken = getCSRFToken();
+    const url = isEditing
+      ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
+      : 'http://127.0.0.1:8000/api/add_intern/';
 
-            const response = await axios.post('http://127.0.0.1:8000/api/add_intern/', formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
-                }
-            });
+    const method = isEditing ? 'put' : 'post';
 
-            onInternAdded(response.data);
-            onClose();  // Закрываем модальное окно после успешного добавления стажера
-        } catch (error) {
-            if (error.response && error.response.status === 400) {
-                // Преобразование и установка ошибок в состояние
-                const formattedErrors = formatErrors(error.response.data);
-                setErrors(formattedErrors);
-                console.log('Ошибки с сервера:', formattedErrors);
-            } else {
-                console.error('Ошибка при отправке данных:', error.message);
-            }
-        }
-    };
+    const response = await axios({
+      method: method,
+      url: url,
+      data: formData,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      }
+    });
+
+    onInternAdded(response.data);
+    onClose();
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      const formattedErrors = formatErrors(error.response.data);
+      setErrors(formattedErrors);
+      console.log('Ошибки с сервера:', formattedErrors);
+    } else {
+      console.error('Ошибка при отправке данных:', error.message);
+    }
+  }
+};
+
     return (
         <div className="modal-content">
             <div className="modal-top">
