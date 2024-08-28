@@ -14,15 +14,17 @@ class AddIntersViewSet(viewsets.ModelViewSet):
 
     serializer_list = {
         'POST': AddInternSerializer,
-        'PUT': EditInternSerializer
+        'PUT': EditInternSerializer,
+        'GET': EditInternSerializer,  # Укажите подходящий сериалайзер для GET-запросов
+        # Добавьте другие методы, если необходимо
     }
 
     def get_serializer_class(self):
-        if self.serializer_list.get(self.request.method):
-            return self.serializer_list[self.request.method]
-        else:
-            return AddInternSerializer
+        print(self.request.method)
+        # Если метод запроса есть в словаре, вернуть соответствующий сериалайзер
+        return self.serializer_list.get(self.request.method, AddInternSerializer)
 
     def perform_create(self, serializer):
         print("Данные, переданные для создания:", self.request.data)
         serializer.save()
+

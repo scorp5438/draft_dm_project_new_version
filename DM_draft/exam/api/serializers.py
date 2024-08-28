@@ -11,17 +11,17 @@ from users.api.serializers import CompanySerializer
 
 
 class ExamSerializer(serializers.ModelSerializer):
-    company = serializers.CharField(source='cc.name', read_only=True)
-
-    # cc = CompanySerializer()
+    # company = serializers.CharField(source='cc.name', read_only=True)
+    cc = CompanySerializer()
 
     class Meta:
         model = Exam
-        fields = ['date_exam', 'name_intern', 'company', 'time_exam', 'name_examiner', 'result_exam', 'comment_exam']
-        # fields = '__all__'
+        # fields = ['id', 'date_exam', 'name_intern', 'company', 'time_exam', 'name_examiner', 'result_exam', 'comment_exam']
+        fields = '__all__'
 
 
 class AddInternSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Exam
         fields = ['date_exam', 'name_intern', 'cc']
@@ -40,7 +40,6 @@ class AddInternSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(e.message_dict)
 
         return data
-
 
 class EditInternSerializer(serializers.ModelSerializer):
     class Meta:

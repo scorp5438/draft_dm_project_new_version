@@ -6,6 +6,7 @@ import Header from '../Header/Header';
 import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import AddInternButton from '../AddInternButton/AddInternButton';
+import HandleEditClick from '../HandleEditClick/HandleEditClick';
 
 function Exam() {
   const [examData, setExamData] = useState([]);
@@ -16,18 +17,24 @@ function Exam() {
   const selectedCompany = queryParams.get('company');
   const company = user ? user.company.name : '----';
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedExamId, setSelectedExamId] = useState(null);
+  const [selectedExamData, setSelectedExamData] = useState(null);
+
 
   const toggleModal = () => {
-    setIsModalOpen(prevState => !prevState);  // Тоггл состояния открытия модального окна
+    setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
+    if (isModalOpen) {
+      setIsEditing(false); // Сбрасываем isEditing при закрытии модального окна
+      setSelectedExamData(null); // Сбрасываем выбранные данные экзамена
+    }
   };
 
-  // Фильтрация данных после загрузки с сервера или обновления
   const filterData = (data) => {
     const currentCompany = selectedCompany || company;
-    return data.filter(exam => exam.company === currentCompany);
+    return data.filter(exam => exam.cc.name === currentCompany);
   };
 
-  // Функция для обновления данных с сервера
   const fetchExamData = () => {
     axios.get('http://127.0.0.1:8000/api/exam/')
       .then(response => {
@@ -39,16 +46,25 @@ function Exam() {
       });
   };
 
-  // Загружаем данные с сервера при монтировании компонента
   useEffect(() => {
     fetchExamData();
   }, [selectedCompany, company]);
 
-  // Функция для добавления нового стажера в таблицу
   const handleInternAdded = () => {
-    fetchExamData();  // После добавления нового стажера, обновляем данные
+    fetchExamData();
   };
 
+  const handleEditClick = (id) => {
+    axios.get(`http://127.0.0.1:8000/api/add_intern/${id}/`)
+      .then(response => {
+        setSelectedExamData(response.data);
+        setSelectedExamId(id);
+        toggleModal();
+      })
+      .catch(error => {
+        console.error("Ошибка при загрузке данных:", error);
+      });
+  };
 
   if (!user) {
     return <div>Загрузка...</div>;
@@ -79,6 +95,13 @@ function Exam() {
                   <td>{exam.name_examiner || '----'}</td>
                   <td>{exam.result_exam || '----'}</td>
                   <td>{exam.comment_exam || company}</td>
+                  {/* Обратите внимание, что кнопка перемещена в другой div */}
+                    <td className="edit-button-cell">
+                      <HandleEditClick
+                        onClick={() => handleEditClick(exam.id)}
+                        style={{ position: 'relative', left: '20px' }}
+                      />
+                    </td>
                 </tr>
               ))
             ) : (
@@ -90,11 +113,17 @@ function Exam() {
         </table>
       </div>
 
-      <AddInternButton onClick={toggleModal} /> {/* Открытие модального окна */}
+      <AddInternButton onClick={toggleModal} />
 
       {isModalOpen && (
         <div className="modal-overlay">
-          <ModalWindow onClose={toggleModal} onInternAdded={handleInternAdded} />
+          <ModalWindow
+            onClose={toggleModal}
+            onInternAdded={handleInternAdded}
+            examData={selectedExamData}
+            user={user}
+            isEditing={Boolean(selectedExamData)}
+          />
         </div>
       )}
     </div>
