@@ -10,7 +10,7 @@ from users.models import User, Companies
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'username', 'full_name', 'post', 'company']
 
 
 class CompanySerializer(serializers.ModelSerializer):

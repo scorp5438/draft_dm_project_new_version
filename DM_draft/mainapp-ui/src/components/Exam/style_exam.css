@@ -20,13 +20,13 @@
   padding-top: 80px;
  }
 .exam-container {
-  margin-top: 120px;
+  position: relative;
+  margin-top: 200px;
   padding: 20px;
   width: 100%;
   background-color: E0F8FF;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  overflow-x: auto;
 }
 .table-wrapper {
   max-height: 70vh;
@@ -69,7 +69,7 @@
 .add_intern {
   display: flex;
   justify-content: center;
-}
+ }
 
 .modal-overlay {
   position: fixed;

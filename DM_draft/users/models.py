@@ -19,10 +19,10 @@ class User(AbstractUser):
     ]
 
     posts = [
-        ("ОКК", "ОКК"),
-        ("ГПХ", "ГПХ"),
-        ("Админ", "Админ"),
-        ("Оператор", "Оператор"),
+        ("OKK", "OKK"),
+        ("GPH", "GPH"),
+        ("Admin", "Admin"),
+        ("Operator", "Operator"),
     ]
 
     full_name = models.CharField(max_length=60, blank=False, null=True, verbose_name="ФИ сотрудника")

@@ -1,0 +1,111 @@
+@font-face {
+  font-family: "fontawesome2";
+  src: url('../../fonts/CRO55DM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "fontawesome2", sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+
+.add-modal {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #DDE6EC;
+  color: rgba(105, 155, 247, 1);
+  cursor: pointer;
+  font-size:16px;
+  transition: background-color 0.5s ease;
+  font-weight: bold;
+}
+
+.add-modal:hover {
+  background-color: #3f94a099;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.modal-top {
+  font-weight: bold;
+  text-align: left;
+  transition: background-color 0.5s ease;
+}
+
+
+.modal-content {
+  backdrop-filter: blur(10px);
+  background-color: #8aabdd57;
+  border: 3px solid #fcfcfc;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #ffffffe6;
+  color: #fff;
+  margin: 15% auto;
+  max-width: 600px;
+  padding: 20px;
+  width: 50%;
+  position: relative;
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  margin-button:20px;
+}
+
+.close-modal img {
+  width: 24px;
+  height: 24px;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+form label {
+  font-weight: bold;
+  font-family: "fontawesome2", sans-serif;
+}
+
+form input[type="text"],
+form input[type="date"],
+{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  font-family: "fontawesome2", sans-serif;
+  color: rgba(105, 155, 247, 1);
+}
+
+.plus {
+  width: 100%;
+  padding: 10px;
+  border-color: #fff;
+  background-color: #e5e5e5;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  font-family: "fontawesome2", sans-serif;
+}
+
+.plus:hover {
+  background-color: #236cd9;
+}
+
