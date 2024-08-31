@@ -8,7 +8,7 @@ const AddInternButton = ({ onClick }) => {
   return (
     <div className="add_intern">
       <button title="Добавить стажёра" className="add_intern_button" onClick={onClick}>
-        <PlusCircleIcon width="32" height="32" fill="#ffffff" />
+        <PlusCircleIcon width="32" height="32" fill="#ffffff" /><p>Добавить стажёра</p>
       </button>
     </div>
   );

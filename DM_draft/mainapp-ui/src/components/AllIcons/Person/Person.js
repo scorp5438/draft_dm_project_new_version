@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const Person = (props) => {
   const [hover, setHover] = useState(false);
 
-  const { width = '64px', height = '64px', stroke = '#0068E2', strokeWidth = '2.8', ...rest } = props;
+  const { width = '32px', height = '32px', stroke = '#0068E2', strokeWidth = '2.8', ...rest } = props;
 
   const strokeColor = hover ? '#ffffff' : stroke;
 

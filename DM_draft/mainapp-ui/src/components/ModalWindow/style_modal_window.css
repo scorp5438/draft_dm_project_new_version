@@ -18,27 +18,28 @@ html, body {
 }
 
 
-button {
+.add-modal {
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background-color: rgb(255, 255, 255);
-  border-bottom: 2px solid rgba(105, 155, 247, 1);
+  background-color: #DDE6EC;
   color: rgba(105, 155, 247, 1);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size:16px;
+  transition: background-color 0.5s ease;
   font-weight: bold;
 }
 
-button:hover {
-  background-color: rgba(239, 128, 81, 1);
+.add-modal:hover {
+  background-color: #3f94a099;
   color: rgb(255, 255, 255);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .modal-top {
   font-weight: bold;
   text-align: left;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
 
@@ -53,6 +54,22 @@ button:hover {
   max-width: 600px;
   padding: 20px;
   width: 50%;
+  position: relative;
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  margin-button:20px;
+}
+
+.close-modal img {
+  width: 24px;
+  height: 24px;
 }
 
 form {

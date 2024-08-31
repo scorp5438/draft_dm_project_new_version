@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import AddInternButton from '../AddInternButton/AddInternButton';
 import HandleEditClick from '../HandleEditClick/HandleEditClick';
+import SearchBar from '../SearchBar/SearchBar';
 
 function Exam() {
   const [examData, setExamData] = useState([]);
@@ -70,48 +71,53 @@ function Exam() {
     return <div>Загрузка...</div>;
   }
 
-  return (
-    <div className="header-content">
-      <Header />
+return (
+    <div className="exam__background">
+      <div className="header-content">
+        <Header />
+      </div>
       <div className="exam-container">
-        <table className="exam-table">
-          <thead>
-            <tr>
-              <th>Дата зачета</th>
-              <th>Фамилия Имя стажера</th>
-              <th>Время зачета</th>
-              <th>ФИ сотрудника</th>
-              <th>Результат</th>
-              <th>Комментарий</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map(exam => (
-                <tr key={exam.id || exam.name_intern}>
-                  <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
-                  <td>{exam.name_intern}</td>
-                  <td>{exam.time_exam}</td>
-                  <td>{exam.name_examiner || '----'}</td>
-                  <td>{exam.result_exam || '----'}</td>
-                  <td>{exam.comment_exam || company}</td>
-                  {/* Обратите внимание, что кнопка перемещена в другой div */}
+        <div className="table-wrapper">
+          <table className="exam-table">
+            <thead>
+              <tr>
+                <th>Дата зачета</th>
+                <th>Фамилия Имя стажера</th>
+                <th>Время зачета</th>
+                <th>ФИ сотрудника</th>
+                <th>Результат</th>
+                <th>Комментарий</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.length > 0 ? (
+                filteredData.map(exam => (
+                  <tr key={exam.id || exam.name_intern}>
+                    <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
+                    <td>{exam.name_intern}</td>
+                    <td>{exam.time_exam}</td>
+                    <td>{exam.name_examiner || '----'}</td>
+                    <td>{exam.result_exam || '----'}</td>
+                    <td>{exam.comment_exam || company}</td>
                     <td className="edit-button-cell">
                       <HandleEditClick
                         onClick={() => handleEditClick(exam.id)}
                         style={{ position: 'relative', left: '20px' }}
                       />
                     </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7">Нет данных для отображения</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6">Нет данных для отображения</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
+
 
       <AddInternButton onClick={toggleModal} />
 

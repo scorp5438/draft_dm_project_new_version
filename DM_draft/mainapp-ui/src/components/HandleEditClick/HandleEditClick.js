@@ -1,9 +1,11 @@
 import React from 'react';
-import '../AddInternButton/AddInternButton.css';
+import '../HandleEditClick/HandleEditClick.css';
+import PencilIcon from '../AllIcons/PencilIcon/PencilIcon';
 const HandleEditClick = ({ onClick }) => {
   return (
-    <div className="add_intern">
-      <button title="Изменить" className="add_intern_button" onClick={onClick}>Изменить</button>
+    <div className="edit_intern">
+      <button title="Изменить" className="edit_intern_button" onClick={onClick}><PencilIcon />
+      <p>Изменить</p></button>
     </div>
   );
 };

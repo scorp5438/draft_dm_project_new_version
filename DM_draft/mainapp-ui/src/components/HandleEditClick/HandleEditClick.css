@@ -1,0 +1,41 @@
+.edit_intern {
+  display: flex;
+  justify-content: center;
+}
+
+.edit_intern_button {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 104, 226, 1);
+  transition: color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  margin-top: 10px;
+  padding: 10px; /* добавляем padding для более удобного нажатия */
+}
+
+.edit_intern_button svg {
+  fill: #236cd9;
+  transition: fill 0.5s ease;
+}
+
+.edit_intern_button p {
+  margin-left: 8px; /* добавляем отступ между иконкой и текстом */
+  transition: color 0.5s ease;
+}
+
+.edit_intern_button:hover svg {
+  fill: #ffffff;
+}
+
+.edit_intern_button:hover p {
+  color: #ffffff;
+}
+
+.edit_intern_button:hover {
+  background-color: #3f94a099;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  color: white; /* исправляем ошибку в цвете */
+}
