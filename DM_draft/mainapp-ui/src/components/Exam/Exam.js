@@ -5,6 +5,7 @@ import { useUser } from '../utils/get_user';
 import Header from '../Header/Header';
 import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import DmExamEdit from '../DmExamEdit/DmExamEdit';
 import AddInternButton from '../AddInternButton/AddInternButton';
 import HandleEditClick from '../HandleEditClick/HandleEditClick';
 
@@ -21,7 +22,6 @@ function Exam() {
   const [selectedExamId, setSelectedExamId] = useState(null);
   const [selectedExamData, setSelectedExamData] = useState(null);
 
-  console.log("selectedCompany", selectedCompany)
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
     if (isModalOpen) {
@@ -32,6 +32,7 @@ function Exam() {
 
   const filterData = (data) => {
     if (company.id === 1) {
+    console.log(company.id)
         const currentCompany = +selectedCompany;
         return data.filter(exam => exam.cc === currentCompany);
     }
@@ -58,7 +59,14 @@ function Exam() {
   };
 
   const handleEditClick = (id) => {
-    axios.get(`http://127.0.0.1:8000/api/add_intern/${id}/`)
+    let url = '';
+    if (user.company.name === 'DM') {
+      url = `http://127.0.0.1:8000/api/exam/${id}/`;
+    } else {
+      url = `http://127.0.0.1:8000/api/add_intern/${id}/`;
+    }
+
+    axios.get(url)
       .then(response => {
         setSelectedExamData(response.data);
         setSelectedExamId(id);
@@ -95,7 +103,7 @@ function Exam() {
                   <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
                   <td>{exam.name_intern}</td>
                   <td>{exam.time_exam}</td>
-                  <td>{exam.name_examiner || '----'}</td>
+                  <td>{exam.name_examiner_name || '----'}</td>
                   <td>{exam.result_exam || '----'}</td>
                   <td>{exam.comment_exam || company.name}</td>
                   {/* Обратите внимание, что кнопка перемещена в другой div */}
@@ -115,18 +123,24 @@ function Exam() {
           </tbody>
         </table>
       </div>
-
-      <AddInternButton onClick={toggleModal} />
-
+      {user.company.name !== 'DM' && <AddInternButton onClick={toggleModal} />}
       {isModalOpen && (
         <div className="modal-overlay">
-          <ModalWindow
-            onClose={toggleModal}
-            onInternAdded={handleInternAdded}
-            examData={selectedExamData}
-            user={user}
-            isEditing={Boolean(selectedExamData)}
-          />
+          {user.company.name === 'DM' ? (
+            <DmExamEdit
+              onClose={toggleModal}
+              onInternAdded={handleInternAdded}
+              examData={selectedExamData}
+            />
+          ) : (
+            <ModalWindow
+              onClose={toggleModal}
+              onInternAdded={handleInternAdded}
+              examData={selectedExamData}
+              user={user}
+              isEditing={Boolean(selectedExamData)}
+            />
+          )}
         </div>
       )}
     </div>

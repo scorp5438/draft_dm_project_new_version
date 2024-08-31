@@ -84,13 +84,16 @@ function Header() {
       navigate(routes.exam);
     }
   };
+    const handleLogoClick = () => {
+    navigate(routes.main);
+  };
 
   return (
     <div className="container_img">
       <div className="background" />
       <div className="header-container">
         <div className="header-logo">
-          <a><Image image={image} classNames={{ image: 'logo-image' }}/></a>
+          <a onClick={handleLogoClick}><Image image={image} classNames={{ image: 'logo-image' }}/></a>
         </div>
 
         <div className="header-navigation">
@@ -98,9 +101,18 @@ function Header() {
             <Clock />
           </div>
           <div className="header-nav-item">
-            <button className="header-nav-button" title="Раздел по тестированию" onClick={handleButtonClick}>
-              <Test width="64px" height="64px" fill="#0068E2" />
-             </button>
+            <input
+              type="checkbox"
+              id="hamburgerMenuToggle"
+              checked={isHamburgerMenuOpen}
+              onChange={toggleHamburgerMenu}
+              style={{ display: 'none' }}
+            />
+            <label htmlFor="hamburgerMenuToggle">
+              <button className="header-nav-button" title="Раздел по тестированию" onClick={handleButtonClick}>
+                <Test width="32px" height="32px" fill="#0068E2" /><p>Тестирование</p>
+              </button>
+            </label>
             {isHamburgerMenuOpen && (
               <div className="hamburger-menu" ref={hamburgerMenuRef}>
                 {companies.map(company => (
@@ -114,19 +126,30 @@ function Header() {
           <div className="header-nav-item">
             <a href="#">
               <button className="header-nav-button" title="Раздел по чек-листам">
-                <CheckList width="64px" height="64px" fill="#0068E2" />
+                <CheckList width="32px" height="32px" fill="#0068E2" /><p>Чек-лист</p>
               </button>
             </a>
           </div>
-          <div className="header-nav-item">
-            <button className="header-nav-button_person" title="Ваш личный кабинет" onClick={toggleMenu}>
-              <div><Person width="64px" height="64px" fill="none" /></div>
+           <div className="header-nav-item">
+            <input
+              type="checkbox"
+              id="personalMenuToggle"
+              checked={isMenuOpen}
+              onChange={toggleMenu}
+              style={{ display: 'none' }}
+            />
+            <label
+              htmlFor="personalMenuToggle"
+              className="header-nav-button_person"
+              title="Ваш личный кабинет"
+            >
+              <div><Person width="32px" height="32px" fill="none" /></div>
               <div><p>{user ? username : "Личный кабинет"}</p></div>
-            </button>
-          </div>
-          <div ref={personalMenuRef} className={`menu-active ${isMenuOpen ? '' : 'hidden'}`}>
-            <div><a href={routes.admin}>Админ панель</a></div>
-            <div><a href={routes.logout}>Выход</a></div>
+            </label>
+            <div ref={personalMenuRef} className={`menu-active ${isMenuOpen ? 'show' : 'hidden'}`}>
+              <div><a href={routes.admin}>Админ панель</a></div>
+              <div><a href={routes.logout}>Выход</a></div>
+            </div>
           </div>
         </div>
       </div>

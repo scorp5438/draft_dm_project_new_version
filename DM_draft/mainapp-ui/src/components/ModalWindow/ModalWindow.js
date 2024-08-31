@@ -122,7 +122,7 @@ const formatErrors = (errors) => {
                         {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>} {/* Отображение ошибки */}
                     </label>
                     <br />
-                    <button type="submit">Добавить</button>
+                    <button type="submit" className="add-modal">Добавить</button>
                 </form>
             </div>
         </div>

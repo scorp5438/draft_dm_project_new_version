@@ -16,10 +16,10 @@ class CustomExam(admin.ModelAdmin):
 
     list_display = ['date_exam', 'name_intern', 'cc', 'time_exam', 'name_examiner']
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    def formfield_for_foreignkey(self, db_field, request, kwargs):
         if db_field.name == 'name_examiner':
             kwargs['queryset'] = User.objects.filter(company__id=1, post='OKK')
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+        return super().formfield_for_foreignkey(db_field, request, kwargs)
 
 
 admin.site.register(Exam, CustomExam)

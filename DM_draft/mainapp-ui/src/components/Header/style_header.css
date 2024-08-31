@@ -10,6 +10,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "fontawesome2", sans-serif;
+  text-decoration:none;
 }
 
 html, body {
@@ -51,6 +52,7 @@ a img{
   flex-wrap: nowrap;
   flex-direction: row;
   align-content: space-around;
+   z-index: 10;
 
 }
 
@@ -77,9 +79,7 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.header-nav-item {
-  position: relative; /* Контейнер с кнопкой будет относительным */
+  position: relative;
 }
 
 .header-nav-item img {
@@ -87,7 +87,6 @@ a {
   height: 100%;
   padding: 1px;
 }
-
 .header-nav-item p {
   font-size: 34px;
   font-weight: 500;
@@ -95,61 +94,61 @@ a {
   gap: 10px;
   margin: 0;
 }
-
 .header-nav-button,
 .header-nav-button_person {
   position: relative;
-  padding: 20px;
+  background-color:#e5e5e5;
+  padding: 10px;
   border: none;
   color: rgba(0, 104, 226, 1);
   cursor: pointer;
-  border-radius: 35px;
+  border-radius: 25px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  transition: color 0.3s ease, background-color 0.5s ease;
+  transition: all 0.5s ease;
+  transition: color 0.5s ease, background-color 0.5s ease;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.header-nav-button_person {
   flex-direction: row;
+  gap: 8px;
+}
+.header-nav-button_person div {
+  margin-right: 8px;
 }
 .header-nav-button svg {
   fill: #086DE2;
   stroke: #086DE2;
-  transition: stroke 0.3s ease;
-  transition: fill 0.3s ease;
+  transition: stroke 0.5s ease;
+  transition: fill 0.5s ease;
 }
 .header-nav-button_person svg {
   fill: none;
   stroke: #086DE2;
-  transition: stroke 0.3s ease;
+  transition: stroke 0.5s ease;
 }
+.header-nav-button p,
 .header-nav-button_person p {
-  margin-left: 10px;
   font-size: 34px;
   font-weight: 500;
   color: rgba(0, 104, 226, 1);
-  transition: color 0.3s ease;
+  transition: color 0.5s ease;
 }
 .header-nav-button:hover,
 .header-nav-button_person:hover {
-  background-color: #086DE2; /* Светлый фон при наведении */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+  background-color: #3f94a099;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
-
 .header-nav-button:hover svg {
-  fill: #ffffff;
-  stroke: #ffffff;
+  fill: #E5E5E5;
+  stroke: #E5E5E5;
 }
 .header-nav-button_person:hover svg {
-   stroke: #ffffff;
+  stroke: #E5E5E5;
 }
-
+.header-nav-button:hover p,
 .header-nav-button_person:hover p {
-  color: #ffffff; /* Белый цвет текста при наведении */
+  color: #E5E5E5;
 }
-
 .header-nav-button::before,
 .header-nav-button_person::before {
   content: "";
@@ -158,56 +157,88 @@ a {
   left: 0;
   width: 0;
   height: 100%;
-  background-color: rgba(11, 84, 219, 1); /* Синий цвет */
-  transition: width 0.5s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
   z-index: -1;
 }
-
 .header-nav-button:hover::before,
 .header-nav-button_person:hover::before {
-  width: 100%; /* Плавный переход фона слева направо */
+  width: 100%;
 }
 
 .menu-active {
   position: absolute;
-  top: 100%; /* Меню появится прямо под кнопкой */
-  left: 95%; /* Меню будет центрировано по оси X относительно кнопки */
-  transform: translateX(-95%);
-  width: 200px;
-  height: 100px;
-  padding: 10px;
+  top: 100%;
+  left: 0%;
+  width: 150px;
   background-color: #E5E5E5;
   box-shadow: 0 4px 8px rgba(0, 104, 226, 1);
   z-index: 1000;
   display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
   flex-direction: column;
-  justify-content: center;
-  border-radius:10px;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
   gap: 10px;
-  z-index:1005
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.menu-active.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.menu-active a {
+  font-weight: bold;
+  font-size: 20px;
+  color: rgba(0, 104, 226, 1);
+  text-decoration: none;
+  text-align: center;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+}
+input[type="checkbox"] {
+  display: none;
+}
+input[type="checkbox"]:checked + .header-nav-button + .hamburger-menu {
+  display: block;
+}
+input[type="checkbox"]:checked + .header-nav-button_person + .menu-active {
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+input[type="checkbox"]:checked + label + .hamburger-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-active a:hover {
+  color: rgba(243, 107, 9, 1);
+  transform: scale(1.1);
+}
+.hidden {
+  display: none;
 }
 .hamburger-menu {
   position: absolute;
-  top: 130px;
-  left: 95%; /* Меню будет центрировано по оси X относительно кнопки */
-  transform: translateX(-95%);
+  top: 100%;
+  left: 0;
   width: 150px;
-  height: 150px;
-  padding: 10px;
   background-color: #E5E5E5;
   box-shadow: 0 4px 8px rgba(0, 104, 226, 1);
-  z-index:1005; /* Повышаем уровень слоя, чтобы меню было выше других элементов */
+  z-index: 1000;
   display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
   flex-direction: column;
-  justify-content: center;
-  border-radius:10px;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
   gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .hamburger-menu a {
   font-weight: bold;

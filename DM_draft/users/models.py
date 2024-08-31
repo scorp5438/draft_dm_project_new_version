@@ -20,9 +20,9 @@ class User(AbstractUser):
 
     posts = [
         ("OKK", "OKK"),
-        ("ГПХ", "ГПХ"),
-        ("Админ", "Админ"),
-        ("Оператор", "Оператор"),
+        ("GPH", "GPH"),
+        ("Admin", "Admin"),
+        ("Operator", "Operator"),
     ]
 
     full_name = models.CharField(max_length=60, blank=False, null=True, verbose_name="ФИ сотрудника")

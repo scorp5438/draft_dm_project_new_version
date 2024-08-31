@@ -2,11 +2,16 @@
   display: flex;
   justify-content: center;
 }
+.edit_intern {
+  display: flex;
+  justify-content: center;
+}
 
 .add_intern_button {
-  background-color: #e5e5e5;
+  background-color: #DDE6EC;
+  color: rgba(0, 104, 226, 1);
+  transition: color 0.5s ease;
   border: none;
-  border-bottom: 3px solid #fff;
   border-radius: 10px;
   cursor: pointer;
   padding: 10px;
@@ -14,13 +19,19 @@
   z-index: 1000;
 }
 .add_intern_button:hover {
-  background-color: #236cd9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: wight;
+  background-color: #3f94a099;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 .add_intern_button svg {
   fill: #236cd9;
-  transition: fill 0.3s ease;
+  transition: fill 0.5s ease;
 }
 .add_intern_button:hover svg {
     fill: #ffffff;
 }
+.add_intern_button:hover p {
+  color: #ffffff;
+  font-size: 18px;
+}
+
