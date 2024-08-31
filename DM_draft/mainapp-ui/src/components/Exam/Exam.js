@@ -7,7 +7,6 @@ import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import AddInternButton from '../AddInternButton/AddInternButton';
 import HandleEditClick from '../HandleEditClick/HandleEditClick';
-import SearchBar from '../SearchBar/SearchBar';
 
 function Exam() {
   const [examData, setExamData] = useState([]);
@@ -16,13 +15,13 @@ function Exam() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const selectedCompany = queryParams.get('company');
-  const company = user ? user.company.name : '----';
+  const company = user ? user.company : '----';
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedExamId, setSelectedExamId] = useState(null);
   const [selectedExamData, setSelectedExamData] = useState(null);
 
-
+  console.log("selectedCompany", selectedCompany)
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
     if (isModalOpen) {
@@ -32,8 +31,11 @@ function Exam() {
   };
 
   const filterData = (data) => {
-    const currentCompany = selectedCompany || company;
-    return data.filter(exam => exam.cc.name === currentCompany);
+    if (company.id === 1) {
+        const currentCompany = +selectedCompany;
+        return data.filter(exam => exam.cc === currentCompany);
+    }
+    return data
   };
 
   const fetchExamData = () => {
@@ -71,53 +73,48 @@ function Exam() {
     return <div>Загрузка...</div>;
   }
 
-return (
-    <div className="exam__background">
-      <div className="header-content">
-        <Header />
-      </div>
+  return (
+    <div className="header-content">
+      <Header />
       <div className="exam-container">
-        <div className="table-wrapper">
-          <table className="exam-table">
-            <thead>
-              <tr>
-                <th>Дата зачета</th>
-                <th>Фамилия Имя стажера</th>
-                <th>Время зачета</th>
-                <th>ФИ сотрудника</th>
-                <th>Результат</th>
-                <th>Комментарий</th>
-                <th>Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map(exam => (
-                  <tr key={exam.id || exam.name_intern}>
-                    <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
-                    <td>{exam.name_intern}</td>
-                    <td>{exam.time_exam}</td>
-                    <td>{exam.name_examiner || '----'}</td>
-                    <td>{exam.result_exam || '----'}</td>
-                    <td>{exam.comment_exam || company}</td>
+        <table className="exam-table">
+          <thead>
+            <tr>
+              <th>Дата зачета</th>
+              <th>Фамилия Имя стажера</th>
+              <th>Время зачета</th>
+              <th>ФИ сотрудника</th>
+              <th>Результат</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length > 0 ? (
+              filteredData.map(exam => (
+                <tr key={exam.id || exam.name_intern}>
+                  <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
+                  <td>{exam.name_intern}</td>
+                  <td>{exam.time_exam}</td>
+                  <td>{exam.name_examiner || '----'}</td>
+                  <td>{exam.result_exam || '----'}</td>
+                  <td>{exam.comment_exam || company.name}</td>
+                  {/* Обратите внимание, что кнопка перемещена в другой div */}
                     <td className="edit-button-cell">
                       <HandleEditClick
                         onClick={() => handleEditClick(exam.id)}
                         style={{ position: 'relative', left: '20px' }}
                       />
                     </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7">Нет данных для отображения</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">Нет данных для отображения</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-
 
       <AddInternButton onClick={toggleModal} />
 

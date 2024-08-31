@@ -116,7 +116,7 @@ function Header() {
             {isHamburgerMenuOpen && (
               <div className="hamburger-menu" ref={hamburgerMenuRef}>
                 {companies.map(company => (
-                  <div key={company.id} onClick={() => handleCompanyChange(company.name)}>
+                  <div key={company.id} onClick={() => handleCompanyChange(company.id)}>
                     <a>{company.name}</a>
                   </div>
                 ))}

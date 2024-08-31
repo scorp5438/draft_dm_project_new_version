@@ -18,9 +18,9 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
 
   useEffect(() => {
     if (user) {
-    console.log(examData ? examData.id : 'hgcfhjfd')
+    console.log(user ? user.company.id : 'hgcfhjfd')
       setFormData({
-        cc: user.company.id,
+        cc: examData ? examData.cc : user.company.id,
         date_exam: examData ? examData.date_exam : '',
         name_intern: examData ? examData.name_intern : '',
 

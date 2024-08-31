@@ -13,12 +13,14 @@ class CustomUserAdmin(UserAdmin):
     '''
     model = User
 
-    fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('company', 'post')}),
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('full_name', 'company', 'post', 'operator_type', 'status')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions', 'groups')}),
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('company', 'post')}),
+        (None, {'fields': ('full_name', 'company', 'post')}),
     )
 
     list_display = ['username', 'is_staff', 'company', 'post']
