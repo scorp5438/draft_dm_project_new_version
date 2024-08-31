@@ -2,9 +2,6 @@ from rest_framework import serializers
 
 from exam.models import Exam
 
-from datetime import datetime
-from users.api.serializers import CompanySerializer
-
 from users.models import User
 
 '''
