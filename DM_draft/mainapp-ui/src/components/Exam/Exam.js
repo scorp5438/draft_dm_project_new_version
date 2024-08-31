@@ -15,13 +15,13 @@ function Exam() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const selectedCompany = queryParams.get('company');
-  const company = user ? user.company.name : '----';
+  const company = user ? user.company : '----';
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedExamId, setSelectedExamId] = useState(null);
   const [selectedExamData, setSelectedExamData] = useState(null);
 
-
+  console.log("selectedCompany", selectedCompany)
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
     if (isModalOpen) {
@@ -31,8 +31,11 @@ function Exam() {
   };
 
   const filterData = (data) => {
-    const currentCompany = selectedCompany || company;
-    return data.filter(exam => exam.cc.name === currentCompany);
+    if (company.id === 1) {
+        const currentCompany = +selectedCompany;
+        return data.filter(exam => exam.cc === currentCompany);
+    }
+    return data
   };
 
   const fetchExamData = () => {
@@ -94,7 +97,7 @@ function Exam() {
                   <td>{exam.time_exam}</td>
                   <td>{exam.name_examiner || '----'}</td>
                   <td>{exam.result_exam || '----'}</td>
-                  <td>{exam.comment_exam || company}</td>
+                  <td>{exam.comment_exam || company.name}</td>
                   {/* Обратите внимание, что кнопка перемещена в другой div */}
                     <td className="edit-button-cell">
                       <HandleEditClick

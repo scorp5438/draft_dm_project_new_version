@@ -5,26 +5,29 @@ from ..models import Exam
 
 
 class ExamView(viewsets.ModelViewSet):
-    queryset = Exam.objects.all()
     serializer_class = ExamSerializer
+
+    def get_queryset(self):
+        company = self.request.user.company
+        queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
+        return queryset
 
 
 class AddIntersViewSet(viewsets.ModelViewSet):
-    queryset = Exam.objects.all()
-
     serializer_list = {
         'POST': AddInternSerializer,
-        'PUT': EditInternSerializer,
-        'GET': EditInternSerializer,  # Укажите подходящий сериалайзер для GET-запросов
-        # Добавьте другие методы, если необходимо
     }
 
     def get_serializer_class(self):
         print(self.request.method)
         # Если метод запроса есть в словаре, вернуть соответствующий сериалайзер
-        return self.serializer_list.get(self.request.method, AddInternSerializer)
+        return self.serializer_list.get(self.request.method, EditInternSerializer)
+
+    def get_queryset(self):
+        company = self.request.user.company
+        queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
+        return queryset
 
     def perform_create(self, serializer):
         print("Данные, переданные для создания:", self.request.data)
         serializer.save()
-
