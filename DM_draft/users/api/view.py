@@ -1,5 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .serializers import UserListAllSerializer, CompanySerializer, UserSerializer
 from ..models import User, Companies
@@ -31,3 +32,11 @@ class UsersLoginView(viewsets.ModelViewSet):
     def get_queryset(self):
         # Фильтруем пользователей по username текущего авторизованного пользователя
         return User.objects.filter(username=self.request.user.username)
+
+
+class OkkUsersView(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        # Вы можете добавлять логику для динамического выбора queryset
+        return User.objects.filter(company__id=1, post='OKK')
