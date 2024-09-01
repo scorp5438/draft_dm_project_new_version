@@ -12,7 +12,7 @@
   border-radius: 10px;
 }
 
-table {
+.top_table table {
   width: 100%;
   border-collapse: collapse;
   background: rgba(64, 93, 136, 0.2);
