@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import ExamSerializer, AddInternSerializer, EditInternSerializer
 from ..models import Exam
@@ -31,3 +33,8 @@ class AddIntersViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         print("Данные, переданные для создания:", self.request.data)
         serializer.save()
+
+
+class ResultListView(APIView):
+    def get(self, request):
+        return Response(Exam.result_list)
