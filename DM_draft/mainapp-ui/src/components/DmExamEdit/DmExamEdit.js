@@ -20,6 +20,8 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
 
     const [errors, setErrors] = useState({}); // Для хранения ошибок
     const [users, setUsers] = useState([]);
+    const [resultOptions, setResultOptions] = useState([]);
+
 
     useEffect(() => {
         if (examData) {
@@ -31,7 +33,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                 result_exam: examData ? examData.result_exam : '',
                 comment_exam: examData ? examData.comment_exam : '',
                 cc: examData.cc,
-                name_examiner: examData ? examData.name_examiner : '',
+                name_examiner: examData.name_examiner || '',
             });
         }
     }, [examData]);
@@ -47,6 +49,15 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         };
         fetchUsers();
     }, []);
+    useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/result-list/')
+      .then(response => {
+        setResultOptions(response.data);
+      })
+      .catch(error => {
+        console.error("Ошибка при загрузке списка результатов:", error);
+      });
+  }, []);
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -169,20 +180,26 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                     </label>
                     <br />
                     <label>
-                        Результат ТЗ:
-                        <input
-                            type="text"
-                            name="result_exam"
-                            value={formData.result_exam}
-                            onChange={handleChange}
-                        />
-                        {errors.result_exam && <p className="error">{errors.result_exam[0]}</p>}
-                    </label>
+                    Результат ТЗ:
+                       <select
+                         name="result_exam"
+                         value={formData.result_exam}
+                         onChange={handleChange}
+                          >
+                            <option value="">Выберите результат</option>
+                            {resultOptions.map(option => (
+                              <option key={option[0]} value={option[0]}>
+                                {option[1]}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.result_exam && <p className="error">{errors.result_exam[0]}</p>}
+                        </label>
                     <br />
                     <label>
                         Комментарий:
                         <input
-                            type="text"
+                            type="textarea"
                             name="comment_exam"
                             value={formData.comment_exam}
                             onChange={handleChange}

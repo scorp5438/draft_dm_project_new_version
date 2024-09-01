@@ -19,7 +19,8 @@ class ExamSerializer(serializers.ModelSerializer):
     """
 
     name_examiner = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.filter(company__id=1, post='OKK')
+        queryset=User.objects.filter(company__id=1, post='OKK'),
+        allow_null=True
     )
     name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
 
