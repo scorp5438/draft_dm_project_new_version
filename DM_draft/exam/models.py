@@ -22,7 +22,8 @@ class Exam(models.Model):
     cc = models.ForeignKey(Companies, on_delete=models.PROTECT, verbose_name='Компания', null=False)
     time_exam = models.TimeField(blank=True, default="00:00", verbose_name="Время зачета")
     # name_examiner = models.CharField(max_length=60, blank=True, verbose_name="ФИ сотрудника", choices=examiner_list)
-    name_examiner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT, verbose_name="ФИ сотрудника")
+    name_examiner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT,
+                                      verbose_name="ФИ сотрудника", limit_choices_to={'post': 'OKK'})
     result_exam = models.CharField(max_length=25, blank=True, choices=result_list, default="",
                                    verbose_name="Результат")
     comment_exam = models.TextField(max_length=2000, blank=True, verbose_name="комментарий")

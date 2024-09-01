@@ -1,8 +1,9 @@
 from rest_framework import serializers
 
 from exam.models import Exam
-
 from users.models import User
+from users.api.serializers import UserSerializer
+
 
 '''
 Сериализаторы для создания JSON объектов для отображения по адресу http://127.0.0.1:8000/api/...
@@ -14,10 +15,11 @@ class ExamSerializer(serializers.ModelSerializer):
     """
     Настройка подстановки данных в поле nameexaminer по фильтру company=1 (ДМ), post='okk'
     """
+    # name_examiner = UserSerializer()
 
-    name_examiner = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.filter(company__id=1, post='OKK')
-    )
+    # name_examiner = serializers.PrimaryKeyRelatedField(
+    #     queryset=User.objects.filter(company__id=1, post='OKK')
+    # )
     name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
 
     class Meta:
