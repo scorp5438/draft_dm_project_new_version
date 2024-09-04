@@ -22,6 +22,26 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
     const [users, setUsers] = useState([]);
     const [resultOptions, setResultOptions] = useState([]);
 
+     const generateTimeSlots = () => {
+        const slots = [];
+        let startTime = 9 * 60; // Начало с 9:00 (в минутах)
+        const endTime = 19 * 60; // Конец в 17:00 (в минутах)
+        const interval = 30; // Интервал в 30 минут
+
+        while (startTime < endTime) {
+            const hours = Math.floor(startTime / 60);
+            const minutes = startTime % 60;
+            const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            slots.push(formattedTime);
+            startTime += interval;
+        }
+
+        return slots;
+    };
+
+    const timeSlots = generateTimeSlots(); // Генерация списка времени с шагом 30 минут
+
+
 
     useEffect(() => {
         if (examData) {
@@ -119,6 +139,14 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
             }
         }
     };
+    const formatTimeWithInterval = (time) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        const endMinutes = minutes + 30;
+        const endHours = endMinutes >= 60 ? hours + 1 : hours;
+        const formattedEndMinutes = endMinutes % 60;
+        const formattedEndTime = `${String(endHours).padStart(2, '0')}:${String(formattedEndMinutes).padStart(2, '0')}`;
+        return `${time} - ${formattedEndTime}`;
+    };
 
     return (
         <div className="modal-content">
@@ -151,12 +179,18 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                     <br />
                     <label>
                         Время ТЗ:
-                        <input
-                            type="time"
+                        <select
                             name="time_exam"
                             value={formData.time_exam}
                             onChange={handleChange}
-                        />
+                        >
+                            <option value="">Выберите время</option>
+                            {timeSlots.map(time => (
+                                <option key={time} value={time}>
+                                    {formatTimeWithInterval(time)}
+                                </option>
+                            ))}
+                        </select>
                         {errors.time_exam && <p className="error">{errors.time_exam[0]}</p>}
                     </label>
                     <br />
