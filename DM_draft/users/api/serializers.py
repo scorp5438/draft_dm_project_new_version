@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Companies
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'slug']
 
 
 class UserListAllSerializer(serializers.ModelSerializer):

@@ -32,6 +32,7 @@ class UsersLoginView(viewsets.ModelViewSet):
         # Фильтруем пользователей по username текущего авторизованного пользователя
         return User.objects.filter(username=self.request.user.username)
 
+
 class OkkUsersView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 

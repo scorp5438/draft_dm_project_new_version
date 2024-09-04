@@ -4,6 +4,7 @@ import './style_exam.css';
 import { getCSRFToken } from '../utils/csrf';
 import { useUser } from '../utils/get_user';
 import { formatTime } from '../utils/formatTime';
+import { add30Minutes } from '../utils/formatTime';
 import Header from '../Header/Header';
 import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
@@ -38,6 +39,7 @@ function Exam() {
     if (company.id === 1) {
     console.log(company.id)
         const currentCompany = +selectedCompany;
+        console.log(currentCompany)
         return data.filter(exam => exam.cc === currentCompany);
     }
     return data
@@ -129,7 +131,7 @@ const handleDeleteClick = (id) => {
                 <tr key={exam.id || exam.name_intern}>
                   <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
                   <td>{exam.name_intern}</td>
-                  <td>{formatTime(exam.time_exam)}</td>
+                  <td>{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
                   <td>{exam.name_examiner_name || '----'}</td>
                   <td>{exam.result_exam || '----'}</td>
                   <td>{exam.comment_exam || company.name}</td>
