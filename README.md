@@ -32,9 +32,10 @@ https://nodejs.org/
 3. **Создание React приложения:**
 
           npx create-react-app mainapp-ui !!!(ДЕЛАТЬ НЕ НАДО, ДЕЛАЕТСЯ ОДИН РАЗ ПРИ СОЗДАНИИ ПРИЛОЖЕНИЯ)
-          npm install react-scripts
-          npm install react-router-dom
-          npm install web-vitals
+          npm install react-scripts - для установки Реакт
+          npm install react-router-dom - для установки реакт дом
+          npm install web-vitals - для установки ХЗ, но надо
+          npm install react-time-picker Установка библиотеки для времени
           npm run build
 
 В директории с файлом manage.py выполняется команда в терминале:

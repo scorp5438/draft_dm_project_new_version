@@ -21,7 +21,6 @@ class Exam(models.Model):
     name_intern = models.CharField(max_length=60, blank=False, verbose_name="Фамилия Имя стажера")
     cc = models.ForeignKey(Companies, on_delete=models.PROTECT, verbose_name='Компания', null=False)
     time_exam = models.TimeField(blank=True, default="00:00", verbose_name="Время зачета")
-    # name_examiner = models.CharField(max_length=60, blank=True, verbose_name="ФИ сотрудника", choices=examiner_list)
     name_examiner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT,
                                       verbose_name="ФИ сотрудника", limit_choices_to={'post': 'OKK'})
     result_exam = models.CharField(max_length=25, blank=True, choices=result_list, default="",

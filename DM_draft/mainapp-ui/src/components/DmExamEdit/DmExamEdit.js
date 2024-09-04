@@ -6,8 +6,9 @@ import { useUser } from '../utils/get_user';
 import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
 
+
+
 function DmExamEdit({ onClose, onInternAdded, examData }) {
- console.log(examData ? examData : 'hgcfhjfd');
     const [formData, setFormData] = useState({
         date_exam: '',
         name_intern: '',
@@ -42,7 +43,6 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
             try {
                 const response = await axios.get('http://127.0.0.1:8000/api/users_okk/');
                 setUsers(response.data);
-                console.log(users[0]);
             } catch (error) {
                 console.error('Ошибка при загрузке пользователей:', error.message);
             }
@@ -91,12 +91,11 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         e.preventDefault();
 
         try {
-            console.log(examData ? examData.id : 'dhdjd');
             const csrfToken = getCSRFToken();
             const url = `http://127.0.0.1:8000/api/exam/${examData.id}/`;
 
             const method = 'put';
-
+            console.log(formData ? formData : "Где-то косяк")
             const response = await axios({
                 method: method,
                 url: url,
