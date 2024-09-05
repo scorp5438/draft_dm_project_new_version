@@ -62,7 +62,7 @@ const formatErrors = (errors) => {
   e.preventDefault();
 
   try {
-    console.log(examData && examData.name_examiner ? examData.name_examiner : 'asdfaweg' );
+    console.log(examData ? examData.name_examiner : 'dhdjd');
     const csrfToken = getCSRFToken();
     const url = isEditing
       ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
