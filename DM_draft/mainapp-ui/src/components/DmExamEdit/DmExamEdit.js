@@ -5,7 +5,8 @@ import "./DmExamEdit.css";
 import { useUser } from '../utils/get_user';
 import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
-
+import { formatTime } from '../utils/formatTime'
+import { add30Minutes } from '../utils/formatTime';
 
 
 function DmExamEdit({ onClose, onInternAdded, examData }) {
@@ -56,8 +57,12 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                 cc: examData.cc,
                 name_examiner: examData.name_examiner || '',
             });
+
         }
+
     }, [examData]);
+    console.log(formData.time_exam ? formatTime(formData.time_exam) : "Я еблан и загружаюсь")
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -81,6 +86,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
     const handleChange = (e) => {
         setFormData({
             ...formData,
+            time_exam: e.target.value,
             [e.target.name]: e.target.value,
         });
     };
@@ -183,7 +189,8 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                             value={formData.time_exam}
                             onChange={handleChange}
                         >
-                            <option value="">Выберите время</option>
+                            <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
+                            formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
                             {timeSlots.map(time => (
                                 <option key={time} value={time}>
                                     {formatTimeWithInterval(time)}
