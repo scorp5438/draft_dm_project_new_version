@@ -7,7 +7,6 @@ import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
 
 
-
 function DmExamEdit({ onClose, onInternAdded, examData }) {
     const [formData, setFormData] = useState({
         date_exam: '',
@@ -149,14 +148,9 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                     </label>
                     <br />
                     <label>
-                        Время ТЗ:
-                        <input
-                            type="time"
-                            name="time_exam"
-                            value={formData.time_exam}
-                            onChange={handleChange}
-                        />
-                        {errors.time_exam && <p className="error">{errors.time_exam[0]}</p>}
+                      Время ТЗ:
+                      <TimeInput name="time_exam" value={formData.time_exam} onChange={handleChange} />
+                      {errors.time_exam && <p className="error">{errors.time_exam[0]}</p>}
                     </label>
                     <br />
                      <label>
