@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getCSRFToken } from '../utils/csrf';
 import "./DmExamEdit.css";
-import { useUser } from '../utils/get_user';
 import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
-
-
 
 function DmExamEdit({ onClose, onInternAdded, examData }) {
     const [formData, setFormData] = useState({
@@ -23,7 +20,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
     const [users, setUsers] = useState([]);
     const [resultOptions, setResultOptions] = useState([]);
 
-     const generateTimeSlots = () => {
+    const generateTimeSlots = () => {
         const slots = [];
         let startTime = 9 * 60; // Начало с 9:00 (в минутах)
         const endTime = 19 * 60; // Конец в 17:00 (в минутах)
@@ -42,11 +39,8 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
 
     const timeSlots = generateTimeSlots(); // Генерация списка времени с шагом 30 минут
 
-
-
     useEffect(() => {
         if (examData) {
-
             setFormData({
                 date_exam: examData.date_exam,
                 name_intern: examData.name_intern,
@@ -58,6 +52,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
             });
         }
     }, [examData]);
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -69,15 +64,17 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         };
         fetchUsers();
     }, []);
+
     useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/result-list/')
-      .then(response => {
-        setResultOptions(response.data);
-      })
-      .catch(error => {
-        console.error("Ошибка при загрузке списка результатов:", error);
-      });
-  }, []);
+        axios.get('http://127.0.0.1:8000/api/result-list/')
+            .then(response => {
+                setResultOptions(response.data);
+            })
+            .catch(error => {
+                console.error("Ошибка при загрузке списка результатов:", error.message);
+            });
+    }, []);
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -85,27 +82,6 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         });
     };
 
-    const formatErrors = (errors) => {
-        const formattedErrors = {};
-
-        for (const [key, value] of Object.entries(errors)) {
-            if (key === 'date_exam') {
-                // Преобразование сообщений об ошибках для даты
-                formattedErrors[key] = value.map(err => {
-                    // Если ошибка связана с неправильным форматом даты, заменяем её на своё сообщение
-                    if (err.includes('Неправильный формат date')) {
-                        return 'Поле пустое или формат даты неверен.';
-                    }
-                    return err;
-                });
-            } else {
-                // Оставляем ошибки для других полей без изменений
-                formattedErrors[key] = value;
-            }
-        }
-
-        return formattedErrors;
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -114,10 +90,8 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
             const csrfToken = getCSRFToken();
             const url = `http://127.0.0.1:8000/api/exam/${examData.id}/`;
 
-            const method = 'put';
-            console.log(formData ? formData : "Где-то косяк")
             const response = await axios({
-                method: method,
+                method: 'put',
                 url: url,
                 data: formData,
                 headers: {
@@ -129,15 +103,30 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
             onInternAdded(response.data);
             onClose();
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                const formattedErrors = formatErrors(error.response.data);
-                setErrors(formattedErrors);
-                console.log('Ошибки с сервера:', formattedErrors);
+        if (error.response && error.response.status === 400) {
+            const formattedErrors = formatErrors(error.response.data);
+            setErrors(formattedErrors);
+            console.log('Ошибки с сервера:', formattedErrors);
+
+            // Проверяем, является ли ошибка ValidationError из Django
+            if (error.response.data.non_field_errors) {
+                const errorMessage = error.response.data.non_field_errors[0];
+                setErrors({ ...errors, non_field_errors: [errorMessage] });
+                }
             } else {
                 console.error('Ошибка при отправке данных:', error.message);
+                console.log('Текущие ошибки:', errors);
             }
         }
     };
+    const formatErrors = (errors) => {
+    const formattedErrors = {};
+    for (const [key, value] of Object.entries(errors)) {
+        formattedErrors[key] = value;
+    }
+    return formattedErrors;
+    };
+
     const formatTimeWithInterval = (time) => {
         const [hours, minutes] = time.split(':').map(Number);
         const endMinutes = minutes + 30;
@@ -193,7 +182,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         {errors.time_exam && <p className="error">{errors.time_exam[0]}</p>}
                     </label>
                     <br />
-                     <label>
+                    <label>
                         ФИ экзаменатора:
                         <select
                             name="name_examiner"
@@ -202,32 +191,30 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         >
                             <option value="">Выберите экзаменатора</option>
                             {users.map(user => (
-
                                 <option key={user.id} value={user.id}>
                                     {user.full_name}
-
                                 </option>
                             ))}
                         </select>
-                        {errors.name_examiner && <p className="error">{errors.name_examiner[0]}</p>}
+                            {errors.non_field_errors && (<p className="error">{errors.non_field_errors[0]}</p>)}
                     </label>
                     <br />
                     <label>
-                    Результат ТЗ:
-                       <select
-                         name="result_exam"
-                         value={formData.result_exam}
-                         onChange={handleChange}
-                          >
+                        Результат ТЗ:
+                        <select
+                            name="result_exam"
+                            value={formData.result_exam}
+                            onChange={handleChange}
+                        >
                             <option value="">Выберите результат</option>
                             {resultOptions.map(option => (
-                              <option key={option[0]} value={option[0]}>
-                                {option[1]}
-                              </option>
+                                <option key={option[0]} value={option[0]}>
+                                    {option[1]}
+                                </option>
                             ))}
-                          </select>
-                          {errors.result_exam && <p className="error">{errors.result_exam[0]}</p>}
-                        </label>
+                        </select>
+                        {errors.result_exam && <p className="error">{errors.result_exam[0]}</p>}
+                    </label>
                     <br />
                     <label>
                         Комментарий:
@@ -240,7 +227,6 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         {errors.comment_exam && <p className="error">{errors.comment_exam[0]}</p>}
                     </label>
                     <br />
-
 
                     <button type="submit" className="add-modal">Сохранить</button>
                 </form>

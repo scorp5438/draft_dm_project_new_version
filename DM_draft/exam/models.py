@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from users.models import Companies, User
 
@@ -33,3 +34,21 @@ class Exam(models.Model):
 
     def __str__(self):
         return f"{self.name_intern} {self.cc} {self.result_exam}"
+
+    def validate_unique_exam(self):
+        # Проверка на наличие экзамена с тем же проверяющим, датой и временем
+        if Exam.objects.filter(
+            date_exam=self.date_exam,
+            time_exam=self.time_exam,
+            name_examiner=self.name_examiner
+        ).exclude(id=self.id).exists():
+            raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
+
+    def clean(self):
+        # Вызываем метод validate_unique_exam для выполнения уникальной проверки
+        self.validate_unique_exam()
+
+    def save(self, *args, **kwargs):
+        # Вызываем метод clean() перед сохранением, чтобы убедиться, что валидация прошла
+        self.clean()
+        super().save(*args, **kwargs)

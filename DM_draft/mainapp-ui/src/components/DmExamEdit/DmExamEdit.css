@@ -108,4 +108,7 @@ form input[type="date"],
 .plus:hover {
   background-color: #236cd9;
 }
-
+.error {
+    color: red;
+    font-size: 12px;
+}
