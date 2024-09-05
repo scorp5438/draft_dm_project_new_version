@@ -37,11 +37,12 @@ class Exam(models.Model):
 
     def validate_unique_exam(self):
         # Проверка на наличие экзамена с тем же проверяющим, датой и временем
+        # Исключаем записи, где name_examiner является пустой строкой
         if Exam.objects.filter(
-            date_exam=self.date_exam,
-            time_exam=self.time_exam,
-            name_examiner=self.name_examiner
-        ).exclude(id=self.id).exists():
+                date_exam=self.date_exam,
+                time_exam=self.time_exam,
+                name_examiner=self.name_examiner
+        ).exclude(id=self.id).exclude(name_examiner='').exists():
             raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
 
     def clean(self):
