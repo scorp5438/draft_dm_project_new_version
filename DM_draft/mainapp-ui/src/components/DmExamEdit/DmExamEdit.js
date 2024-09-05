@@ -4,6 +4,7 @@ import { getCSRFToken } from '../utils/csrf';
 import "./DmExamEdit.css";
 import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
+import { formatTime } from '../utils/formatTime';
 
 function DmExamEdit({ onClose, onInternAdded, examData }) {
     const [formData, setFormData] = useState({
@@ -172,7 +173,8 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                             value={formData.time_exam}
                             onChange={handleChange}
                         >
-                            <option value="">Выберите время</option>
+                            <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
+                            formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
                             {timeSlots.map(time => (
                                 <option key={time} value={time}>
                                     {formatTimeWithInterval(time)}
