@@ -42,7 +42,7 @@ class Exam(models.Model):
                 date_exam=self.date_exam,
                 time_exam=self.time_exam,
                 name_examiner=self.name_examiner
-        ).exclude(id=self.id).exclude(name_examiner='').exists():
+        ).exclude(id=self.id).exclude(name_examiner=None).exists():
             raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
 
     def clean(self):
