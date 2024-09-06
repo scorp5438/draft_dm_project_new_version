@@ -23,6 +23,11 @@ class ExamSerializer(serializers.ModelSerializer):
         model = Exam
         fields = '__all__'
 
+    def validate(self, data):
+        instance = Exam(**data)
+        instance.validate_unique_exam()
+        return data
+
 
 class AddInternSerializer(serializers.ModelSerializer):
     """

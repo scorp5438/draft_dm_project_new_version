@@ -103,23 +103,17 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
 
             onInternAdded(response.data);
             onClose();
-        } catch (error) {
+        }  catch (error) {
         if (error.response && error.response.status === 400) {
             const formattedErrors = formatErrors(error.response.data);
             setErrors(formattedErrors);
             console.log('Ошибки с сервера:', formattedErrors);
-
-            // Проверяем, является ли ошибка ValidationError из Django
-            if (error.response.data.non_field_errors) {
-                const errorMessage = error.response.data.non_field_errors[0];
-                setErrors({ ...errors, non_field_errors: [errorMessage] });
-                }
-            } else {
-                console.error('Ошибка при отправке данных:', error.message);
-                console.log('Текущие ошибки:', errors);
-            }
+        } else {
+            console.error('Ошибка при отправке данных:', error.message);
+            console.log('Текущие ошибки:', errors);
         }
-    };
+    }
+};
     const formatErrors = (errors) => {
     const formattedErrors = {};
     for (const [key, value] of Object.entries(errors)) {
@@ -198,7 +192,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                                 </option>
                             ))}
                         </select>
-                            {errors.non_field_errors && (<p className="error">{errors.non_field_errors[0]}</p>)}
+                            {errors.name_examiner && <p className="error">{errors.name_examiner[0]}</p>}
                     </label>
                     <br />
                     <label>

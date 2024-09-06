@@ -36,11 +36,12 @@ class Exam(models.Model):
         return f"{self.name_intern} {self.cc} {self.result_exam}"
 
     def validate_unique_exam(self):
-        # Проверка на наличие экзамена с тем же проверяющим, датой и временем
+        if self.name_examiner is None:
+            return
         if Exam.objects.filter(
-            date_exam=self.date_exam,
-            time_exam=self.time_exam,
-            name_examiner=self.name_examiner
+                date_exam=self.date_exam,
+                time_exam=self.time_exam,
+                name_examiner=self.name_examiner
         ).exclude(id=self.id).exists():
             raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
 
