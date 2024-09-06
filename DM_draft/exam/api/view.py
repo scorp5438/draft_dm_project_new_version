@@ -1,6 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
 
 from .serializers import ExamSerializer, AddInternSerializer, EditInternSerializer
 from ..models import Exam
@@ -13,6 +14,13 @@ class ExamView(viewsets.ModelViewSet):
         company = self.request.user.company
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
         return queryset
+
+    def perform_update(self, serializer):
+        try:
+            serializer.save()
+            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
+        except ValidationError as e:
+            raise serializers.ValidationError(e.detail)
 
 
 class AddIntersViewSet(viewsets.ModelViewSet):

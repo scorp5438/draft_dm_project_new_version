@@ -103,18 +103,14 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
 
             onInternAdded(response.data);
             onClose();
-         } catch (error) {
+        }  catch (error) {
         if (error.response && error.response.status === 400) {
             const formattedErrors = formatErrors(error.response.data);
             setErrors(formattedErrors);
-
-            // Проверяем ошибки для поля name_examiner
-            if (error.response.data.name_examiner) {
-                setErrors({ ...errors, name_examiner: error.response.data.name_examiner });
-            }
             console.log('Ошибки с сервера:', formattedErrors);
         } else {
             console.error('Ошибка при отправке данных:', error.message);
+            console.log('Текущие ошибки:', errors);
         }
     }
 };
@@ -196,7 +192,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                                 </option>
                             ))}
                         </select>
-                        {errors.name_examiner && <p className="error">{errors.name_examiner[0]}</p>} {/* Отображаем ошибку */}
+                            {errors.name_examiner && <p className="error">{errors.name_examiner[0]}</p>}
                     </label>
                     <br />
                     <label>
