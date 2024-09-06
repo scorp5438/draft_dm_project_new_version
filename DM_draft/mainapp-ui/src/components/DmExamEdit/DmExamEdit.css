@@ -109,6 +109,13 @@ form input[type="date"],
   background-color: #236cd9;
 }
 .error {
-    color: red;
-    font-size: 12px;
+  color: #ff4d4f;
+  font-size: 16px;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4f;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  text-align: left;
+  font-weight: bold;
 }
