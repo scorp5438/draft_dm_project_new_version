@@ -7,26 +7,23 @@ import Image from '../Image/Image';
 import cross from '../../img/cross.svg';
 
 function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
-    console.log(isEditing);
     const [formData, setFormData] = useState({
         date_exam: '',
         name_intern: '',
         cc: '',
     });
 
-    const [errors, setErrors] = useState({}); // Для хранения ошибок
+    const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    if (user) {
-    console.log(user ? user.company.id : 'hgcfhjfd')
-      setFormData({
-        cc: examData ? examData.cc : user.company.id,
-        date_exam: examData ? examData.date_exam : '',
-        name_intern: examData ? examData.name_intern : '',
-
-      });
-    }
-  }, [examData, user]);
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                cc: examData ? examData.cc : user.company.id,
+                date_exam: examData ? examData.date_exam : '',
+                name_intern: examData ? examData.name_intern : '',
+            });
+        }
+    }, [examData, user]);
 
     const handleChange = (e) => {
         setFormData({
@@ -35,63 +32,63 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
         });
     };
 
-const formatErrors = (errors) => {
-    const formattedErrors = {};
+    const formatErrors = (errors) => {
+        const formattedErrors = {};
 
-    for (const [key, value] of Object.entries(errors)) {
-        if (key === 'date_exam') {
-            // Преобразование сообщений об ошибках для даты
-            formattedErrors[key] = value.map(err => {
-                // Если ошибка связана с неправильным форматом даты, заменяем её на своё сообщение
-                if (err.includes('Неправильный формат date')) {
-                    return 'Поле пустое или формат даты неверен.';
-                }
-               return err;
-            });
-        } else {
-            // Оставляем ошибки для других полей без изменений
-            formattedErrors[key] = value;
+        for (const [key, value] of Object.entries(errors)) {
+            if (key === 'date_exam') {
+                formattedErrors[key] = value.map(err => {
+                    if (err.includes('Неправильный формат date')) {
+                        return 'Поле пустое или формат даты неверен.';
+                    }
+                    return err;
+                });
+            } else {
+                formattedErrors[key] = value;
+            }
         }
-    }
 
-    return formattedErrors;
-};
+        return formattedErrors;
+    };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
+        try {
+            const csrfToken = getCSRFToken();
+            const url = isEditing
+                ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
+                : 'http://127.0.0.1:8000/api/add_intern/';
+            const method = isEditing ? 'put' : 'post';
 
-  try {
-    console.log(examData ? examData.name_examiner : 'dhdjd');
-    const csrfToken = getCSRFToken();
-    const url = isEditing
-      ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
-      : 'http://127.0.0.1:8000/api/add_intern/';
+            const response = await axios({
+                method: method,
+                url: url,
+                data: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                }
+            });
 
-    const method = isEditing ? 'put' : 'post';
+            onInternAdded(response.data);
+            onClose();
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                const formattedErrors = formatErrors(error.response.data);
+                setErrors(formattedErrors);
 
-    const response = await axios({
-      method: method,
-      url: url,
-      data: formData,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken,
-      }
-    });
+                // Таймер для очистки ошибок через 5 секунд
+                setTimeout(() => {
+                    setErrors({});
+                }, 5000);
 
-    onInternAdded(response.data);
-    onClose();
-  } catch (error) {
-    if (error.response && error.response.status === 400) {
-      const formattedErrors = formatErrors(error.response.data);
-      setErrors(formattedErrors);
-      console.log('Ошибки с сервера:', formattedErrors);
-    } else {
-      console.error('Ошибка при отправке данных:', error.message);
-    }
-  }
-};
+                console.log('Ошибки с сервера:', formattedErrors);
+            } else {
+                console.error('Ошибка при отправке данных:', error.message);
+            }
+        }
+    };
 
     return (
         <div className="modal-content">
@@ -108,7 +105,7 @@ const formatErrors = (errors) => {
                             value={formData.date_exam}
                             onChange={handleChange}
                         />
-                        {errors.date_exam && <p className="error">{errors.date_exam[0]}</p>} {/* Отображение ошибки */}
+                        {errors.date_exam && <p className="error">{errors.date_exam[0]}</p>}
                     </label>
                     <br />
                     <label>
@@ -119,7 +116,7 @@ const formatErrors = (errors) => {
                             value={formData.name_intern}
                             onChange={handleChange}
                         />
-                        {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>} {/* Отображение ошибки */}
+                        {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>}
                     </label>
                     <br />
                     <button type="submit" className="add-modal">Добавить</button>
