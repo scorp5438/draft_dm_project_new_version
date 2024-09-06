@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
-import { getCSRFToken } from '../utils/csrf';
+import { getCSRFToken, setCSRFToken } from '../utils/csrf';
 import routes from '../../context/Url';
 import Image from '../Image/Image';
 import image from '../../img/image.svg';
@@ -49,6 +49,9 @@ const Authorization = () => {
       const data = await response.json();
 
       if (data.success) {
+          if (data.csrfToken) {
+          setCSRFToken(data.csrfToken);
+        }
         navigate(routes.main);
       } else {
         setErrorMessage('Неверный логин или пароль');
