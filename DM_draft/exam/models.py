@@ -42,14 +42,21 @@ class Exam(models.Model):
                 date_exam=self.date_exam,
                 time_exam=self.time_exam,
                 name_examiner=self.name_examiner
-        ).exclude(id=self.id).exists():
+        ).exclude(id=self.pk).exists():
             raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
 
     def clean(self):
-        # Вызываем метод validate_unique_exam для выполнения уникальной проверки
         self.validate_unique_exam()
 
     def save(self, *args, **kwargs):
-        # Вызываем метод clean() перед сохранением, чтобы убедиться, что валидация прошла
-        self.clean()
+        self.full_clean()
         super().save(*args, **kwargs)
+
+    # Альтернативный вариант метода save
+
+    # def save(self, *args, **kwargs):
+    #     try:
+    #         self.clean()
+    #     except ValidationError as e:
+    #         raise
+    #     super().save(*args, **kwargs)

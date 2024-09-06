@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.core.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
 
 from exam.models import Exam
 from users.models import User
@@ -23,10 +25,12 @@ class ExamSerializer(serializers.ModelSerializer):
         model = Exam
         fields = '__all__'
 
-    def validate(self, data):
-        instance = Exam(**data)
-        instance.validate_unique_exam()
-        return data
+    def save(self, **kwargs):
+        try:
+            instance = super().save(**kwargs)
+            return instance
+        except ValidationError as e:
+            raise RestFrameworkValidationError(e.message_dict)
 
 
 class AddInternSerializer(serializers.ModelSerializer):

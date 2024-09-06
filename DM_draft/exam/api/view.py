@@ -18,6 +18,7 @@ class ExamView(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         try:
             serializer.save()
+            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
         except ValidationError as e:
             raise serializers.ValidationError(e.detail)
 
