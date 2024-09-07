@@ -6,6 +6,7 @@ import Main from './components/Main/Main';
 import Exam from './components/Exam/Exam';
 
 
+
 const App = () => {
   return (
 
@@ -14,6 +15,7 @@ const App = () => {
         <Route path={routes.login} element={<Authorization />} />
         <Route path={routes.main} element={<Main />} />
         <Route path={routes.exam} element={<Exam />} />
+
       </Routes>
     </Router>
 

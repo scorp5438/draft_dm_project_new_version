@@ -18,6 +18,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
   const [companies, setCompanies] = useState([]);
+
   const navigate = useNavigate();
   const hamburgerMenuRef = useRef(null);
   const personalMenuRef = useRef(null);
@@ -89,7 +90,7 @@ function Header() {
   };
 
   return (
-    <div className="container_img">
+    <div className="container-img">
       <div className="background" />
       <div className="header-container">
         <div className="header-logo">
