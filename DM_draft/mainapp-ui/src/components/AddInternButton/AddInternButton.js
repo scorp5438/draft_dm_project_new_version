@@ -7,7 +7,7 @@ import PlusCircleIcon from '../AllIcons/PlusCircleIcon/PlusCircleIcon'
 const AddInternButton = ({ onClick }) => {
   return (
     <div className="add-intern">
-      <button title="Добавить стажёра" className="add-intern-button" onClick={onClick}>
+      <button title="Добавить стажёра" className="add-intern button" onClick={onClick}>
         <PlusCircleIcon width="32" height="32" fill="#ffffff" /><p>Добавить стажёра</p>
       </button>
     </div>

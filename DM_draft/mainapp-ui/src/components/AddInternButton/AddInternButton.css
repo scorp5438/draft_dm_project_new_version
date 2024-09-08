@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
 }
-.add-intern-button {
-  background-color: #DDE6EC;
+.add-intern button {
+  background-color: #f9f9f9;
   color: rgba(0, 104, 226, 1);
   transition: color 0.3s ease, transform 0.3s ease;
   border: none;
@@ -13,19 +13,21 @@
   z-index: 1000;
   font-size: 18px;
 }
-.add-intern-button:hover {
+.add-intern button:hover {
   color: wight;
   background-color: #3f94a099;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
-.add-intern-button svg {
+.add-intern button svg {
   fill: #236cd9;
   transition: fill 0.3s ease;
 }
-.add-intern-button:hover svg {
+.add-intern button:hover svg {
     fill: #ffffff;
 }
-.add-intern-button:hover p {
+.add-intern button:hover p {
   color: #ffffff;
 }
-
+.add-intern p {
+ padding:5px;
+}
