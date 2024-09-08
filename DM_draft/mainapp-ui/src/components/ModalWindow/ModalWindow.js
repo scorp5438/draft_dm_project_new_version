@@ -37,12 +37,11 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
 
         for (const [key, value] of Object.entries(errors)) {
             if (key === 'date_exam') {
-                formattedErrors[key] = value.map(err => {
-                    if (err.includes('Неправильный формат date')) {
-                        return 'Поле пустое или формат даты неверен.';
-                    }
-                    return err;
-                });
+                if(value[0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.') {
+            formattedErrors[key] = "Заполните дату"
+                } else {
+                formattedErrors[key] = value;
+                }
             } else {
                 formattedErrors[key] = value;
             }
@@ -105,7 +104,7 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
                             value={formData.date_exam}
                             onChange={handleChange}
                         />
-                        {errors.date_exam && <p className="error">{errors.date_exam[0]}</p>}
+                        {errors.date_exam && <p className="error">{errors.date_exam}</p>}
                     </label>
                     <br />
                     <label>

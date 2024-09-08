@@ -38,9 +38,12 @@ class AddIntersViewSet(viewsets.ModelViewSet):
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
         return queryset
 
-    def perform_create(self, serializer):
-        print("Данные, переданные для создания:", self.request.data)
-        serializer.save()
+    def perform_update(self, serializer):
+        try:
+            serializer.save()
+            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
+        except ValidationError as e:
+            raise serializers.ValidationError(e.detail)
 
 
 class ResultListView(APIView):
