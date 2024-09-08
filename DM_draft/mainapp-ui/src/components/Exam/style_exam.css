@@ -129,20 +129,28 @@
   right: 0;
   background-color: inherit;
   z-index: 1;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 .add-intern {
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* добавляем отступ сверху */
+  gap: 10px;
+  margin-top: 10px; /* добавляем отступ сверху */
 }
 
 .modal-overlay {
   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 1000;
 }
 
 .modal {
