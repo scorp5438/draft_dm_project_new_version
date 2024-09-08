@@ -42,13 +42,6 @@ class AddInternSerializer(ExamSerializer):
         model = Exam
         fields = ['date_exam', 'name_intern', 'cc']
 
-    def save(self, **kwargs):
-        try:
-            instance = super().save(**kwargs)
-            return instance
-        except ValidationError as e:
-            raise RestFrameworkValidationError(e.message_dict)
-
 
 class EditInternSerializer(AddInternSerializer):
     """
@@ -58,10 +51,3 @@ class EditInternSerializer(AddInternSerializer):
     class Meta(AddInternSerializer.Meta):
         model = Exam
         fields = ['id', 'date_exam', 'name_intern', 'cc']
-
-    def save(self, **kwargs):
-        try:
-            instance = super().save(**kwargs)
-            return instance
-        except ValidationError as e:
-            raise RestFrameworkValidationError(e.message_dict)

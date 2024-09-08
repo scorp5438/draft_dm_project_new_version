@@ -35,7 +35,7 @@ class Exam(models.Model):
     def __str__(self):
         return f"{self.name_intern} {self.cc} {self.result_exam}"
 
-    def validate_unique_exam(self):
+    def validate_unique_exam(self, errors):
         if self.name_examiner is None:
             return
         if Exam.objects.filter(
@@ -43,23 +43,24 @@ class Exam(models.Model):
                 time_exam=self.time_exam,
                 name_examiner=self.name_examiner
         ).exclude(id=self.pk).exists():
-            raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
+            errors.setdefault('name_examiner', []).append("Проверяющий уже записан на эту дату и время")
 
-    def valid_name_intern(self):
+    def valid_name_intern(self, errors):
         if not re.search(self.FULL_NAME_PATTERN, self.name_intern):
-            raise ValidationError(
-                {"name_intern": "Введены некорректные данные, введите значение в формате: Фамилия Имя"})
-        return
+            errors.setdefault('name_intern', []).append(
+                "Введены некорректные данные, введите значение в формате: Фамилия Имя")
 
-    def valid_date_exam(self):
+    def valid_date_exam(self, errors):
         if self.date_exam < datetime.today().date():
-            raise ValidationError({"date_exam": "Дата зачета не может быть в прошлом"})
-        return
+            errors.setdefault('date_exam', []).append("Дата зачета не может быть в прошлом")
 
     def clean(self):
-        self.validate_unique_exam()
-        self.valid_name_intern()
-        self.valid_date_exam()
+        errors = {}
+        self.validate_unique_exam(errors)
+        self.valid_name_intern(errors)
+        self.valid_date_exam(errors)
+        if errors:
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
         self.full_clean()
