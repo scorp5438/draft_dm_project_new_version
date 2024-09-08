@@ -1,9 +1,9 @@
 import React from 'react';
+import './style_delete_exam.css'
 
 function DeleteExam({ onClick }) {
   return (
-    <button onClick={onClick} style={{ marginLeft: '10px', backgroundColor: 'red', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}>
-      Удалить
+    <button className='delete-button' onClick={onClick}><p>Удалить</p>
     </button>
   );
 }

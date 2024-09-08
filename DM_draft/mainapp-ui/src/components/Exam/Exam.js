@@ -12,6 +12,7 @@ import DmExamEdit from '../DmExamEdit/DmExamEdit';
 import AddInternButton from '../AddInternButton/AddInternButton';
 import HandleEditClick from '../HandleEditClick/HandleEditClick';
 import DeleteExam from '../DeleteExam/DeleteExam';
+import { companies } from '../Header/Header'
 
 function Exam() {
   const [examData, setExamData] = useState([]);
@@ -105,77 +106,88 @@ const handleDeleteClick = (id) => {
     return <div>Загрузка...</div>;
   }
 
-  return (
-  <div className="exam-content">
-  <Header />
-  <div className="exam-container">
-    <div className="table-wrapper">
-      <table className="exam-table">
-        <thead>
-          <tr>
-            <th>Дата зачета</th>
-            <th>Фамилия Имя стажера</th>
-            <th>Время зачета</th>
-            <th>ФИ сотрудника</th>
-            <th>Результат</th>
-            <th>Комментарий</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-      </table>
-      <div className="scroll-table-body">
-        <table className="exam-table">
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map(exam => (
-                <tr key={exam.id || exam.name_intern}>
-                  <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
-                  <td>{exam.name_intern}</td>
-                  <td>{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
-                  <td>{exam.name_examiner_name || '----'}</td>
-                  <td>{exam.result_exam || '----'}</td>
-                  <td>{exam.comment_exam || company.name}</td>
-                  <td className="edit-button-cell">
-                    <HandleEditClick
-                      onClick={() => handleEditClick(exam.id)}
-                      style={{ position: 'relative', left: '20px' }}
-                    />
-                    <DeleteExam onClick={() => handleDeleteClick(exam.id)} />
-                  </td>
-                </tr>
-              ))
-            ) : (
+return (
+  <div className="exam-table">
+    <div className="header-content">
+      <Header />
+    </div>
+    <div className="exam-content">
+      <div className='company'>
+        {user.company.name === "DM" && (<h1>КЦ</h1>)}
+      </div>
+      <div className='exam-fixed'>
+      <div className="exam-container">
+        <div className="table-wrapper">
+          <table className="exam-table">
+            <thead>
               <tr>
-                <td colSpan="7">Нет данных для отображения</td>
+                <th>Дата зачета</th>
+                <th>Фамилия Имя стажера</th>
+                <th>Время зачета</th>
+                <th>ФИ сотрудника</th>
+                <th>Результат</th>
+                <th>Комментарий</th>
+                <th>Действия</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+          </table>
+          <div className="scroll-table-body">
+            <table className="exam-table">
+              <tbody>
+                {filteredData.length > 0 ? (
+                  filteredData.map(exam => (
+                    <tr key={exam.id || exam.name_intern}>
+                      <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
+                      <td>{exam.name_intern}</td>
+                      <td>{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
+                      <td>{exam.name_examiner_name || '----'}</td>
+                      <td>{exam.result_exam || '----'}</td>
+                      <td>{exam.comment_exam || company.name}</td>
+                      <td className="edit-button-cell">
+                        <HandleEditClick
+                          onClick={() => handleEditClick(exam.id)}
+                          style={{ position: 'relative', left: '20px' }}
+                        />
+                        <DeleteExam onClick={() => handleDeleteClick(exam.id)} />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7">Нет данных для отображения</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {/* Кнопка добавления стажера */}
+        {user.company.name !== 'DM' && <AddInternButton onClick={toggleModal} className='add-intern' />}
       </div>
     </div>
-   </div>
-{user.company.name !== 'DM' && <AddInternButton onClick={toggleModal} />}
-  {isModalOpen && (
-    <div className="modal-overlay">
-      {user.company.name === 'DM' ? (
-        <DmExamEdit
-          onClose={toggleModal}
-          onInternAdded={handleInternAdded}
-          examData={selectedExamData}
-        />
-      ) : (
-        <ModalWindow
-          onClose={toggleModal}
-          onInternAdded={handleInternAdded}
-          examData={selectedExamData}
-          user={user}
-          isEditing={Boolean(selectedExamData)}
-        />
-      )}
-    </div>
-  )}
 </div>
-  );
+    {/* Модальное окно */}
+    {isModalOpen && (
+      <div className="modal-overlay">
+        {user.company.name === 'DM' ? (
+          <DmExamEdit
+            onClose={toggleModal}
+            onInternAdded={handleInternAdded}
+            examData={selectedExamData}
+          />
+        ) : (
+          <ModalWindow
+            onClose={toggleModal}
+            onInternAdded={handleInternAdded}
+            examData={selectedExamData}
+            user={user}
+            isEditing={Boolean(selectedExamData)}
+          />
+        )}
+      </div>
+    )}
+  </div>
+);
 }
 
 export default Exam;
