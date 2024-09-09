@@ -38,9 +38,7 @@ function Exam() {
 
   const filterData = (data) => {
     if (company.id === 1) {
-    console.log(company.id)
         const currentCompany = +selectedCompany;
-        console.log(currentCompany)
         return data.filter(exam => exam.cc === currentCompany);
     }
     return data
@@ -51,6 +49,7 @@ function Exam() {
       .then(response => {
         setExamData(response.data);
         setFilteredData(filterData(response.data));
+        console.log(filterData);
       })
       .catch(error => {
         console.error("Ошибка при загрузке данных:", error);
@@ -113,7 +112,7 @@ return (
     </div>
     <div className="exam-content">
       <div className='company'>
-        {user.company.name === "DM" && (<h1>КЦ</h1>)}
+        {user.company.name === "DM" && (<h1>{filteredData.cc_name}</h1>)}
       </div>
       <div className='exam-fixed'>
       <div className="exam-container">
