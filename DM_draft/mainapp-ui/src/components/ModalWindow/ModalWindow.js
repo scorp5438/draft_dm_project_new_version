@@ -118,7 +118,7 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
                         {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>}
                     </label>
                     <br />
-                    <button type="submit" className="add-modal">Добавить</button>
+                    <button type="submit" className="add-modal">{isEditing ? "Сохранить" : "Добавить"}</button>
                 </form>
             </div>
         </div>
