@@ -20,6 +20,7 @@ function Exam() {
   const user = useUser();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+  const mode = queryParams.get('mode');// Получаем параметр mode
   const selectedCompany = queryParams.get('company');
   const company = user ? user.company : '----';
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,27 +36,41 @@ function Exam() {
       setSelectedExamData(null); // Сбрасываем выбранные данные экзамена
     }
   };
-
-  const filterData = (data) => {
-    if (company.id === 1) {
-        const currentCompany = +selectedCompany;
-        return data.filter(exam => exam.cc === currentCompany);
-    }
-    return data
-  };
-
-  const fetchExamData = () => {
+console.log(mode);
+ const fetchExamData = () => {
     axios.get('http://127.0.0.1:8000/api/exam/')
       .then(response => {
-        setExamData(response.data);
-        setFilteredData(filterData(response.data));
-        console.log(filterData);
+        const data = response.data;
+
+        if (mode === 'my_exams') {
+
+          // Фильтр для отображения только "Моих зачётов"
+
+          const filtered = data.filter(exam =>
+            new Date(exam.date_exam).toLocaleDateString() === new Date().toLocaleDateString() &&
+            exam.name_examiner === user.id
+          );
+
+          setFilteredData(filtered);
+        } else if (user.company.name === 'DM') {
+          // Если компания DM, загружаем полный список и фильтруем по выбранной компании
+          const filtered = selectedCompany
+            ? data.filter(exam => exam.cc === parseInt(selectedCompany))
+            : data; // Если компания не выбрана, отображаем весь список
+          setFilteredData(filtered);
+        } else {
+          // Фильтр по компании для обычных пользователей
+          const filtered = data;
+          setFilteredData(filtered);
+        }
+
+        setExamData(data);
       })
       .catch(error => {
         console.error("Ошибка при загрузке данных:", error);
       });
   };
-
+   console.log('олдпдлвпадл', user ? user.id : 'fjdlkjglkds');
   useEffect(() => {
     fetchExamData();
   }, [selectedCompany, company]);
@@ -112,7 +127,7 @@ return (
     </div>
     <div className="exam-content">
       <div className='company'>
-        {user.company.name === "DM" && (<h1>{filteredData.cc_name}</h1>)}
+        {user.company.name === "DM" && (<h1>КЦ</h1>)}
       </div>
       <div className='exam-fixed'>
       <div className="exam-container">
