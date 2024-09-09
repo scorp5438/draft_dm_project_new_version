@@ -149,6 +149,7 @@ function Header() {
             </label>
             <div ref={personalMenuRef} className={`menu-active ${isMenuOpen ? 'show' : 'hidden'}`}>
               <div><a href={routes.admin}>Админ панель</a></div>
+              <div><a href={createUrlWithParams(routes.exam, { mode: 'my_exams' })} key={user.id}>Мои зачёты</a></div>
               <div><a href={routes.logout}>Выход</a></div>
             </div>
           </div>
