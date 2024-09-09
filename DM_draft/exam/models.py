@@ -55,6 +55,7 @@ class Exam(models.Model):
             errors.setdefault('date_exam', []).append("Дата зачета не может быть в прошлом")
 
     def clean(self):
+        print("Save : 123")
         errors = {}
         self.validate_unique_exam(errors)
         self.valid_name_intern(errors)
@@ -63,6 +64,7 @@ class Exam(models.Model):
             raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
+        print("Save : 123")
         self.full_clean()
         super().save(*args, **kwargs)
 
