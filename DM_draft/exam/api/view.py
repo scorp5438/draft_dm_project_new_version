@@ -13,7 +13,7 @@ class ExamView(viewsets.ModelViewSet):
     def get_queryset(self):
         company = self.request.user.company
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
-        return queryset
+        return queryset.order_by('date_exam')
 
     def perform_update(self, serializer):
         try:
@@ -29,14 +29,12 @@ class AddIntersViewSet(viewsets.ModelViewSet):
     }
 
     def get_serializer_class(self):
-        print(self.request.method)
-        # Если метод запроса есть в словаре, вернуть соответствующий сериалайзер
         return self.serializer_list.get(self.request.method, EditInternSerializer)
 
     def get_queryset(self):
         company = self.request.user.company
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
-        return queryset
+        return queryset.order_by('date_exam')
 
     def perform_update(self, serializer):
         try:
@@ -46,6 +44,8 @@ class AddIntersViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError(e.detail)
 
 
+
 class ResultListView(APIView):
-    def get(self, request):
+    @classmethod
+    def get(cls, request):
         return Response(Exam.result_list)

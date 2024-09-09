@@ -120,6 +120,8 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         formattedErrors[key] = value;
         if(value[0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.') {
             formattedErrors[key] = "Заполните дату"
+        } else if (key === "non_field_errors") {
+            formattedErrors["name_examiner"] ="Проверяющий уже записан на эту дату и время"
         }
 
     }
@@ -196,7 +198,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                                 </option>
                             ))}
                         </select>
-                            {errors.name_examiner && <p className="error">{errors.name_examiner[0]}</p>}
+                            {errors.name_examiner && <p className="error">{errors.name_examiner}</p>}
                     </label>
                     <br />
                     <label>

@@ -19,18 +19,19 @@ class ExamSerializer(serializers.ModelSerializer):
         queryset=User.objects.filter(company__id=1, post='OKK'),
         allow_null=True
     )
+
     name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
+    сс_name = serializers.CharField(source='cc.name', read_only=True)
 
     class Meta:
         model = Exam
         fields = '__all__'
 
-    def save(self, **kwargs):
+    def validate(self, data):
         try:
-            instance = super().save(**kwargs)
-            return instance
+            return super().validate(data)
         except ValidationError as e:
-            raise RestFrameworkValidationError(e.message_dict)
+            raise RestFrameworkValidationError(e.detail)
 
 
 class AddInternSerializer(ExamSerializer):
@@ -43,11 +44,11 @@ class AddInternSerializer(ExamSerializer):
         fields = ['date_exam', 'name_intern', 'cc']
 
 
-class EditInternSerializer(AddInternSerializer):
+class EditInternSerializer(ExamSerializer):
     """
     Сериализатор для редактирования стажера.
     """
 
-    class Meta(AddInternSerializer.Meta):
+    class Meta(ExamSerializer.Meta):
         model = Exam
         fields = ['id', 'date_exam', 'name_intern', 'cc']
