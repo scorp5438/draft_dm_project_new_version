@@ -27,8 +27,7 @@ class ExamSerializer(serializers.ModelSerializer):
 
     def save(self, **kwargs):
         try:
-            instance = super().save(**kwargs)
-            return instance
+            return super().save(**kwargs)
         except ValidationError as e:
             raise RestFrameworkValidationError(e.message_dict)
 
@@ -43,11 +42,11 @@ class AddInternSerializer(ExamSerializer):
         fields = ['date_exam', 'name_intern', 'cc']
 
 
-class EditInternSerializer(AddInternSerializer):
+class EditInternSerializer(ExamSerializer):
     """
     Сериализатор для редактирования стажера.
     """
 
-    class Meta(AddInternSerializer.Meta):
+    class Meta(ExamSerializer.Meta):
         model = Exam
         fields = ['id', 'date_exam', 'name_intern', 'cc']
