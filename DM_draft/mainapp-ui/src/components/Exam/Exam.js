@@ -12,7 +12,8 @@ import DmExamEdit from '../DmExamEdit/DmExamEdit';
 import AddInternButton from '../AddInternButton/AddInternButton';
 import HandleEditClick from '../HandleEditClick/HandleEditClick';
 import DeleteExam from '../DeleteExam/DeleteExam';
-import { companies } from '../Header/Header'
+import { companies } from '../Header/Header';
+import fetchCompanies from '../utils/getCompany';
 
 function Exam() {
   const [examData, setExamData] = useState([]);
@@ -28,6 +29,9 @@ function Exam() {
   const [selectedExamId, setSelectedExamId] = useState(null);
   const [selectedExamData, setSelectedExamData] = useState(null);
   const csrfToken = getCSRFToken();
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompanyId, setSelectedCompanyId] = useState(null);
+  const [selectedCompanyName, setSelectedCompanyName] = useState('');
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
@@ -54,8 +58,8 @@ console.log(mode);
           setFilteredData(filtered);
         } else if (user.company.name === 'DM') {
           // Если компания DM, загружаем полный список и фильтруем по выбранной компании
-          const filtered = selectedCompany
-            ? data.filter(exam => exam.cc === parseInt(selectedCompany))
+          const filtered = selectedCompanyId
+            ? data.filter(exam => exam.cc === selectedCompanyId)
             : data; // Если компания не выбрана, отображаем весь список
           setFilteredData(filtered);
         } else {
@@ -71,10 +75,23 @@ console.log(mode);
       });
   };
    console.log('олдпдлвпадл', user ? user.id : 'fjdlkjglkds');
+   useEffect(() => {
+  fetchCompanies().then(companiesData => {
+    setCompanies(companiesData);
+    const companySlug = queryParams.get('company'); // получаем slug из URL
+    if (companySlug) {
+      const selected = companiesData.find(company => company.slug === companySlug); // ищем компанию по slug
+      if (selected) {
+        setSelectedCompanyId(selected.id);
+        setSelectedCompanyName(selected.name);
+      }
+    }
+  });
+}, [location.search]);
   useEffect(() => {
     fetchExamData();
-  }, [selectedCompany, company]);
-
+  }, [selectedCompanyId, company]);
+    console.log(companies);
   const handleInternAdded = () => {
     fetchExamData();
   };
@@ -127,7 +144,7 @@ return (
     </div>
     <div className="exam-content">
       <div className='company'>
-        {user.company.name === "DM" && (<h1>КЦ</h1>)}
+        {user.company.name === "DM" && (<h1>{selectedCompanyName}</h1>)}
       </div>
       <div className='exam-fixed'>
       <div className="exam-container">
@@ -135,6 +152,7 @@ return (
           <table className="exam-table">
             <thead>
               <tr>
+                {mode === 'my_exams' && <th>Компания</th>}
                 <th>Дата зачета</th>
                 <th>Фамилия Имя стажера</th>
                 <th>Время зачета</th>
@@ -151,6 +169,7 @@ return (
                 {filteredData.length > 0 ? (
                   filteredData.map(exam => (
                     <tr key={exam.id || exam.name_intern}>
+                        {mode === 'my_exams' && <td>{exam.сс_name}</td>}
                       <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
                       <td>{exam.name_intern}</td>
                       <td>{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
