@@ -118,7 +118,8 @@ form select
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: "fontawesome2" sans-serif;
+    font-size:16px;
     color: rgba(105, 155, 247, 1);
     resize: vertical; /* Разрешает изменение высоты пользователем */
     overflow-wrap: break-word; /* Перенос слов на новую строку */
