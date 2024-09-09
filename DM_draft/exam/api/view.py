@@ -13,10 +13,14 @@ class ExamView(viewsets.ModelViewSet):
     def get_queryset(self):
         company = self.request.user.company
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
-        return queryset
+        return queryset.order_by('date_exam')
 
     def perform_update(self, serializer):
-        serializer.save()
+        try:
+            serializer.save()
+            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
+        except ValidationError as e:
+            raise serializers.ValidationError(e.detail)
 
 
 class AddIntersViewSet(viewsets.ModelViewSet):
@@ -30,10 +34,16 @@ class AddIntersViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         company = self.request.user.company
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
-        return queryset
+        return queryset.order_by('date_exam')
 
     def perform_update(self, serializer):
-        serializer.save()
+        try:
+            serializer.save()
+            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
+        except ValidationError as e:
+            raise serializers.ValidationError(e.detail)
+
+
 
 class ResultListView(APIView):
     @classmethod

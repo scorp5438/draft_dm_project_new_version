@@ -19,7 +19,9 @@ class ExamSerializer(serializers.ModelSerializer):
         queryset=User.objects.filter(company__id=1, post='OKK'),
         allow_null=True
     )
+
     name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
+    сс_name = serializers.CharField(source='cc.name', read_only=True)
 
     class Meta:
         model = Exam

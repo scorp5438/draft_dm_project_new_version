@@ -118,21 +118,11 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
     const formattedErrors = {};
     for (const [key, value] of Object.entries(errors)) {
         formattedErrors[key] = value;
-
-        if (key === 'date_exam') {
-            console.log(formattedErrors[key][0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.')
-            if (value[0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.') {
-                console.log("before", formattedErrors[key])
-                formattedErrors[key] = "Заполните дату"
-                console.log("after", formattedErrors[key])
-                console.log("after key -> 'date_exam'", formattedErrors['date_exam'])
-
-            } else {
-            formattedErrors[key] = value;
-            }
-        } if (key === "non_field_errors"){
-        formattedErrors["name_examiner"] = "Проверяющий уже записан на эту дату и время"
-    }
+        if(value[0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.') {
+            formattedErrors[key] = "Заполните дату"
+        } else if (key === "non_field_errors") {
+            formattedErrors["name_examiner"] ="Проверяющий уже записан на эту дату и время"
+        }
 
     }
     return formattedErrors;

@@ -46,31 +46,16 @@ class Exam(models.Model):
     def __str__(self):
         return f"{self.name_intern} {self.cc} {self.result_exam}"
 
-    def validate_unique_exam(self, errors):
-        if self.name_examiner is None:
-            return
-        if Exam.objects.filter(
-                date_exam=self.date_exam,
-                time_exam=self.time_exam,
-                name_examiner=self.name_examiner
-        ).exclude(id=self.pk).exists():
-            errors.setdefault('name_examiner', []).append("Проверяющий уже записан на эту дату и время")
-    #
     # def clean(self):
-    #     errors = {}
-    #     try:
-    #         super().clean()
-    #     except ValidationError as e:
-    #         errors.update(e.message_dict)
+    #     super().clean()
     #
-    #     self.validate_unique_exam(errors)
-    #
-    #     if errors:
-    #         raise ValidationError(errors)
-    #
-    # def save(self, *args, **kwargs):
-    #     self.full_clean()
-    #     super().save(*args, **kwargs)
+    #     # Проверка уникальности комбинации полей
+    #     if Exam.objects.filter(
+    #             date_exam=self.date_exam,
+    #             time_exam=self.time_exam,
+    #             name_examiner=self.name_examiner
+    #     ).exclude(pk=self.pk).exists():
+    #         raise ValidationError("Проверяющий уже записан на эту дату и время")
 
     # Альтернативный вариант метода save
 
