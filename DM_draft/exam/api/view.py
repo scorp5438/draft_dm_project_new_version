@@ -16,11 +16,7 @@ class ExamView(viewsets.ModelViewSet):
         return queryset
 
     def perform_update(self, serializer):
-        try:
-            serializer.save()
-            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
-        except ValidationError as e:
-            raise serializers.ValidationError(e.detail)
+        serializer.save()
 
 
 class AddIntersViewSet(viewsets.ModelViewSet):
@@ -29,8 +25,6 @@ class AddIntersViewSet(viewsets.ModelViewSet):
     }
 
     def get_serializer_class(self):
-        print(self.request.method)
-        # Если метод запроса есть в словаре, вернуть соответствующий сериалайзер
         return self.serializer_list.get(self.request.method, EditInternSerializer)
 
     def get_queryset(self):
@@ -39,13 +33,9 @@ class AddIntersViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_update(self, serializer):
-        try:
-            serializer.save()
-            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
-        except ValidationError as e:
-            raise serializers.ValidationError(e.detail)
-
+        serializer.save()
 
 class ResultListView(APIView):
-    def get(self, request):
+    @classmethod
+    def get(cls, request):
         return Response(Exam.result_list)

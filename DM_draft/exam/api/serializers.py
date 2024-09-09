@@ -25,11 +25,11 @@ class ExamSerializer(serializers.ModelSerializer):
         model = Exam
         fields = '__all__'
 
-    def save(self, **kwargs):
+    def validate(self, data):
         try:
-            return super().save(**kwargs)
+            return super().validate(data)
         except ValidationError as e:
-            raise RestFrameworkValidationError(e.message_dict)
+            raise RestFrameworkValidationError(e.detail)
 
 
 class AddInternSerializer(ExamSerializer):
