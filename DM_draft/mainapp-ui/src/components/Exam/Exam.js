@@ -175,7 +175,7 @@ return (
                       <td>{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
                       <td>{exam.name_examiner_name || '----'}</td>
                       <td>{exam.result_exam || '----'}</td>
-                      <td>{exam.comment_exam || exam.сс_name}</td>
+                      <td className="td_scroll">{exam.comment_exam || exam.сс_name}</td>
                       <td className="edit-button-cell">
                         <HandleEditClick
                           onClick={() => handleEditClick(exam.id)}

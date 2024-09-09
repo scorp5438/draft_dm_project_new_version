@@ -168,7 +168,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                     <br />
                     <label>
                         Время ТЗ:
-                        <select
+                        <select className="svg-time"
                             name="time_exam"
                             value={formData.time_exam}
                             onChange={handleChange}
@@ -176,7 +176,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                             <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
                             formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
                             {timeSlots.map(time => (
-                                <option key={time} value={time}>
+                                <option className="form_option" key={time} value={time}>
                                     {formatTimeWithInterval(time)}
                                 </option>
                             ))}
@@ -186,7 +186,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                     <br />
                     <label>
                         ФИ экзаменатора:
-                        <select
+                        <select className="svg-examiner"
                             name="name_examiner"
                             value={formData.name_examiner}
                             onChange={handleChange}
@@ -203,7 +203,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                     <br />
                     <label>
                         Результат ТЗ:
-                        <select
+                        <select className="svg-result"
                             name="result_exam"
                             value={formData.result_exam}
                             onChange={handleChange}
@@ -218,16 +218,15 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         {errors.result_exam && <p className="error">{errors.result_exam[0]}</p>}
                     </label>
                     <br />
-                    <label>
-                        Комментарий:
-                        <input
-                            type="textarea"
-                            name="comment_exam"
-                            value={formData.comment_exam}
-                            onChange={handleChange}
-                        />
-                        {errors.comment_exam && <p className="error">{errors.comment_exam[0]}</p>}
-                    </label>
+                   <label>
+                    Комментарий:
+                    <textarea className="comment"
+                        name="comment_exam"
+                        value={formData.comment_exam}
+                        onChange={handleChange}
+                    />
+                    {errors.comment_exam && <p className="error">{errors.comment_exam[0]}</p>}
+                </label>
                     <br />
 
                     <button type="submit" className="add-modal">Сохранить</button>
