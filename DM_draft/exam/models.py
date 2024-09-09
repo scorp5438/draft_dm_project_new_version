@@ -1,15 +1,15 @@
+import re
+from datetime import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models import CharField
 
 from users.models import Companies, User
 
 
 class Exam(models.Model):
-    # examiner_list = [
-    #     ("Иванов", "Иванов"),
-    #     ("Петров", "Петров"),
-    #     ("Васечкин", "Васечкин"),
-    # ]
+    FULL_NAME_PATTERN: str = "^[А-Я][а-я]+ [А-Я][а-я]+$"
+
     result_list = [
         ("Не допущен", "Не допущен"),
         ("Допущен", "Допущен"),
@@ -19,7 +19,7 @@ class Exam(models.Model):
     ]
 
     date_exam = models.DateField(blank=False, verbose_name="Дата зачета")
-    name_intern = models.CharField(max_length=60, blank=False, verbose_name="Фамилия Имя стажера")
+    name_intern: CharField = models.CharField(max_length=60, blank=False, verbose_name="Фамилия Имя стажера")
     cc = models.ForeignKey(Companies, on_delete=models.PROTECT, verbose_name='Компания', null=False)
     time_exam = models.TimeField(blank=True, default="00:00", verbose_name="Время зачета")
     name_examiner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT,
@@ -35,7 +35,7 @@ class Exam(models.Model):
     def __str__(self):
         return f"{self.name_intern} {self.cc} {self.result_exam}"
 
-    def validate_unique_exam(self):
+    def validate_unique_exam(self, errors):
         if self.name_examiner is None:
             return
         if Exam.objects.filter(
@@ -43,10 +43,24 @@ class Exam(models.Model):
                 time_exam=self.time_exam,
                 name_examiner=self.name_examiner
         ).exclude(id=self.pk).exists():
-            raise ValidationError({"name_examiner": "Проверяющий уже записан на эту дату и время"})
+            errors.setdefault('name_examiner', []).append("Проверяющий уже записан на эту дату и время")
+
+    def valid_name_intern(self, errors):
+        if not re.search(self.FULL_NAME_PATTERN, self.name_intern):
+            errors.setdefault('name_intern', []).append(
+                "Введены некорректные данные, введите значение в формате: Фамилия Имя")
+
+    def valid_date_exam(self, errors):
+        if self.date_exam < datetime.today().date():
+            errors.setdefault('date_exam', []).append("Дата зачета не может быть в прошлом")
 
     def clean(self):
-        self.validate_unique_exam()
+        errors = {}
+        self.validate_unique_exam(errors)
+        self.valid_name_intern(errors)
+        self.valid_date_exam(errors)
+        if errors:
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
         self.full_clean()

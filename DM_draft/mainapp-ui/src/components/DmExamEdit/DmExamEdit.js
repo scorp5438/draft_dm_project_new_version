@@ -118,6 +118,10 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
     const formattedErrors = {};
     for (const [key, value] of Object.entries(errors)) {
         formattedErrors[key] = value;
+        if(value[0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.') {
+            formattedErrors[key] = "Заполните дату"
+        }
+
     }
     return formattedErrors;
     };
@@ -146,7 +150,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                             value={formData.date_exam}
                             onChange={handleChange}
                         />
-                        {errors.date_exam && <p className="error">{errors.date_exam[0]}</p>}
+                        {errors.date_exam && <p className="error">{errors.date_exam}</p>}
                     </label>
                     <br />
                     <label>

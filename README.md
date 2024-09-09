@@ -36,11 +36,15 @@ https://nodejs.org/
           npm install react-router-dom - для установки реакт дом
           npm install web-vitals - для установки ХЗ, но надо
           npm install react-time-picker Установка библиотеки для времени
+          npm install axios
           npm run build
 
 В директории с файлом manage.py выполняется команда в терминале:
 
+         python manage.py makemigrations
+         python manage.py migrate  
          python manage.py collectstatic --noinput
+
 
 Данная команда собирает все статические файлы из разных приложений (в нашем случае из приложения `React`) и модулей и помещает в одну общую папку проекта `Django`.
 

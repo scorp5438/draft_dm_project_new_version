@@ -64,7 +64,7 @@ const Authorization = () => {
   };
 
   return (
-    <div className="container_img">
+    <div className="container_auto">
       <div className="background">
         <Image background={background} alt="background" className="background" />
       </div>
