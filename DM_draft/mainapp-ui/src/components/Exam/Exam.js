@@ -182,7 +182,7 @@ return (
                           onClick={() => handleEditClick(exam.id)}
                           style={{ position: 'relative', left: '20px' }}
                         />
-                        <DeleteExam onClick={() => handleDeleteClick(exam.id)} />
+                         {user.company.name === 'DM' && <DeleteExam onClick={() => handleDeleteClick(exam.id)} />}
                       </td>
                     </tr>
                   ))
