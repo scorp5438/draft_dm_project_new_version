@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 from users.models import Companies, User
 
-FULL_NAME_PATTERN = "^[А-Я][а-я]+ [А-Я][а-я]+$"
+FULL_NAME_PATTERN = r"^[А-Я, Ё][а-я, ё]+ [А-Я, Ё][а-я, ё]+$"
 
 
 def validate_name_intern(value):
