@@ -1,10 +1,10 @@
 import React from 'react';
 import './style_delete_exam.css'
+import Grobik from '../AllIcons/Grobik/Grobik';
 
 function DeleteExam({ onClick }) {
   return (
-    <button className='delete-button' onClick={onClick}><p>Удалить</p>
-    </button>
+    <button title="Удалить" className='delete-button' onClick={onClick}><Grobik /></button>
   );
 }
 

@@ -16,3 +16,7 @@
   background-color: #3f94a099;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
+.delete-button:hover svg {
+  fill: #ffffff;
+  stroke: #ffffff;
+}

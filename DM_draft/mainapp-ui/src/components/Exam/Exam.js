@@ -33,6 +33,7 @@ function Exam() {
   const [selectedCompanyId, setSelectedCompanyId] = useState(null);
   const [selectedCompanyName, setSelectedCompanyName] = useState('');
 
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
     if (isModalOpen) {
