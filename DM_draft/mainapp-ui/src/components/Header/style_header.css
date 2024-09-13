@@ -129,19 +129,18 @@ a {
 }
 .header-nav-button:hover,
 .header-nav-button_person:hover {
-  background-color: #3f94a099;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 .header-nav-button:hover svg {
-  fill: #E5E5E5;
-  stroke: #E5E5E5;
+  fill: rgba(243, 107, 9, 1);
+  stroke: rgba(243, 107, 9, 1);
 }
 .header-nav-button_person:hover svg {
-  stroke: #E5E5E5;
+  stroke: rgba(243, 107, 9, 1);
 }
 .header-nav-button:hover p,
 .header-nav-button_person:hover p {
-  color: #E5E5E5;
+  color: rgba(243, 107, 9, 1);
 }
 .header-nav-button::before,
 .header-nav-button_person::before {

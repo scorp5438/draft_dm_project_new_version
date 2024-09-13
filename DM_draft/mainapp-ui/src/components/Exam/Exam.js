@@ -138,6 +138,22 @@ const handleDeleteClick = (id) => {
     return <div>Загрузка...</div>;
   }
 
+  const isButtonDisabled = (exam) => {
+    const currentDate = new Date(new Date().toDateString());
+    const examDate = new Date(exam.date_exam);
+
+    // Если компания НЕ "DM", проверяем наличие заполненных полей
+    if (user.company.name !== "DM") {
+      return exam.time_exam !== "00:00:00" && exam.name_examiner_name;
+    }
+
+    // Если компания "DM", проверяем дату экзамена
+    if (user.company.name === "DM") {
+      return examDate < currentDate;
+    }
+
+    return false; // В остальных случаях кнопка активна
+  };
 return (
   <div className="exam-table">
     <div className="header-content">
@@ -154,12 +170,12 @@ return (
             <thead>
               <tr>
                 {mode === 'my_exams' && <th>Компания</th>}
-                <th>Дата зачета</th>
-                <th>Фамилия Имя стажера</th>
-                <th>Время зачета</th>
-                <th>ФИ сотрудника</th>
-                <th>Результат</th>
-                <th>Комментарий</th>
+                <th className="th">Дата зачета</th>
+                <th className="th">Фамилия Имя стажера</th>
+                <th className="th">Время зачета</th>
+                <th className="th">ФИ сотрудника</th>
+                <th className="th">Результат</th>
+                <th className="th">Комментарий</th>
                 <th className="hidden-header">Действия</th>
               </tr>
             </thead>
@@ -171,17 +187,18 @@ return (
                   filteredData.map(exam => (
                     <tr key={exam.id || exam.name_intern}>
                         {mode === 'my_exams' && <td>{exam.сс_name}</td>}
-                      <td>{new Date(exam.date_exam).toLocaleDateString()}</td>
-                      <td>{exam.name_intern}</td>
-                      <td>{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
-                      <td>{exam.name_examiner_name || '----'}</td>
-                      <td>{exam.result_exam || '----'}</td>
+                      <td className="td">{new Date(exam.date_exam).toLocaleDateString()}</td>
+                      <td className="td">{exam.name_intern}</td>
+                      <td className="td">{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
+                      <td className="td">{exam.name_examiner_name || '----'}</td>
+                      <td className="td">{exam.result_exam || '----'}</td>
                       <td className="td_scroll">{exam.comment_exam || exam.сс_name}</td>
-                      <td className="edit-button-cell">
-                        <HandleEditClick
-                          onClick={() => handleEditClick(exam.id)}
-                          style={{ position: 'relative', left: '20px' }}
-                        />
+                      <td className="edit-button-cell buttons">
+                           <HandleEditClick
+                              onClick={() => handleEditClick(exam.id)}
+                              disabled={isButtonDisabled(exam)} // передаем значение disabled
+                              style={{ position: 'relative', left: '20px' }}
+                            />
                          {user.company.name === 'DM' && <DeleteExam onClick={() => handleDeleteClick(exam.id)} />}
                       </td>
                     </tr>

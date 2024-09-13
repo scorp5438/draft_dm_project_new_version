@@ -22,25 +22,29 @@ function DeleteExam({ onClick }) {
   };
 
   return (
-    <div className="delete-exam-container">
-       <button title="Удалить" className="delete-button" onClick={handleDeleteClick}>
-        <Grobik />
-      </button>
 
-      {/* Модальное окно подтверждения */}
-      {isModalOpen && (
-        <div className="modal-delete">
-          <div className="modal-content-delete">
-            <p>Удалить?</p>
-            <div className="modal-actions">
-              <button className="confirm-button" onClick={handleConfirmDelete}>Да</button>
-              <button className="cancel-button" onClick={handleCancel}>Нет</button>
-            </div>
+  <div className="delete-exam-container">
+    <button title="Удалить" className="delete-button" onClick={handleDeleteClick}>
+      <Grobik />
+    </button>
+
+    {/* Оверлей для блокировки взаимодействия с таблицей */}
+    {isModalOpen && <div className="modal-overlay"></div>}
+
+    {/* Модальное окно подтверждения */}
+    {isModalOpen && (
+      <div className="modal-overlay">
+        <div className="modal-content-delete">
+          <p>Удалить?</p>
+          <div className="modal-actions">
+            <button className="confirm-button" onClick={handleConfirmDelete}>Да</button>
+            <button className="cancel-button" onClick={handleCancel}>Нет</button>
           </div>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 }
 
 export default DeleteExam;
