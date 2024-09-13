@@ -110,6 +110,15 @@
   position: sticky;
   z-index: 1;
 }
+.hidden-header {
+  color: transparent; /* Скрывает текст, но оставляет ячейку */
+  pointer-events: none; /* Отключает взаимодействие с ячейкой */
+}
+
+.hidden-header::before {
+  content: ""; /* Убирает текстовое содержание */
+}
+
 .exam-table tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }

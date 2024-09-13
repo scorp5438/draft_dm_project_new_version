@@ -160,7 +160,7 @@ return (
                 <th>ФИ сотрудника</th>
                 <th>Результат</th>
                 <th>Комментарий</th>
-                <th>Действия</th>
+                <th className="hidden-header">Действия</th>
               </tr>
             </thead>
           </table>
