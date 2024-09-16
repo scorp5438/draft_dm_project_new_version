@@ -12,11 +12,27 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
         name_intern: '',
         cc: '',
         training_form: '',
+        try_count: '',
+        name_train: '',
+        internal_test_examiner: '',
+        note: '',
     });
 
     const [errors, setErrors] = useState({});
     const [trainingOptions, setTrainingOptions] = useState([]);
+    const [users, setUsers] = useState([]);
 
+     useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/users_okk/');
+                setUsers(response.data);
+            } catch (error) {
+                console.error('Ошибка при загрузке пользователей:', error.message);
+            }
+        };
+        fetchUsers();
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -25,6 +41,10 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
                 date_exam: examData ? examData.date_exam : '',
                 name_intern: examData ? examData.name_intern : '',
                 training_form: examData ? examData.training_form : '',
+                try_count: examData ? examData.try_count : '',
+                name_train: examData ? examData.name_train : '',
+                internal_test_examiner: examData ? examData.internal_test_examiner : '',
+                note: examData ? examData.note : '',
             });
         }
     }, [examData, user]);
@@ -148,6 +168,68 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
                             ))}
                         </select>
                         {errors.training_form && <p className="error">{errors.training_form[0]}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        Попытка:
+                        <select
+                            name="try_count"
+                            value={formData.try_count}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите</option> {/* Пустое значение по умолчанию */}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        {errors.try_count && <p className="error">{errors.try_count[0]}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        ФИ обучающего/обучающих:
+                        <select
+                            className="svg-examiner"
+                            name="name_train"
+                            value={formData.name_train}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите обучающего</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.full_name}
+                                </option>
+                            ))}
+                        </select>
+                            {errors.name_train && <p className="error">{errors.name_train}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        ФИ принимающего внутреннее ТЗ:
+                        <select
+                            className="svg-examiner"
+                            name="internal_test_examiner"
+                            value={formData.name_examiner}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите принимающего внутреннее ТЗ</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.full_name}
+                                </option>
+                            ))}
+                        </select>
+                            {errors.internal_test_examiner && <p className="error">{errors.internal_test_examiner}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        Примечание:
+                        <input
+                            type="text"
+                            name="note"
+                            value={formData.note}
+                            onChange={handleChange}
+                        />
+                        {errors.note && <p className="error">{errors.note[0]}</p>}
                     </label>
                     <br />
                     <button type="submit" className="add-modal">{isEditing ? "Сохранить" : "Добавить"}</button>
