@@ -38,4 +38,4 @@ class OkkUsersView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # Вы можете добавлять логику для динамического выбора queryset
-        return User.objects.filter(company__id=1, post='OKK')
+        return User.objects.filter(company__id=self.request.user.company.id, post=self.request.user.post)
