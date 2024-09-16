@@ -12,7 +12,75 @@
   margin-left: 5px;
 }
 .delete-button:hover {
-  color: wight;
+  color: white;
   background-color: #3f94a099;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.delete-exam-container {
+  position: relative;
+}
+.delete-button:hover svg {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Затемнённый фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Достаточно высокий z-index, чтобы перекрыть остальные элементы */
+}
+
+/* Контент модального окна */
+.modal-content-delete {
+  background-color: #8aabdd57;
+  border: 3px solid #fcfcfc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #ffffffe6;
+  text-align: center;
+  width: 20%;
+  color: white;
+  position: relative; /* Убедитесь, что это relative для правильного отображения внутри модального окна */
+  z-index: 1001; /* Выше, чем у .modal-overlay */
+}
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.confirm-button,
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.confirm-button {
+  background-color: #ff7c1e;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #da5f07;
+}
+
+.cancel-button:hover {
+  background-color: #059c0b;
 }

@@ -104,13 +104,13 @@ form select
   appearance: none;
 }
 .svg-time {
-  background-image: url('D:\django\DM_draft\mainapp-ui\src\img\time-modol.svg'); /* иконка стрелки (кастомная) */
+  background-image: url('../../img/time-modol.svg'); /* иконка стрелки (кастомная) */
 }
 .svg-examiner {
-  background-image: url('D:\django\DM_draft\mainapp-ui\src\img\piter-pen.svg');
+  background-image: url('../../img/piter-pen.svg');
 }
 .svg-result {
-  background-image: url('D:\django\DM_draft\mainapp-ui\src\img\square-check.svg');
+  background-image: url('../../img/square-check.svg');
 }
 .comment {
     width: 100%;

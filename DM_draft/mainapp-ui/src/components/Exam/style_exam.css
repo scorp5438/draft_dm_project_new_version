@@ -60,7 +60,7 @@
   display:block;
   max-width:99%;
   margin-top: 25px;
-  top: 50px;
+  top: 55px;
   button:50px;
   padding: 10px;
   width: 100%;
@@ -72,15 +72,22 @@
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 .scroll-table-body {
-  max-height: 70vh;
+  max-height: 60vh;
   overflow-y: scroll;
   width: 100%;
   border-bottom: 1px solid #eee;
    font-family: "fontawesome2", sans-serif;
 }
 .td_scroll {
+    padding: 10px;
+    text-align: left;
+    color: #0068E2;
+    font-size: 20px;
+    border: 0px solid #ddd;
     max-width: 200px; /* Ограничение ширины ячейки */
     word-wrap: break-word; /* Перенос слов */
     white-space: normal; /* Перенос по строкам */
@@ -91,25 +98,46 @@
   width: 100%;
   height:60%;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-collapse: collapse !impotent;
+  border-spacing:0;
 }
-.exam-table td, .exam-table th {
+.exam-table {
+  pointer-events: auto; /* Включено по умолчанию */
+}
+.td {
   padding: 10px;
   text-align: left;
   color: #0068E2;
   font-size: 20px;
   border: 1px solid #ddd;
 }
-.exam-table thead th {
+.th {
+ padding: 10px;
+  text-align: left;
+  color: #0068E2;
+  font-size: 20px;
   background-color: #176add;
   font-size: 28px;
   color: white;
   padding: 15px;
   text-align: left;
-  border: 1px solid #ddd;
+  border: 1px solid #ffffff;
   position: sticky;
   z-index: 1;
 }
+.hidden-header {
+    color: #e5e5e5;
+    pointer-events: none;
+    background-color: #e5e5e5;
+    border: none;
+}
+.exam-table {
+   border:none !impotent;
+}
+.hidden-header::before {
+  content: ""; /* Убирает текстовое содержание */
+}
+
 .exam-table tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
@@ -132,13 +160,21 @@
 }
 
 .exam-table .edit-button-cell {
-  position: sticky;
   right: 0;
-  background-color: inherit;
+  background-color: #e5e5e5;
   z-index: 1;
-  display:flex;
-  justify-content: center;
+  display: flex;
+  justify-content: left;
   align-items: center;
+  min-width: 100px; /* Задаем минимальную ширину */
+  height: 100%;
+}
+
+.buttons {
+    color: #e5e5e5;
+    pointer-events: auto;
+    background-color: #e5e5e5;
+    border-bottom: none;
 }
 .add-intern {
   display: flex;
@@ -159,6 +195,7 @@
   justify-content: center;
   z-index: 1000;
    font-family: "fontawesome2", sans-serif;
+   pointer-events: auto;
 }
 
 .modal {

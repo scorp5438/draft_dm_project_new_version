@@ -35,7 +35,6 @@ https://nodejs.org/
           npm install react-scripts - для установки Реакт
           npm install react-router-dom - для установки реакт дом
           npm install web-vitals - для установки ХЗ, но надо
-          npm install react-time-picker Установка библиотеки для времени
           npm install axios
           npm run build
 
@@ -54,3 +53,7 @@ https://nodejs.org/
 
 После запуска наш проект работает на http://127.0.0.1:8000/
 
+
+Для GIT IGNORE (Для того чтобы удалить db.sqlite3 из отслеживания)
+
+          git rm --cached db.sqlite3
