@@ -50,8 +50,13 @@ class AddIntersViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError(e.detail)
 
 
-
 class ResultListView(APIView):
     @classmethod
     def get(cls, request):
         return Response(Exam.result_list)
+
+
+class TrainingFormListView(APIView):
+    @classmethod
+    def get(cls, request):
+        return Response(Exam.training_forms_list)
