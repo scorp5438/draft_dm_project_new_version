@@ -169,7 +169,7 @@ return (
           <table className="exam-table">
             <thead>
               <tr>
-                {mode === 'my_exams' && <th>Компания</th>}
+                {mode === 'my_exams' && <th className="th">Компания</th>}
                 <th className="th">Дата зачета</th>
                 <th className="th">Фамилия Имя стажера</th>
                 <th className="th">Время зачета</th>
@@ -205,7 +205,7 @@ return (
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7">Нет данных для отображения</td>
+                    <td colSpan="7" className="td">Нет данных для отображения</td>
                   </tr>
                 )}
               </tbody>
