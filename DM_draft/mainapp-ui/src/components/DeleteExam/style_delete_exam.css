@@ -19,9 +19,12 @@
 .delete-exam-container {
   position: relative;
 }
-.delete-button:hover svg {
+.delete-button svg {
+  fill: #086DE2;
+   transition: fill 0.3s ease;
+}
+.delete-button:hover svg path {
   fill: #ffffff;
-  stroke: #ffffff;
 }
 
 /* Модальное окно */

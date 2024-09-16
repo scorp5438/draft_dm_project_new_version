@@ -205,8 +205,10 @@ return (
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="td">Нет данных для отображения</td>
-                  </tr>
+                  <td colSpan={filteredData.length > 0 ? mode === 'my_exams' ? 7 : 6 : 7} className="td">
+                    Нет данных для отображения
+                  </td>
+                </tr>
                 )}
               </tbody>
             </table>
