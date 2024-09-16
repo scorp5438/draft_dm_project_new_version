@@ -15,6 +15,12 @@ class ExamView(viewsets.ModelViewSet):
         queryset = Exam.objects.filter(cc=company.id) if company.name != "DM" else Exam.objects.all()
         return queryset.order_by('date_exam')
 
+    def get_serializer_context(self):
+        # Передаем текущий запрос в контекст сериализатора
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
     def perform_update(self, serializer):
         try:
             serializer.save()
@@ -44,8 +50,13 @@ class AddIntersViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError(e.detail)
 
 
-
 class ResultListView(APIView):
     @classmethod
     def get(cls, request):
         return Response(Exam.result_list)
+
+
+class TrainingFormListView(APIView):
+    @classmethod
+    def get(cls, request):
+        return Response(Exam.training_forms_list)

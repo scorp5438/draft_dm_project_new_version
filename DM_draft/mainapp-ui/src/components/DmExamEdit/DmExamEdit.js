@@ -67,7 +67,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
     }, []);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/result-list/')
+        axios.get('http://127.0.0.1:8000/api/result_list/')
             .then(response => {
                 setResultOptions(response.data);
             })

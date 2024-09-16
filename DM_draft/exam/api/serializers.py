@@ -17,15 +17,43 @@ class ExamSerializer(serializers.ModelSerializer):
     """
     name_examiner = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.filter(company__id=1, post='OKK'),
-        allow_null=True
+        allow_null=True,
+        label="ФИ сотрудника"
     )
 
     name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
     сс_name = serializers.CharField(source='cc.name', read_only=True)
 
+    name_train = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.none(),  # Переопределим queryset ниже
+        label="ФИ обучающего/обучающих"
+    )
+
+    internal_test_examiner = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.none(),  # Переопределим queryset ниже
+        label="ФИ принимающего внутреннее ТЗ"
+    )
+
     class Meta:
         model = Exam
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(ExamSerializer, self).__init__(*args, **kwargs)
+
+        # Получаем текущего пользователя из контекста
+        user = self.context['request'].user
+        print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")
+        # Фильтруем queryset для поля name_train
+        self.fields['name_train'].queryset = User.objects.filter(
+            company=user.company, post='Admin'
+        )
+        print(f"Пользователи для name_train: {User.objects.filter(company=user.company, post='Admin')}")
+        # Фильтруем queryset для поля internal_test_examiner
+        self.fields['internal_test_examiner'].queryset = User.objects.filter(
+            company=user.company, post='Admin'
+        )
+        print(f"Пользователи для internal_test_examiner: {User.objects.filter(company=user.company, post='Admin')}")
 
     def validate(self, data):
         try:
@@ -41,7 +69,7 @@ class AddInternSerializer(ExamSerializer):
 
     class Meta(ExamSerializer.Meta):
         model = Exam
-        fields = ['date_exam', 'name_intern', 'cc']
+        fields = ['date_exam', 'name_intern', 'cc', 'training_form', 'try_count', 'name_train', 'internal_test_examiner', 'note']
 
 
 class EditInternSerializer(ExamSerializer):
@@ -51,4 +79,4 @@ class EditInternSerializer(ExamSerializer):
 
     class Meta(ExamSerializer.Meta):
         model = Exam
-        fields = ['id', 'date_exam', 'name_intern', 'cc']
+        fields = ['date_exam', 'name_intern', 'cc', 'training_form', 'try_count', 'name_train', 'internal_test_examiner', 'note']
