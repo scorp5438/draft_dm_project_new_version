@@ -170,13 +170,17 @@ return (
             <thead>
               <tr>
                 {mode === 'my_exams' && <th className="th">Компания</th>}
-                <th className="th">Дата зачета</th>
-                <th className="th">Фамилия Имя стажера</th>
-                <th className="th">Время зачета</th>
-                <th className="th">ФИ сотрудника</th>
-                <th className="th">Результат</th>
-                <th className="th">Комментарий</th>
-                <th className="hidden-header">Действия</th>
+                <th className="th date">Дата зачета</th>
+                <th className="th name_intern">Фамилия Имя стажера</th>
+                <th className="th training_form">Форма обучения</th>
+                <th className="th try_count">Попытка</th>
+                <th className="th time_exam">Время зачета</th>
+                <th className="th name_examiner_name">ФИ сотрудника</th>
+                <th className="th result_exam">Результат</th>
+                <th className="th comment_exam">Комментарий</th>
+                <th className="th name_train">ФИ обучающего</th>
+                <th className="th internal_test_examiner">ФИ принимающего внутренее ТЗ</th>
+                <th className="hidden-header"></th>
               </tr>
             </thead>
           </table>
@@ -189,10 +193,15 @@ return (
                         {mode === 'my_exams' && <td>{exam.сс_name}</td>}
                       <td className="td">{new Date(exam.date_exam).toLocaleDateString()}</td>
                       <td className="td">{exam.name_intern}</td>
+                      <td className="td">{exam.training_form}</td>
+                      <td className="td">{exam.try_count}</td>
                       <td className="td">{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
                       <td className="td">{exam.name_examiner_name || '----'}</td>
                       <td className="td">{exam.result_exam || '----'}</td>
-                      <td className="td_scroll">{exam.comment_exam || exam.сс_name}</td>
+                      <td className="td">{exam.comment_exam || exam.сс_name}</td>
+                      <td className="td">{exam.name_train}</td>
+                      <td className="td_scroll">{exam.internal_test_examiner}</td>
+
                       <td className="edit-button-cell buttons">
                            <HandleEditClick
                               onClick={() => handleEditClick(exam.id)}
