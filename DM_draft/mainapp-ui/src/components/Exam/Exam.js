@@ -199,8 +199,8 @@ return (
                       <td className="td">{exam.name_examiner_name || '----'}</td>
                       <td className="td">{exam.result_exam || '----'}</td>
                       <td className="td">{exam.comment_exam || exam.сс_name}</td>
-                      <td className="td">{exam.name_train}</td>
-                      <td className="td_scroll">{exam.internal_test_examiner}</td>
+                      <td className="td">{exam.name_train_name}</td>
+                      <td className="td_scroll">{exam.internal_test_examiner_name}</td>
 
                       <td className="edit-button-cell buttons">
                            <HandleEditClick
