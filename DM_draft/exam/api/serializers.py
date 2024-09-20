@@ -29,10 +29,14 @@ class ExamSerializer(serializers.ModelSerializer):
         label="ФИ обучающего/обучающих"
     )
 
+    name_train_name = serializers.CharField(source='name_train.full_name', read_only=True)
+
     internal_test_examiner = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.none(),  # Переопределим queryset ниже
         label="ФИ принимающего внутреннее ТЗ"
     )
+
+    internal_test_examiner_name = serializers.CharField(source='internal_test_examiner.full_name', read_only=True)
 
     class Meta:
         model = Exam
@@ -69,7 +73,8 @@ class AddInternSerializer(ExamSerializer):
 
     class Meta(ExamSerializer.Meta):
         model = Exam
-        fields = ['date_exam', 'name_intern', 'cc', 'training_form', 'try_count', 'name_train', 'internal_test_examiner', 'note']
+        fields = ['date_exam', 'name_intern', 'cc', 'training_form', 'try_count', 'name_train',
+                  'internal_test_examiner', 'note']
 
 
 class EditInternSerializer(ExamSerializer):
@@ -79,4 +84,5 @@ class EditInternSerializer(ExamSerializer):
 
     class Meta(ExamSerializer.Meta):
         model = Exam
-        fields = ['date_exam', 'name_intern', 'cc', 'training_form', 'try_count', 'name_train', 'internal_test_examiner', 'note']
+        fields = ['date_exam', 'name_intern', 'cc', 'training_form', 'try_count', 'name_train',
+                  'internal_test_examiner', 'note']

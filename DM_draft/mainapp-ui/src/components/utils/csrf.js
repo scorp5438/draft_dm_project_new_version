@@ -1,5 +1,7 @@
+import axios from 'axios';
 // Функция для получения CSRF-токена из cookies
 export function getCSRFToken() {
+    console.log('getCSRFToken() called');
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
     const cookies = document.cookie.split(';');
@@ -11,6 +13,16 @@ export function getCSRFToken() {
       }
     }
   }
+  if (!cookieValue) {
+    // Если cookie не доступен, отправляем запрос на сервер для получения CSRF-токена
+    return axios.get('http://127.0.0.1:8000/api/get-csrf-token/', {
+    headers: {
+      'X-Get-Token-Csrf-For-React': 'siyed9gp8qh934',
+    },
+  })
+      .then(response => response.data.csrfToken);
+  }
+  console.log('CSRF token received:', cookieValue);
   return cookieValue;
 }
 
