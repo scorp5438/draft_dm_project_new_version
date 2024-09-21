@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
@@ -44,17 +46,28 @@ class ExamSerializer(serializers.ModelSerializer):
 
         # Получаем текущего пользователя из контекста
         user = self.context['request'].user
-        print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")
-        # Фильтруем queryset для поля name_train
-        self.fields['name_train'].queryset = User.objects.filter(
-            company=user.company, post='Admin'
-        )
-        print(f"Пользователи для name_train: {User.objects.filter(company=user.company, post='Admin')}")
-        # Фильтруем queryset для поля internal_test_examiner
-        self.fields['internal_test_examiner'].queryset = User.objects.filter(
-            company=user.company, post='Admin'
-        )
-        print(f"Пользователи для internal_test_examiner: {User.objects.filter(company=user.company, post='Admin')}")
+
+        cc_id = self.context['request'].headers.get('X-company-id')
+        pprint(self.context['request'].headers)
+        print(f'{user.company.name != "DM" = }')
+        if user.company.name != 'DM':
+            company_id = user.company.id
+            print(f'{type(company_id) = }, {company_id = }')
+        else:
+            company_id = int(cc_id) if cc_id else self.instance.cc.id if self.instance and self.instance.cc else None
+        if company_id:
+            print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")
+            # Фильтруем queryset для поля name_train
+            self.fields['name_train'].queryset = User.objects.filter(
+                company=company_id, post='Admin'
+            )
+
+            print(f"Пользователи для name_train: {User.objects.filter(company=company_id, post='Admin')}")
+            # Фильтруем queryset для поля internal_test_examiner
+            self.fields['internal_test_examiner'].queryset = User.objects.filter(
+                company=company_id, post='Admin'
+            )
+            print(f"Пользователи для internal_test_examiner: {User.objects.filter(company=company_id, post='Admin')}")
 
     def validate(self, data):
         try:

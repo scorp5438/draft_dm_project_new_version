@@ -15,8 +15,12 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         comment_exam: '',
         cc: '',
         name_examiner: '',
+        training_form: '',
+        try_count: '',
+        internal_test_examiner: '',
+        name_train: '',
     });
-
+    console.log(examData ? examData : "fghjljlslfjhn");
     const [errors, setErrors] = useState({}); // Для хранения ошибок
     const [users, setUsers] = useState([]);
     const [resultOptions, setResultOptions] = useState([]);
@@ -45,8 +49,12 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
             setFormData({
                 date_exam: examData.date_exam,
                 name_intern: examData.name_intern,
+                training_form: examData ? examData.training_form : '',
                 time_exam: examData ? examData.time_exam : '',
                 result_exam: examData ? examData.result_exam : '',
+                try_count: examData ? examData.try_count : '',
+                internal_test_examiner: examData ? examData.internal_test_examiner : '',
+                name_train: examData ? examData.name_train : '',
                 comment_exam: examData ? examData.comment_exam : '',
                 cc: examData.cc,
                 name_examiner: examData.name_examiner || '',
@@ -86,6 +94,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(examData);
 
         try {
             const csrfToken = getCSRFToken();

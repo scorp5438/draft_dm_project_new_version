@@ -86,6 +86,7 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(examData);
 
         try {
             const csrfToken = getCSRFToken();
@@ -103,6 +104,7 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
                     'X-CSRFToken': csrfToken,
                 }
             });
+            console.log(`URL: ${url}, ID: ${examData.id}`);
 
             onInternAdded(response.data);
             onClose();
