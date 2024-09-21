@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import TestAPIView
+from .views import TestCSRFView
 
 urlpatterns = [
-    path('test-api/', TestAPIView.as_view(), name='test')
+    path('get-csrf-token/', TestCSRFView.get_csrf_token, name='get-csrf-token'),
 ]

@@ -41,13 +41,14 @@ const Authorization = () => {
       });
 
       if (!response.ok) {
+        console.log('Form submission response:', response);
         const text = await response.text();
         console.error('Ошибка ответа:', text);
         throw new Error('Ошибка сети или сервера');
       }
 
       const data = await response.json();
-
+      console.log('submitForm() called with data:', data);
       if (data.success) {
           if (data.csrfToken) {
           setCSRFToken(data.csrfToken);
@@ -61,6 +62,7 @@ const Authorization = () => {
       setErrorMessage('Ошибка сети или сервера');
       setTimeout(() => setErrorMessage(''), 5000);
     }
+
   };
 
   return (
