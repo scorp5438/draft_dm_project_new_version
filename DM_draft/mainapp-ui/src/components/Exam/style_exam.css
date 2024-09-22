@@ -96,11 +96,21 @@
 .exam-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto; /* Таблица будет адаптироваться по содержимому */
+  table-layout: fixed; /* Таблица будет адаптироваться по содержимому */
+}
+.th {
+  background-color: #1a75e1;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  min-width: 80px;
+  max-width: 250px; /* Максимальная ширина ячейки */
+  word-wrap: break-word; /* Перенос слов, если они не помещаются */
 }
 
-.exam-table th,
-.exam-table td {
+.td {
   padding: 10px;
   text-align: left;
   font-size: 18px;
@@ -110,26 +120,14 @@
   max-width: 250px; /* Максимальная ширина ячейки */
   word-wrap: break-word; /* Перенос слов, если они не помещаются */
 }
-.th {
-  background-color: #176add;
-  color: #0068E2;
-}
+
 .exam-table body {
-   word-wrap: break-word; /* Перенос слов, если они не помещаются */
-  overflow: hidden; /* Скрываем содержимое, выходящее за границы */
-  text-overflow: ellipsis; /* Добавляем "..." для обрезанного текста */
-  table-layout: auto; /* Таблица будет адаптироваться по содержимому */
-}
-.td {
-  padding: 10px;
-  text-align: left;
-  color: #0068E2;
-  font-size: 20px;
-  border: 1px solid #ddd;
   word-wrap: break-word; /* Перенос слов, если они не помещаются */
   overflow: hidden; /* Скрываем содержимое, выходящее за границы */
   text-overflow: ellipsis; /* Добавляем "..." для обрезанного текста */
+  table-layout: fixed; /* Таблица будет адаптироваться по содержимому */
 }
+
 .exam-table th:nth-child(1),
 .exam-table td:nth-child(1) {
   min-width: 80px;  /* Минимальная ширина */
@@ -144,10 +142,10 @@
 
 
 .hidden-header {
-    color: #e5e5e5;
-    pointer-events: none;
-    background-color: #e5e5e5;
-    border: none;
+  color: #e5e5e5;
+  pointer-events: none;
+  background-color: #e5e5e5;
+  border: none;
 }
 .exam-table {
    border:none !impotent;

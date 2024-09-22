@@ -55,7 +55,10 @@ class ExamSerializer(serializers.ModelSerializer):
             company_id = user.company.id
             print(f'{type(company_id) = }, {company_id = }')
         else:
-            company_id = int(cc_id) if cc_id else self.instance.cc.id if self.instance and self.instance.cc else None
+
+            company_id = int(cc_id) if cc_id else self.instance.cc.id if self.instance and hasattr(self.instance,
+                                                                                                   'cc') else None
+
         if company_id:
             print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")
             # Фильтруем queryset для поля name_train
