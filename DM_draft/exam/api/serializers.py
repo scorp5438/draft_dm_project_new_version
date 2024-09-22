@@ -28,18 +28,15 @@ class ExamSerializer(serializers.ModelSerializer):
         label="ФИ обучающего/обучающих"
     )
 
-    name_train_name = serializers.CharField(source='name_train.full_name', read_only=True)
-
     internal_test_examiner = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.none(),  # Переопределим queryset ниже
         label="ФИ принимающего внутреннее ТЗ"
     )
     name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
-    сс_name = serializers.CharField(source='cc.name', read_only=True)
+    cc_name = serializers.CharField(source='cc.name', read_only=True)
     name_train_name = serializers.CharField(source='name_train.full_name', read_only=True)
     internal_test_examiner_name = serializers.CharField(source='internal_test_examiner.full_name', read_only=True)
 
-    internal_test_examiner_name = serializers.CharField(source='internal_test_examiner.full_name', read_only=True)
 
     class Meta:
         model = Exam
