@@ -41,9 +41,13 @@ function Exam() {
       setSelectedExamData(null); // Сбрасываем выбранные данные экзамена
     }
   };
-console.log(mode);
+
  const fetchExamData = () => {
-    axios.get('http://127.0.0.1:8000/api/exam/')
+    axios.get('http://127.0.0.1:8000/api/exam/', {
+      headers: {
+        'X-company-id': selectedCompanyId // Добавляем заголовок, например для авторизации
+      }
+    })
       .then(response => {
         const data = response.data;
 
@@ -57,7 +61,7 @@ console.log(mode);
           );
 
           setFilteredData(filtered);
-        } else if (user.company.name === 'DM') {
+        } else if (user && user.company.name === 'DM') {
           // Если компания DM, загружаем полный список и фильтруем по выбранной компании
           const filtered = selectedCompanyId
             ? data.filter(exam => exam.cc === selectedCompanyId)
@@ -75,7 +79,7 @@ console.log(mode);
         console.error("Ошибка при загрузке данных:", error);
       });
   };
-   console.log('олдпдлвпадл', user ? user.id : 'fjdlkjglkds');
+
    useEffect(() => {
   fetchCompanies().then(companiesData => {
     setCompanies(companiesData);
@@ -92,12 +96,13 @@ console.log(mode);
   useEffect(() => {
     fetchExamData();
   }, [selectedCompanyId, company]);
-    console.log(companies);
+
   const handleInternAdded = () => {
     fetchExamData();
   };
 
   const handleEditClick = (id) => {
+  console.log("Editing exam with ID:", id); // Проверка id
     let url = '';
     if (user.company.name === 'DM') {
       url = `http://127.0.0.1:8000/api/exam/${id}/`;
@@ -105,9 +110,14 @@ console.log(mode);
       url = `http://127.0.0.1:8000/api/add_intern/${id}/`;
     }
 
+
     axios.get(url)
       .then(response => {
-        setSelectedExamData(response.data);
+      const examDataWithId = {
+         ...response.data,
+       id: id // Добавляем id в объект
+         };
+        setSelectedExamData(examDataWithId);
         setSelectedExamId(id);
         toggleModal();
       })
@@ -115,6 +125,7 @@ console.log(mode);
         console.error("Ошибка при загрузке данных:", error);
       });
   };
+
 const handleDeleteClick = (id) => {
   axios.delete(`http://127.0.0.1:8000/api/exam/${id}/`, {
     headers: {
@@ -154,6 +165,8 @@ const handleDeleteClick = (id) => {
 
     return false; // В остальных случаях кнопка активна
   };
+  console.log(selectedExamData ? selectedExamData : "hfdbbflajsdliujf");
+
 return (
   <div className="exam-table">
     <div className="header-content">
@@ -172,10 +185,14 @@ return (
                 {mode === 'my_exams' && <th className="th">Компания</th>}
                 <th className="th">Дата зачета</th>
                 <th className="th">Фамилия Имя стажера</th>
+                <th className="th">Форма обучения</th>
+                <th className="th">Попытка</th>
                 <th className="th">Время зачета</th>
                 <th className="th">ФИ сотрудника</th>
                 <th className="th">Результат</th>
                 <th className="th">Комментарий</th>
+                <th className="th">ФИ обучающего</th>
+                <th className="th">ФИ принимающего внутренее ТЗ</th>
                 <th className="hidden-header">Действия</th>
               </tr>
             </thead>
@@ -186,13 +203,18 @@ return (
                 {filteredData.length > 0 ? (
                   filteredData.map(exam => (
                     <tr key={exam.id || exam.name_intern}>
-                        {mode === 'my_exams' && <td>{exam.сс_name}</td>}
+                      {mode === 'my_exams' && <td className="td">{exam.cc_name}</td>}
                       <td className="td">{new Date(exam.date_exam).toLocaleDateString()}</td>
                       <td className="td">{exam.name_intern}</td>
+                      <td className="td">{exam.training_form}</td>
+                      <td className="td">{exam.try_count}</td>
                       <td className="td">{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
                       <td className="td">{exam.name_examiner_name || '----'}</td>
                       <td className="td">{exam.result_exam || '----'}</td>
-                      <td className="td_scroll">{exam.comment_exam || exam.сс_name}</td>
+                      <td className="td">{exam.comment_exam || company.name}</td>
+                      <td className="td">{exam.name_train_name}</td>
+                      <td className="td">{exam.internal_test_examiner_name}</td>
+
                       <td className="edit-button-cell buttons">
                            <HandleEditClick
                               onClick={() => handleEditClick(exam.id)}

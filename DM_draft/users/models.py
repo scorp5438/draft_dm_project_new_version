@@ -41,7 +41,7 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return self.full_name
+        return self.full_name if self.full_name else self.username
 
 
 class Lines(models.Model):

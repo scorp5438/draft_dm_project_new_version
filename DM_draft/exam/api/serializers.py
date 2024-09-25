@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
@@ -21,22 +23,20 @@ class ExamSerializer(serializers.ModelSerializer):
         label="ФИ сотрудника"
     )
 
-    name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
-    сс_name = serializers.CharField(source='cc.name', read_only=True)
-
     name_train = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.none(),  # Переопределим queryset ниже
         label="ФИ обучающего/обучающих"
     )
 
-    name_train_name = serializers.CharField(source='name_train.full_name', read_only=True)
-
     internal_test_examiner = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.none(),  # Переопределим queryset ниже
         label="ФИ принимающего внутреннее ТЗ"
     )
-
+    name_examiner_name = serializers.CharField(source='name_examiner.full_name', read_only=True)
+    cc_name = serializers.CharField(source='cc.name', read_only=True)
+    name_train_name = serializers.CharField(source='name_train.full_name', read_only=True)
     internal_test_examiner_name = serializers.CharField(source='internal_test_examiner.full_name', read_only=True)
+
 
     class Meta:
         model = Exam
@@ -47,17 +47,31 @@ class ExamSerializer(serializers.ModelSerializer):
 
         # Получаем текущего пользователя из контекста
         user = self.context['request'].user
-        print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")`
-        # Фильтруем queryset для поля name_train
-        self.fields['name_train'].queryset = User.objects.filter(
-            company=user.company, post='Admin'
-        )
-        print(f"Пользователи для name_train: {User.objects.filter(company=user.company, post='Admin')}")
-        # Фильтруем queryset для поля internal_test_examiner
-        self.fields['internal_test_examiner'].queryset = User.objects.filter(
-            company=user.company, post='Admin'
-        )
-        print(f"Пользователи для internal_test_examiner: {User.objects.filter(company=user.company, post='Admin')}")
+
+        cc_id = self.context['request'].headers.get('X-company-id')
+        pprint(self.context['request'].headers)
+        print(f'{user.company.name != "DM" = }')
+        if user.company.name != 'DM':
+            company_id = user.company.id
+            print(f'{type(company_id) = }, {company_id = }')
+        else:
+
+            company_id = int(cc_id) if cc_id else self.instance.cc.id if self.instance and hasattr(self.instance,
+                                                                                                   'cc') else None
+
+        if company_id:
+            print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")
+            # Фильтруем queryset для поля name_train
+            self.fields['name_train'].queryset = User.objects.filter(
+                company=company_id, post='Admin'
+            )
+
+            print(f"Пользователи для name_train: {User.objects.filter(company=company_id, post='Admin')}")
+            # Фильтруем queryset для поля internal_test_examiner
+            self.fields['internal_test_examiner'].queryset = User.objects.filter(
+                company=company_id, post='Admin'
+            )
+            print(f"Пользователи для internal_test_examiner: {User.objects.filter(company=company_id, post='Admin')}")
 
     def validate(self, data):
         try:

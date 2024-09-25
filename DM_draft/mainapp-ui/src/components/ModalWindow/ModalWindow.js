@@ -60,11 +60,14 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
     }, []);
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    const { name, value, type, checked } = e.target;
+
+    setFormData({
+        ...formData,
+        [name]: type === 'checkbox' ? checked : value, // Для checkbox используем checked, для остальных value
+    });
+};
+
 
     const formatErrors = (errors) => {
         const formattedErrors = {};
@@ -86,23 +89,29 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(examData);
 
-        try {
-            const csrfToken = getCSRFToken();
-            const url = isEditing
-                ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
-                : 'http://127.0.0.1:8000/api/add_intern/';
-            const method = isEditing ? 'put' : 'post';
+       try {
+        const csrfToken = getCSRFToken();
 
-            const response = await axios({
-                method: method,
-                url: url,
-                data: formData,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                }
-            });
+        // Проверяем, есть ли examData и id (для редактирования)
+        const url = examData && examData.id
+            ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
+            : 'http://127.0.0.1:8000/api/add_intern/'; // Для создания нового объекта
+
+        const method = examData && examData.id ? 'put' : 'post'; // Редактирование или создание
+
+        const response = await axios({
+            method: method,
+            url: url,
+            data: formData,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            }
+        });
+
+        console.log(`URL: ${url}, ID: ${examData ? examData.id : 'New Entry'}`);
 
             onInternAdded(response.data);
             onClose();
