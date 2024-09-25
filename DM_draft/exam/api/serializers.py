@@ -47,7 +47,7 @@ class ExamSerializer(serializers.ModelSerializer):
 
         # Получаем текущего пользователя из контекста
         user = self.context['request'].user
-        print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")
+        print(f"Текущий пользователь: {user}, компания: {user.company}, post: {user.post}")`
         # Фильтруем queryset для поля name_train
         self.fields['name_train'].queryset = User.objects.filter(
             company=user.company, post='Admin'
