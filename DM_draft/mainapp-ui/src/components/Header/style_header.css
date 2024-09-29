@@ -25,9 +25,8 @@ html, body {
   background-size: cover;
   z-index: 0;
 }
-a img{
-  padding: 50px 80px 50px 80px;
-  max-width: 100%;
+.logo {
+  width: auto;
   height: auto;
 }
 .header-container {
@@ -57,10 +56,7 @@ a img{
 a {
   cursor:pointer;
   }
-.logo img {
-  max-width: 100%;
-  height: 100%;
-}
+
 .clock-time {
   display: flex;
   flex-direction: column;

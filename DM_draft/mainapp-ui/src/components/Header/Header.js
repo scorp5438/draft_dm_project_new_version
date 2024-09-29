@@ -94,7 +94,7 @@ function Header() {
       <div className="background" />
       <div className="header-container">
         <div className="header-logo">
-          <a onClick={handleLogoClick}><Image image={image} classNames={{ image: 'logo-image' }}/></a>
+          <a className="logo" onClick={handleLogoClick}><Image image={image} classNames={{ image: 'logo-image' }}/></a>
         </div>
 
         <div className="header-navigation">
