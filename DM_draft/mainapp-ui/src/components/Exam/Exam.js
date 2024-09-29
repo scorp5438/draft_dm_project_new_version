@@ -168,19 +168,18 @@ const handleDeleteClick = (id) => {
   console.log(selectedExamData ? selectedExamData : "hfdbbflajsdliujf");
 
 return (
-  <div className="exam-table">
+  <div className="exam-header">
     <div className="header-content">
       <Header />
-    </div>
+
     <div className="exam-content">
       <div className='company'>
         {user.company.name === "DM" && (<h1>{selectedCompanyName}</h1>)}
       </div>
-      <div className='exam-fixed'>
       <div className="exam-container">
-        <div className="table-wrapper">
-          <table className="exam-table">
-            <thead>
+        <div className="padding">
+        <table className="exam-table">
+            <thead className="scroll-thead">
               <tr>
                 {mode === 'my_exams' && <th className="th">Компания</th>}
                 <th className="th">Дата зачета</th>
@@ -193,13 +192,10 @@ return (
                 <th className="th">Комментарий</th>
                 <th className="th">ФИ обучающего</th>
                 <th className="th">ФИ принимающего внутренее ТЗ</th>
-                <th className="hidden-header">Действия</th>
+                <th className="hidden-header"> </th>
               </tr>
             </thead>
-          </table>
-          <div className="scroll-table-body">
-            <table className="exam-table">
-              <tbody>
+              <tbody className="scroll-tbody">
                 {filteredData.length > 0 ? (
                   filteredData.map(exam => (
                     <tr key={exam.id || exam.name_intern}>
@@ -211,11 +207,11 @@ return (
                       <td className="td">{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
                       <td className="td">{exam.name_examiner_name || '----'}</td>
                       <td className="td">{exam.result_exam || '----'}</td>
-                      <td className="td">{exam.comment_exam || company.name}</td>
+                      <td className="td comments">{exam.comment_exam || company.name}</td>
                       <td className="td">{exam.name_train_name}</td>
                       <td className="td">{exam.internal_test_examiner_name}</td>
 
-                      <td className="edit-button-cell buttons">
+                      <td className="edit-button-cell">
                            <HandleEditClick
                               onClick={() => handleEditClick(exam.id)}
                               disabled={isButtonDisabled(exam)} // передаем значение disabled
@@ -232,12 +228,11 @@ return (
                 )}
               </tbody>
             </table>
-          </div>
         </div>
+      </div>
         {/* Кнопка добавления стажера */}
         {user.company.name !== 'DM' && <AddInternButton onClick={toggleModal} className='add-intern' />}
-      </div>
-    </div>
+
 </div>
     {/* Модальное окно */}
     {isModalOpen && (
@@ -259,6 +254,7 @@ return (
         )}
       </div>
     )}
+  </div>
   </div>
 );
 }
