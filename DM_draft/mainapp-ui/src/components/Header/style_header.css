@@ -34,7 +34,6 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: auto;
   display: flex;
   background-color: #E5E5E5;
   justify-content: space-between;
@@ -255,7 +254,7 @@ input[type="checkbox"]:checked + label + .hamburger-menu {
   pointer: cursor;
   transition: color 0.3s ease, transform 0.3s ease;
   display: inline-block;
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
 .menu-active a:hover{
    color:rgba(243, 107, 9, 1);
