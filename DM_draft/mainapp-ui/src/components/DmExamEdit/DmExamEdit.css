@@ -14,7 +14,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
 
 
@@ -68,7 +68,6 @@ html, body {
   border: none;
   cursor: pointer;
   z-index: 2;
-  margin-button:20px;
   font-family: "fontawesome2", sans-serif;
 }
 
@@ -99,7 +98,7 @@ form select
   border-radius: 15px;
   box-sizing: border-box;
   font-size:20px;
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
   color: rgba(105, 155, 247, 1);
   appearance: none;
 }
@@ -118,7 +117,7 @@ form select
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    font-family: "fontawesome2" sans-serif;
+    font-family: "fontawesome2", sans-serif;
     font-size:16px;
     color: rgba(105, 155, 247, 1);
     resize: vertical; /* Разрешает изменение высоты пользователем */
@@ -129,7 +128,7 @@ form select
 form select {
   background-position: right 10px center;
   background-repeat: no-repeat;
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
 .form_option {
   font-family: "inherit", sans-serif;

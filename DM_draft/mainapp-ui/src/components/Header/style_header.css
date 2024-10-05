@@ -45,6 +45,12 @@ html, body {
 
 }
 
+.circle {
+  position: absolute;
+  right: -15px;
+  top: -12px;
+  z-index: 5;
+}
 .header-navigation {
   display: flex;
   flex-direction: row;
@@ -87,12 +93,12 @@ a {
   position: relative;
   background-color:#e5e5e5;
   padding: 10px;
-  border: none;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   color: rgba(0, 104, 226, 1);
   cursor: pointer;
   border-radius: 25px;
   overflow: hidden;
-  transition: all 0.5s ease;
   transition: color 0.5s ease, background-color 0.5s ease;
   display: flex;
   justify-content: center;
@@ -102,7 +108,7 @@ a {
   font-family: "fontawesome2", sans-serif;
 }
 .header-nav-button_person div {
-  margin-right: 8px;
+  margin-right: 1px;
 }
 .header-nav-button svg {
   fill: #086DE2;
@@ -117,6 +123,7 @@ a {
 }
 .header-nav-button p,
 .header-nav-button_person p {
+  position: relative;
   font-size: 34px;
   font-weight: 500;
   color: rgba(0, 104, 226, 1);
@@ -125,6 +132,12 @@ a {
 .header-nav-button:hover,
 .header-nav-button_person:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.header-nav-button:active,
+.header-nav-button_person:active {
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0); /* Убираем тень при нажатии */
+  transition: box-shadow 3ms ease; /* Плавное исчезновение тени */
 }
 .header-nav-button:hover svg {
   fill: rgba(243, 107, 9, 1);
@@ -157,7 +170,7 @@ a {
   position: absolute;
   top: 100%;
   left: 0%;
-  width: 150px;
+  width: 160px;
   background-color: #E5E5E5;
   box-shadow: 0 4px 8px rgba(0, 104, 226, 1);
   z-index: 1000;
@@ -171,6 +184,7 @@ a {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .menu-active.show {
+  width: 160px;
   display: block;
   opacity: 1;
   transform: translateY(0);
@@ -190,22 +204,20 @@ input[type="checkbox"] {
   font-family: "fontawesome2", sans-serif;
 }
 input[type="checkbox"]:checked + .header-nav-button + .hamburger-menu {
-  display: block;
+  display: flex;
   font-family: "fontawesome2", sans-serif;
 }
 input[type="checkbox"]:checked + .header-nav-button_person + .menu-active {
-  display: block;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 input[type="checkbox"]:checked + label + .hamburger-menu {
-  display: block;
   opacity: 1;
   transform: translateY(0);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: stretch;
   z-index: 1000;
 }
 .menu-active a:hover {
@@ -232,6 +244,9 @@ input[type="checkbox"]:checked + label + .hamburger-menu {
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+.signal-test {
+  display: flex;
+}
 .hamburger-menu a {
   font-weight: bold;
   font-size: 20px;
@@ -243,6 +258,22 @@ input[type="checkbox"]:checked + label + .hamburger-menu {
   transition: color 0.3s ease, transform 0.3s ease;
   display: inline-block;
   font-family: "fontawesome2", sans-serif;
+}
+.link-counter {
+  padding: 0 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.num-exam {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
 .menu-active a {
   font-weight: bold;
@@ -264,7 +295,17 @@ input[type="checkbox"]:checked + label + .hamburger-menu {
    color:rgba(243, 107, 9, 1);
    transform: scale(1.1);
 }
-
+.count-my-exam {
+  background-color: #f22026;
+  border: none;
+  border-radius: 50%;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 14px;
+  padding: 3px 7px;
+}
 .hidden {
   display: none;
 }

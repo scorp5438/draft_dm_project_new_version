@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getCSRFToken } from '../utils/csrf';
 import "./DmExamEdit.css";
-import Image from '../Image/Image';
+import Cross from '../AllIcons/Cross/Cross';
 import cross from '../../img/cross.svg';
 import { formatTime } from '../utils/formatTime';
 
@@ -150,7 +150,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
         <div className="modal-content">
             <div className="modal-top">
                 <button className="close-modal" onClick={onClose}>
-                    <Image image={cross} alt="cross" className="cross" />
+                    <Cross alt="cross" className="cross" />
                 </button>
                 <form onSubmit={handleSubmit}>
                     <label>

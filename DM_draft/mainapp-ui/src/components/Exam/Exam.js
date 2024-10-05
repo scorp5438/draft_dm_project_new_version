@@ -8,6 +8,7 @@ import { add30Minutes } from '../utils/formatTime';
 import Header from '../Header/Header';
 import { useLocation } from 'react-router-dom';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import InfoIcon from '../AllIcons/InfoIcon/InfoIcon'
 import DmExamEdit from '../DmExamEdit/DmExamEdit';
 import AddInternButton from '../AddInternButton/AddInternButton';
 import HandleEditClick from '../HandleEditClick/HandleEditClick';
@@ -201,7 +202,7 @@ return (
                     <tr key={exam.id || exam.name_intern}>
                       {mode === 'my_exams' && <td className="td">{exam.cc_name}</td>}
                       <td className="td">{new Date(exam.date_exam).toLocaleDateString()}</td>
-                      <td className="td">{exam.name_intern}</td>
+                      <td className="td">{exam.name_intern}{exam.note ? <button className="note-info" title={exam.note}><InfoIcon /> </button>: ""}</td>
                       <td className="td">{exam.training_form}</td>
                       <td className="td">{exam.try_count}</td>
                       <td className="td">{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
@@ -223,7 +224,7 @@ return (
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="td">Нет данных для отображения</td>
+                    <td colSpan="11" className="td">Нет данных для отображения</td>
                   </tr>
                 )}
               </tbody>
