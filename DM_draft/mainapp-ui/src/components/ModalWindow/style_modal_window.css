@@ -67,7 +67,7 @@ html, body {
   border: none;
   cursor: pointer;
   z-index: 2;
-  margin-button:20px;
+  margin-bottom:20px;
    font-family: "fontawesome2", sans-serif;
 }
 
@@ -88,7 +88,7 @@ form label {
 }
 
 form input[type="text"],
-form input[type="date"],
+form input[type="date"]
 {
   width: 100%;
   padding: 10px;

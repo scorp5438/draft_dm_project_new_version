@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import axios from 'axios';
 import './style_exam.css';
 import { getCSRFToken } from '../utils/csrf';
@@ -33,7 +33,7 @@ function Exam() {
   const [companies, setCompanies] = useState([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState(null);
   const [selectedCompanyName, setSelectedCompanyName] = useState('');
-
+  const lastRowRef = useRef(null); // Реф для последней строки
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Переключаем состояние модального окна
@@ -146,6 +146,14 @@ const handleDeleteClick = (id) => {
     }
   });
 };
+  // Убедимся, что ref привязан корректно к последнему элементу
+  const setLastRowRef = useCallback((element) => {
+    lastRowRef.current = element; // Привязываем реф к элементу
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.focus(); // Устанавливаем фокус на элемент
+    }
+  }, []);
   if (!user) {
     return <div>Загрузка...</div>;
   }
@@ -167,6 +175,7 @@ const handleDeleteClick = (id) => {
     return false; // В остальных случаях кнопка активна
   };
   console.log(selectedExamData ? selectedExamData : "hfdbbflajsdliujf");
+
 
 return (
   <div className="exam-header">
@@ -198,11 +207,21 @@ return (
             </thead>
               <tbody className="scroll-tbody">
                 {filteredData.length > 0 ? (
-                  filteredData.map(exam => (
-                    <tr key={exam.id || exam.name_intern}>
+                  filteredData.map((exam, index) => (
+                    <tr key={exam.id || exam.name_intern} ref={index === filteredData.length - 1 ? setLastRowRef : null} tabIndex="-1">
                       {mode === 'my_exams' && <td className="td">{exam.cc_name}</td>}
                       <td className="td">{new Date(exam.date_exam).toLocaleDateString()}</td>
-                      <td className="td">{exam.name_intern}{exam.note ? <button className="note-info" title={exam.note}><InfoIcon /> </button>: ""}</td>
+                      <td className="td">
+                        {exam.name_intern}
+                        {exam.note ? (
+                            <div className="custom-tooltip">
+                              <button className="note-info">
+                                <InfoIcon/>
+                              </button>
+                              <span className="tooltip-text">{exam.note}</span>
+                            </div>
+                        ) : ""}
+                      </td>
                       <td className="td">{exam.training_form}</td>
                       <td className="td">{exam.try_count}</td>
                       <td className="td">{formatTime(exam.time_exam) === '00:00' ? '----' : `${formatTime(exam.time_exam)} - ${add30Minutes(exam.time_exam)}`}</td>
@@ -224,7 +243,7 @@ return (
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="11" className="td">Нет данных для отображения</td>
+                    <td colSpan= {mode === 'my_exams' ? "11" : "10"} className="td">Нет данных для отображения</td>
                   </tr>
                 )}
               </tbody>

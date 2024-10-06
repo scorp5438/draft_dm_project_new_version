@@ -262,10 +262,10 @@ function Header() {
                   {companies.map(company => (
                       <div className="link-counter">
                         <div key={company.id} onClick={() => handleCompanyChange(company.slug)}><a>{company.name}</a></div>
-                        <div className="count-my-exam">{companyCounts[company.id] ?? null}</div>
-                      </div>
-                  ))}
-                </div>
+                        <div>{(companyCounts[company.id] ?? null) && (<span  className="count-my-exam">{companyCounts[company.id]}</span>)}</div>
+                            < /div>
+                          ))}
+                        </div>
             )}
           </div>
           <div className="header-nav-item">
