@@ -216,7 +216,7 @@ function Header() {
                   {companies.map(company => (
                       <div className="link-counter">
                         <div key={company.id} onClick={() => handleCompanyChange(company.slug)}><a>{company.name}</a></div>
-                        <div>{(companyCounts[company.id] ?? null) && (<span  className="count-my-exam">{companyCounts[company.id]}</span>)}</div>
+                        <div>{(companyCounts[company.id] ?? null) && (<span className="count-my-exam">{companyCounts[company.id]}</span>)}</div>
                             < /div>
                           ))}
                         </div>
@@ -252,8 +252,8 @@ function Header() {
             </label>
              <div ref={personalMenuRef} className={`menu-active ${isMenuOpen ? 'show' : 'hidden'}`}>
               <div><a href={routes.admin}>Админ панель</a></div>
-               <div className="num-exam"><a href={createUrlWithParams(routes.exam, {mode: 'my_exams'})} key={user.id}>Мои зачёты</a><span
-                   className="count-my-exam">{currentExams > 0 && (<span>{currentExams}</span>)}</span></div>
+               <div className="num-exam"><a href={createUrlWithParams(routes.exam, {mode: 'my_exams'})} key={user.id}>Мои зачёты</a><span>
+                 {currentExams > 0 && (<span className="count-my-exam">{currentExams}</span>)}</span></div>
                <div><a href={routes.logout}>Выход</a></div>
              </div>
            </div>
