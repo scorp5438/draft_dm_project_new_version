@@ -41,8 +41,8 @@ function Header() {
     if (diff <= 30 && diff >= 0) {
       // отображаем уведомление и звуковой сигнал
       var audio = new Audio(au);
-      audio.play();
-      alert(`Уведомление: до зачета со стажером ${exam.name_intern} осталось ${diff} минут!`);
+      // audio.play();
+      // alert(`Уведомление: до зачета со стажером ${exam.name_intern} осталось ${diff} минут!`);
     }
   };
   

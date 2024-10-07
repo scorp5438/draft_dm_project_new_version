@@ -187,10 +187,10 @@ return (
         {user.company.name === "DM" && (<h1>{selectedCompanyName}</h1>)}
       </div>
       <div className="exam-container">
-        <div className="padding">
+        <div className="panda">
         <table className="exam-table">
             <thead className="scroll-thead">
-              <tr>
+              <tr className="box-shadow">
                 {mode === 'my_exams' && <th className="th">Компания</th>}
                 <th className="th">Дата зачета</th>
                 <th className="th">Фамилия Имя стажера</th>

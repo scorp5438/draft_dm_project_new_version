@@ -55,7 +55,7 @@
   min-height: 200px;
   height: 70vh;
 }
-.padding {
+.panda {
   display: block;
   border: 10px solid #e5e5e5;
   width: 100%;
@@ -76,11 +76,15 @@
   overflow: hidden;
   top: 0;
   z-index: 12;
+  box-shadow: 0 -8px 8px #e5e5e5;
 }
 .scroll-tbody {
   height: 100%;
   z-index: 10;
   overflow-y: auto; /* Добавляем вертикальную прокрутку */
+}
+.box-shadow {
+  box-shadow: 0 -8px 8px #e5e5e5;
 }
 .th {
   background-color: #1a75e1;
@@ -88,7 +92,10 @@
   padding: 10px;
   text-align: left;
   font-size: 18px;
-  border: 1px solid #ddd;
+  border-left: 1px solid #ddd;   /* Левая граница */
+  border-right: 1px solid #ddd;  /* Правая граница */
+  border-bottom: 1px solid #ddd; /* Нижняя граница */
+  border-top: none;
   height: 80px;
   width: auto; /* Устанавливаем ширину на auto */
   max-width: 500px;
@@ -107,12 +114,13 @@
 }
 .td {
   position: relative;
+  z-index: 1;
   color: #0073e6;
   padding: 10px;
   text-align: left;
   font-size: 18px;
   border: 1px solid #ddd;
-  height: auto;
+  max-height: 80px;
   width: auto; /* Устанавливаем ширину на auto */
   max-width: 500px; /* Максимальная ширина ячеек */
   word-wrap: break-word; /* Перенос слов, если они не помещаются */
