@@ -17,7 +17,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .background::before {
   content: "";
   position: absolute;
@@ -38,7 +37,6 @@
   height: 100%;
   z-index: 1;
 }
-
 .start {
   position: absolute;
   top: 50%;
@@ -50,7 +48,6 @@
   text-align: left;
   z-index: 2;
 }
-
 .container_auto {
   display: flex;
   justify-content: center;
@@ -60,21 +57,23 @@
   position: absolute;
   z-index: 2;
 }
-
 .start-glass-bg {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   position: absolute;
-  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.0); /* Полупрозрачный белый фон */
   padding: 2rem;
   width: 500px;
   height: auto;
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   box-shadow: 1px 4px 4px 4px rgba(255, 255, 255, 1.5);
   border-radius: 50px;
   z-index: 2;
 }
-.start-glass-bg img{
-  padding: 50px;
+.logo {
+  margin: 50px;
   cursor:pointer;
 }
 .error-message {
@@ -90,41 +89,49 @@
 .registration-form {
   display: flex;
   flex-direction: column;
-  padding: 3 0px 30px 30px;
-  font-family: "fontawesome2" sans-serif;
+  padding: 30px 30px 30px;
+  font-family: "fontawesome2", sans-serif;
 }
-
-.registration-form h2 {
+.start-glass-bg h2 {
   margin-bottom: 1rem;
   text-align: center;
   color: rgba(0, 104, 226, 1);
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
 
 .registration-form label {
   margin-bottom: 0.5rem;
   color: rgba(0, 104, 226, 1);
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
-.registration-form input {
+.input-auth {
   padding: 0.5rem;
   margin-bottom: 1rem;
-  border: 2px solid rgba(239, 128, 81, 1);
-  border-radius: 5px;
-  background: rgba(253, 243, 228, 1);
-  color: rgba(0, 104, 226, 1);
-  font-family: "fontawesome2", sans-serif;
-  font-size: 2ex;
+  border: 2px solid rgba(239, 128, 81, 1) !important;
+  border-radius: 5px !important;
+  background: rgba(253, 243, 228, 1) !important;
+  color: rgba(0, 104, 226, 1) !important;
+  font-family: "fontawesome2", sans-serif !important;
+  font-size: 2ex !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
-.registration-form input::placeholder {
+.input-auth:focus {
+  outline: none; /* Убрать стандартную обводку */
+  border-color: rgba(0, 104, 226, 1); /* Изменить цвет границы при фокусе */
+  background-color: rgba(255, 255, 255, 0.9); /* Легкая смена фона при фокусе */
+  box-shadow: 0 0 10px rgba(0, 104, 226, 0.5); /* Легкое свечение вокруг input */
+}
+.input-auth::placeholder {
   color: rgba(0, 104, 226, 1);
+  font-style: normal; /* Курсив для placeholder */
 }
 .registration-form p {
   color: rgba(0, 104, 226, 1);
   font-size: 18px;
   margin-bottom: 30px;
   text-align: center;
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
 .registration-form button {
   padding: 0.5rem;
@@ -135,7 +142,8 @@
   font-size: 1rem;
   cursor: pointer;
   margin-bottom: 20px;
-  font-family: "fontawesome2" sans-serif;
+  font-family: "fontawesome2", sans-serif;
+  transition: background-color 0.3s ease; /* Плавное изменение цвета */
 }
 
 .registration-form button:hover {

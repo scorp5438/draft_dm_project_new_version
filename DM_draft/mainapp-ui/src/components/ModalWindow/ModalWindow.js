@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getCSRFToken } from '../utils/csrf';
 import "./style_modal_window.css";
 import { useUser } from '../utils/get_user';
-import Image from '../Image/Image';
+import Cross from '../AllIcons/Cross/Cross';
 import cross from '../../img/cross.svg';
 
 function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
@@ -136,7 +136,7 @@ function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
         <div className="modal-content">
             <div className="modal-top">
                 <button className="close-modal" onClick={onClose}>
-                    <Image image={cross} alt="cross" className="cross" />
+                    <Cross alt="cross" className="cross" />
                 </button>
                 <form onSubmit={handleSubmit}>
                     <label>

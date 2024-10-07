@@ -71,28 +71,28 @@ const Authorization = () => {
         <Image background={background} alt="background" className="background" />
       </div>
       <div className="start-glass-bg">
-        <Image image={image} alt="Logo"/>
+        <Image image={image} alt="logo"/>
+        <h2>Вход в личный кабинет</h2>
         <form className="registration-form" onSubmit={handleSubmit}>
-          <h2>Вход в личный кабинет</h2>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
-          <label htmlFor="username"></label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            placeholder="Логин"
-            autoFocus
-          />
-          <label htmlFor="password"></label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            placeholder="Пароль"
-          />
+          <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()}/>
+          <label htmlFor="username">
+            <input className="input-auth"
+                   type="text"
+                   id="username"
+                   name="username"
+                   required
+                   placeholder="Логин"
+                   autoFocus
+            /></label>
+          <label htmlFor="password">
+            <input className="input-auth"
+                   type="password"
+                   id="password"
+                   name="password"
+                   required
+                   placeholder="Пароль"
+            /></label>
           <button type="submit">Войти</button>
           <p>Если забыли логин и пароль, напишите менеджеру</p>
         </form>

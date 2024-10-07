@@ -10,18 +10,8 @@
   padding: 0;
   box-sizing: border-box;
 }
-.exam-table {
+.exam-header {
   position: relative;
-  font-family: "fontawesome2", sans-serif;
-}
-.exam-content {
-  top: 140px;
-  width:100%;
-  min-height: 100%;
-  display:flex;
-  flex-direction: column;
-  padding: 10px;
-  position:relative;
   font-family: "fontawesome2", sans-serif;
 }
 .header-content {
@@ -29,74 +19,68 @@
   top: 0;
   width: 100%;
   z-index: 2; /* Делаем Header выше других элементов */
-   font-family: "fontawesome2", sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
+.exam-content {
+  position: fixed;
+  margin-top: 140px;
+  width:100%;
+  min-height: 100%;
+  display:flex;
+  flex-direction: column;
+  font-family: "fontawesome2", sans-serif;
+}
+
 .company {
   color: #176add;
+  margin-top: 20px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 4px 10px #757679;
+  box-shadow: 2px 4px 10px #757679;
   border-radius: 25px;
   background-color: #92c9a5c2;
-   font-family: "fontawesome2", sans-serif;
+  font-family: "fontawesome2", sans-serif;
 }
 .exam-container {
-   font-family: "fontawesome2", sans-serif;
-  z-index:1;
-}
-.exam__background {
-  background-color: #DDE6EC;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.exam-fixed {
-  display:fixed;
-}
-.exam-container {
-  position:absolute;
-  display:block;
-  max-width:99%;
-  margin-top: 25px;
-  top: 55px;
-  button:50px;
-  padding: 10px;
-  width: 100%;
+  display: block;
+  padding: 5px;
+  border-radius: 25px;
+  margin-top: 20px;
+  width: auto;
   background-color: #e5e5e5;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px #757679;
-  z-index:2;
+  z-index:11;
+  overflow-y: auto;
+  min-height: 200px;
+  height: 70vh;
 }
-.table-wrapper {
+.padding {
+  display: block;
+  border: 10px solid #e5e5e5;
   width: 100%;
-  overflow-x: auto;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-.scroll-table-body {
-  max-height: 60vh;
-  overflow-y: scroll;
-  width: 100%;
-  border-bottom: 1px solid #e5e5e5;
-   font-family: "fontawesome2", sans-serif;
-}
-.td_scroll {
-    padding: 10px;
-    text-align: left;
-    color: #0068E2;
-    font-size: 20px;
-    border: 1px solid #ddd;
-    max-width: 200px; /* Ограничение ширины ячейки */
-    word-wrap: break-word; /* Перенос слов */
-    white-space: normal; /* Перенос по строкам */
-
+  max-height: 100%;
+  min-height: 80px;
+  overflow: hidden;
+  overflow-y: auto;
+  border-radius: 23px 0 0 23px;
 }
 .exam-table {
+  height: 100%; /*не трогать*/
+  table-layout: auto;
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Таблица будет адаптироваться по содержимому */
+}
+.scroll-thead {
+  position: sticky;
+  overflow: hidden;
+  top: 0;
+  z-index: 12;
+}
+.scroll-tbody {
+  height: 100%;
+  z-index: 10;
+  overflow-y: auto; /* Добавляем вертикальную прокрутку */
 }
 .th {
   background-color: #1a75e1;
@@ -105,100 +89,90 @@
   text-align: left;
   font-size: 18px;
   border: 1px solid #ddd;
-  min-width: 80px;
-  max-width: 250px; /* Максимальная ширина ячейки */
+  height: 80px;
+  width: auto; /* Устанавливаем ширину на auto */
+  max-width: 500px;
   word-wrap: break-word; /* Перенос слов, если они не помещаются */
 }
-
-.td {
-  padding: 10px;
-  text-align: left;
-  font-size: 18px;
-  color: #0068E2;
-  border: 1px solid #ddd;
-  min-width: 80px;
-  max-width: 250px; /* Максимальная ширина ячейки */
-  word-wrap: break-word; /* Перенос слов, если они не помещаются */
-}
-
-.exam-table body {
-  word-wrap: break-word; /* Перенос слов, если они не помещаются */
-  overflow: hidden; /* Скрываем содержимое, выходящее за границы */
-  text-overflow: ellipsis; /* Добавляем "..." для обрезанного текста */
-  table-layout: fixed; /* Таблица будет адаптироваться по содержимому */
-}
-
-.exam-table th:nth-child(1),
-.exam-table td:nth-child(1) {
-  min-width: 80px;  /* Минимальная ширина */
-  max-width: 250px; /* Максимальная ширина */
-}
-
-.exam-table th:nth-child(2),
-.exam-table td:nth-child(2) {
-  min-width: 80px; /* Минимальная ширина */
-  max-width: 250px; /* Максимальная ширина */
-}
-
-
 .hidden-header {
   color: #e5e5e5;
   pointer-events: none;
   background-color: #e5e5e5;
   border: none;
-}
-.exam-table {
-   border:none !impotent;
+  width: auto;
 }
 .hidden-header::before {
+  width: 100px;
   content: ""; /* Убирает текстовое содержание */
 }
-
+.td {
+  position: relative;
+  color: #0073e6;
+  padding: 10px;
+  text-align: left;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  height: auto;
+  width: auto; /* Устанавливаем ширину на auto */
+  max-width: 500px; /* Максимальная ширина ячеек */
+  word-wrap: break-word; /* Перенос слов, если они не помещаются */
+}
+.exam-table th:nth-child(1),
+.exam-table td:nth-child(1) {
+  min-width: 80px;  /* Минимальная ширина */
+  max-width: 250px; /* Максимальная ширина */
+}
+.exam-table th:nth-child(2),
+.exam-table td:nth-child(2) {
+  min-width: 80px; /* Минимальная ширина */
+  max-width: 250px; /* Максимальная ширина */
+}
 .exam-table tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
-
 .exam-table tbody tr:nth-child(even) {
   background-color: #e9e9e9;
 }
+.note-info {
+  background: none;
+  border: none;
+  padding: 1px;
+  box-sizing: border-box;
+}
+.note-info:hover svg {
+  fill: #f22026;
+  stroke: #f22026;
+}
+
 ::-webkit-scrollbar {
-	width: 1px;
+  width: 0px;
 }
 ::-webkit-scrollbar-track {
-	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 ::-webkit-scrollbar-thumb {
-	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 .exam-table tbody tr:hover {
   background-color: #E3E3B3;
   cursor: pointer;
 }
-
-.exam-table .edit-button-cell {
+.edit-button-cell {
+  background-color: #e9e9e9;
   right: 0;
-  background-color: #e5e5e5;
   z-index: 1;
   display: flex;
-  justify-content: left;
+  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-width: 100px; /* Задаем минимальную ширину */
+  width: auto;
   height: 100%;
-}
-
-.buttons {
-    color: #e5e5e5;
-    pointer-events: auto;
-    background-color: #e5e5e5;
-    border-bottom: none;
 }
 .add-intern {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 10px; /* добавляем отступ сверху */
+  margin-top: 10px;
 }
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -210,10 +184,52 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-   font-family: "fontawesome2", sans-serif;
-   pointer-events: auto;
+  font-family: "fontawesome2", sans-serif;
+  pointer-events: auto;
+}
+.modal {
+  backdrop-filter: blur(20px);
+}
+.custom-tooltip {
+  position: absolute;
+  display: inline-block;
+  top: 5px;
+  right: 5px;
 }
 
-.modal {
-  backdrop-filter: blur (20px);
+.tooltip-text {
+  visibility: hidden;
+  width: 120px; /* Ширина всплывающего окна */
+  color: #2777dd;
+  backdrop-filter: blur(10px);
+  background: #f9f9f9a6;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%; /* Положение над кнопкой */
+  left: 50%;
+  margin-left: -60px;
+  transition: opacity 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.custom-tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.custom-tooltip .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Стрелка будет под всплывающим окном */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+tr:focus {
+  outline: none; /* Убираем стандартную рамку */
 }
