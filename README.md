@@ -36,6 +36,7 @@ https://nodejs.org/
           npm install react-router-dom - для установки реакт дом
           npm install web-vitals - для установки ХЗ, но надо
           npm install axios
+          npm install moment-timezone
           npm run build
 
 В директории с файлом manage.py выполняется команда в терминале:

@@ -58,6 +58,10 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                 comment_exam: examData ? examData.comment_exam : '',
                 cc: examData.cc,
                 name_examiner: examData.name_examiner || '',
+                training_form: examData ? examData.training_form : '',
+                try_count: examData ? examData.try_count : '',
+                internal_test_examiner: examData ? examData.internal_test_examiner : '',
+                name_train: examData ? examData.name_train : '',
             });
         }
     }, [examData]);

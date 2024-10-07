@@ -89,52 +89,6 @@ function Header() {
   }, [personalMenuRef]);
   // Запрос к API на получение данных экзамена
   console.log(user ? user.company : 'Компания');
-  const fetchDataAndCheckExam = () => {
-    if (!user || !user.company) {
-      return; // Если данные пользователя ещё не загружены или компания не указана, ничего не делать
-    }
-
-    if (user.company.name !== 'DM') {
-      return; // Если компания пользователя не "DM", ничего не делать
-    }
-
-
-    axios.get('http://127.0.0.1:8000/api/exam/')
-        .then(response => {
-          setExamData(response.data); // Сохраняем данные в состояние
-          // Создаем словарь, где ключ — это ID компании, а значение — количество экзаменов с незаполненными полями
-          setExamCountByCompany(examData.reduce((acc, exam) => {
-            if (!exam.name_examiner || !exam.time_exam) {
-              const companyId = exam.cc; // Предполагается, что поле содержит ID компании
-              if (!acc[companyId]) {
-                acc[companyId] = 0; // Инициализируем счетчик для компании, если его нет
-              }
-              acc[companyId] += 1; // Увеличиваем счетчик для компании
-            }
-            return acc;
-          }, {}));
-
-          console.log("Словарь количества экзаменов с незаполненными полями по компаниям:", examCountByCompany);
-
-
-          // Проверяем, есть ли хотя бы один экзамен с незаполненными полями
-          const examExists = response.data.some(exam => !exam.name_examiner || !exam.time_exam);
-          setHasExam(examExists); // Обновляем состояние hasExam
-
-        })
-
-        .catch(error => {
-          console.error("Ошибка при загрузке данных экзамена:", error);
-        });
-  };
-  useEffect(() => {
-    if (user) {
-      fetchDataAndCheckExam(); // Вызов функции после загрузки пользователя
-    }
-    const interval = setInterval(fetchDataAndCheckExam, 3000); // Повторяем каждые 3 секунд
-
-    return () => clearInterval(interval); // Очищаем интервал при размонтировании компонента
-  }, [user]);
 
   useEffect(() => {
     if (!user) {
@@ -299,7 +253,7 @@ function Header() {
              <div ref={personalMenuRef} className={`menu-active ${isMenuOpen ? 'show' : 'hidden'}`}>
               <div><a href={routes.admin}>Админ панель</a></div>
                <div className="num-exam"><a href={createUrlWithParams(routes.exam, {mode: 'my_exams'})} key={user.id}>Мои зачёты</a><span
-                   className="count-my-exsam">{currentExams > 0 && (<span>{currentExams}</span>)}</span></div>
+                   className="count-my-exam">{currentExams > 0 && (<span>{currentExams}</span>)}</span></div>
                <div><a href={routes.logout}>Выход</a></div>
              </div>
            </div>
