@@ -114,7 +114,6 @@
 }
 .td {
   position: relative;
-  z-index: 1;
   color: #0073e6;
   padding: 10px;
   text-align: left;
