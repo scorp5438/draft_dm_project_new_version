@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style_delete_exam.css';
 import Grobik from '../AllIcons/Grobik/Grobik';
 
-function DeleteExam({ onClick }) {
+function DeleteExam({ onClick, disabled }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Открываем модальное окно
@@ -24,7 +24,7 @@ function DeleteExam({ onClick }) {
   return (
 
   <div className="delete-exam-container">
-    <button title="Удалить" className="delete-button" onClick={handleDeleteClick}>
+    <button disabled={disabled} title="Удалить" className="delete-button" onClick={handleDeleteClick}>
       <Grobik />
     </button>
 

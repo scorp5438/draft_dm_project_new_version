@@ -174,6 +174,11 @@ const handleDeleteClick = (id) => {
 
     return false; // В остальных случаях кнопка активна
   };
+  const isDelButtonDisabled = (exam) => {
+    // Проверка, что объект exam существует и результат экзамена заполнен
+    return exam && exam.result_exam !== null && exam.result_exam !== '';
+  };
+
   console.log(selectedExamData ? selectedExamData : "hfdbbflajsdliujf");
 
 
@@ -237,7 +242,8 @@ return (
                               disabled={isButtonDisabled(exam)} // передаем значение disabled
                               style={{ position: 'relative', left: '20px' }}
                             />
-                         {user.company.name === 'DM' && <DeleteExam onClick={() => handleDeleteClick(exam.id)} />}
+                         {user.company.name === 'DM' && <DeleteExam onClick={() => handleDeleteClick(exam.id)}
+                                                                    disabled={isDelButtonDisabled(exam)}/>}
                       </td>
                     </tr>
                   ))

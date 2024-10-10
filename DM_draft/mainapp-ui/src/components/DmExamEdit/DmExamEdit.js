@@ -167,7 +167,7 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         />
                         {errors.date_exam && <p className="error">{errors.date_exam}</p>}
                     </label>
-                    <br />
+                    <br/>
                     <label>
                         ФИ стажера:
                         <input
@@ -178,16 +178,32 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         />
                         {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>}
                     </label>
-                    <br />
+                    <br/>
+                    <label>
+                        Попытка:
+                        <select
+                            name="try_count"
+                            value={formData.try_count}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите</option>
+                            {/* Пустое значение по умолчанию */}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        {errors.try_count && <p className="error">{errors.try_count[0]}</p>}
+                    </label>
+                    <br/>
                     <label>
                         Время ТЗ:
                         <select className="svg-time"
-                            name="time_exam"
-                            value={formData.time_exam}
-                            onChange={handleChange}
+                                name="time_exam"
+                                value={formData.time_exam}
+                                onChange={handleChange}
                         >
                             <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
-                            formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
+                                formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
                             {timeSlots.map(time => (
                                 <option className="form_option" key={time} value={time}>
                                     {formatTimeWithInterval(time)}
@@ -196,13 +212,13 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         </select>
                         {errors.time_exam && <p className="error">{errors.time_exam[0]}</p>}
                     </label>
-                    <br />
+                    <br/>
                     <label>
                         ФИ экзаменатора:
                         <select className="svg-examiner"
-                            name="name_examiner"
-                            value={formData.name_examiner}
-                            onChange={handleChange}
+                                name="name_examiner"
+                                value={formData.name_examiner}
+                                onChange={handleChange}
                         >
                             <option value="">Выберите экзаменатора</option>
                             {users.map(user => (
@@ -211,15 +227,15 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                                 </option>
                             ))}
                         </select>
-                            {errors.name_examiner && <p className="error">{errors.name_examiner}</p>}
+                        {errors.name_examiner && <p className="error">{errors.name_examiner}</p>}
                     </label>
-                    <br />
+                    <br/>
                     <label>
                         Результат ТЗ:
                         <select className="svg-result"
-                            name="result_exam"
-                            value={formData.result_exam}
-                            onChange={handleChange}
+                                name="result_exam"
+                                value={formData.result_exam}
+                                onChange={handleChange}
                         >
                             <option value="">Выберите результат</option>
                             {resultOptions.map(option => (
@@ -230,17 +246,17 @@ function DmExamEdit({ onClose, onInternAdded, examData }) {
                         </select>
                         {errors.result_exam && <p className="error">{errors.result_exam[0]}</p>}
                     </label>
-                    <br />
-                   <label>
-                    Комментарий:
-                    <textarea className="comment"
-                        name="comment_exam"
-                        value={formData.comment_exam}
-                        onChange={handleChange}
-                    />
-                    {errors.comment_exam && <p className="error">{errors.comment_exam[0]}</p>}
-                </label>
-                    <br />
+                    <br/>
+                    <label>
+                        Комментарий:
+                        <textarea className="comment"
+                                  name="comment_exam"
+                                  value={formData.comment_exam}
+                                  onChange={handleChange}
+                        />
+                        {errors.comment_exam && <p className="error">{errors.comment_exam[0]}</p>}
+                    </label>
+                    <br/>
 
                     <button type="submit" className="add-modal">Сохранить</button>
                 </form>

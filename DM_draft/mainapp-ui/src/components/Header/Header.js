@@ -31,23 +31,75 @@ function Header() {
   const [hasEmptyFields, setHasEmptyFields] = useState(false);
   const [companyCounts, setCompanyCounts] = useState({});
   let [currentExams, setCurrentExams] = useState(0);
-
+  const [remindLater, setRemindLater] = useState(false);
+  // const checkExamTime = (exam) => {
+  //   const examTime = moment.tz(exam.time_exam, 'HH:mm', 'Europe/Moscow'); // время зачета в московском часовом поясе
+  //   console.log(examTime ? examTime : "examTime")
+  //   const moscowTime = moment.tz('Europe/Moscow'); // текущее время в московском часовом поясе
+  //   console.log(moscowTime ? moscowTime : "moscowTime")
+  //   const diff = examTime.diff(moscowTime, 'minutes');
+  //   if (diff <= 30 && diff >= 0) {
+  //     // отображаем уведомление и звуковой сигнал
+  //     var audio = new Audio(au);
+  //     audio.play();
+  //     alert(`Уведомление: до зачета со стажером ${exam.name_intern} осталось ${diff} минут!`);
+  //   }
+  // };
   const checkExamTime = (exam) => {
-    const examTime = moment.tz(exam.time_exam, 'HH:mm', 'Europe/Moscow'); // время зачета в московском часовом поясе
-    console.log(examTime ? examTime : "examTime")
-    const moscowTime = moment.tz('Europe/Moscow'); // текущее время в московском часовом поясе
-    console.log(moscowTime ? moscowTime : "moscowTime")
+    const examTime = moment.tz(exam.time_exam, 'HH:mm', 'Europe/Moscow');
+    const moscowTime = moment.tz('Europe/Moscow');
     const diff = examTime.diff(moscowTime, 'minutes');
-    if (diff <= 30 && diff >= 0) {
-      // отображаем уведомление и звуковой сигнал
+
+    if (diff <= 30 && diff >= 0 && !remindLater) { // Если пользователь не выбрал "напомнить позже"
       var audio = new Audio(au);
-      // audio.play();
-      // alert(`Уведомление: до зачета со стажером ${exam.name_intern} осталось ${diff} минут!`);
+      audio.play();
+      openModal(`Уведомление: до зачета со стажером ${exam.name_intern} осталось ${diff} минут!`);
     }
   };
-  
-  
-  
+
+  // Функция для открытия модального окна
+  function openModal(message) {
+    var modal = document.getElementById("examModal");
+    var modalText = document.getElementById("modalText");
+
+    modalText.textContent = message;
+    modal.style.display = "block";
+
+    // Закрыть модальное окно при клике на крестик
+    var closeButton = document.getElementsByClassName("close")[0];
+    closeButton.onclick = function() {
+      modal.style.display = "none";
+    };
+
+    // Закрыть модальное окно при клике вне его
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+  }
+
+  // Функция для напоминания через 15 минут
+  const remindIn15Minutes = () => {
+    setRemindLater(true);
+    setTimeout(() => {
+      setRemindLater(false); // Сбрасываем состояние напоминания через 15 минут
+    }, 15 * 60 * 1000); // 15 минут в миллисекундах
+    closeModal();
+  };
+
+  // Функция для закрытия модального окна
+  const closeModal = () => {
+    var modal = document.getElementById("examModal");
+    modal.style.display = "none";
+  };
+
+
+
+
+
+
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -257,6 +309,17 @@ function Header() {
                <div><a href={routes.logout}>Выход</a></div>
              </div>
            </div>
+        </div>
+      </div>
+      {/* Модальное окно */}
+      <div id="examModal" className="modal">
+        <div className="modal-content">
+          <span className="close">&times;</span>
+          <p id="modalText"></p>
+          <div className="modal-buttons">
+            <button onClick={remindIn15Minutes}>Напомнить через 15 минут</button>
+            <button onClick={closeModal}>Не напоминать</button>
+          </div>
         </div>
       </div>
     </div>

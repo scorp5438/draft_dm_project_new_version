@@ -25,6 +25,17 @@
 }
 .delete-button:hover svg path {
   fill: #ffffff;
+}.delete-button:disabled {
+   background-color: #828385;
+   cursor: not-allowed;
+   box-shadow: none !important;
+ }
+.delete-button:disabled path {
+  fill: #ffffff;
+}
+.delete-button:disabled:hover {
+  background-color: #828385;
+  cursor: not-allowed;
 }
 
 /* Модальное окно */
